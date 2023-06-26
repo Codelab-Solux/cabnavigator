@@ -1,0 +1,75 @@
+{% extends 'main.html' %} {% load static %} {% block content %}
+<div class="p-8 w-full max-w-[1350px] mx-auto min-h-screen flex flex-col gap-6">
+  <!--------------------------------------- hero section --------------------------------------->
+  <section class="w-full">
+    <div class="bg-black p-6 w-full h-80 rounded-md overflow-hidden">
+      <h1 class="text-white text-4xl font-bold">Cab navigator</h1>
+
+      <p class="mt-4 text-gray-200">
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Assumenda unde
+        tempore, voluptas exercitationem dignissimos asperiores qui harum
+        corrupti consequuntur ratione.
+      </p>
+    </div>
+  </section>
+
+  <!--------------------------------------- quasi links --------------------------------------->
+  <section class="md:grid grid-cols-2 gap-6 lg:grid-cols-3">
+    <a
+      href="{% url 'partners' %}"
+      class="p-8 w-full bg-white mx-auto flex flex-col justify-between items-center gap-4 rounded-md group"
+    >
+      <i class="fa-solid fa-users text-xl group-hover:text-red-600"></i>
+
+      <p>Parteners</p>
+      <span class="font-bold text-black text-4xl">{{partners}}</span>
+    </a>
+    <a
+      href="{% url 'drivers' %}"
+      class="p-8 w-full bg-white mx-auto flex flex-col justify-between items-center gap-4 rounded-md group"
+    >
+      <i class="fa-solid fa-users text-xl group-hover:text-green-600"></i>
+
+      <p>Conducteurs</p>
+      <span class="font-bold text-black text-4xl">{{drivers}}</span>
+    </a>
+    <a
+      href="{% url 'vehicles' %}"
+      class="p-8 w-full bg-white mx-auto flex flex-col justify-between items-center gap-4 rounded-md group"
+    >
+      <i class="fa-solid fa-taxi text-xl group-hover:text-blue-600"></i>
+
+      <p>Vehicules</p>
+      <span class="font-bold text-black text-4xl">{{vehicles}}</span>
+    </a>
+    <a
+      href="{% url 'incidents' %}"
+      class="p-8 w-full bg-white mx-auto flex flex-col justify-between items-center gap-4 rounded-md group"
+    >
+      <i class="fa-solid fa-burst text-xl group-hover:text-purple-600"></i>
+
+      <p>Incidents</p>
+      <span class="font-bold text-black text-4xl">{{incidents}}</span>
+    </a>
+    <a
+      href="{% url 'driver_docs' %}"
+      class="p-8 w-full bg-white mx-auto flex flex-col justify-between items-center gap-4 rounded-md group"
+    >
+      <i class="fa-solid fa-user text-xl group-hover:text-pink-600"></i>
+
+      <p>Documents des Chauffeurs</p>
+      <span class="font-bold text-black text-4xl">{{d_docs}}</span>
+    </a>
+    <a
+      href="{% url 'vehicle_docs' %}"
+      class="p-8 w-full bg-white mx-auto flex flex-col justify-between items-center gap-4 rounded-md group"
+    >
+      <i class="fa-solid fa-taxi text-xl group-hover:text-yellow-400"></i>
+
+      <p>Documents des Vehicles</p>
+      <span class="font-bold text-black text-4xl">{{v_docs}}</span>
+    </a>
+  </section>
+</div>
+
+{% endblock %}

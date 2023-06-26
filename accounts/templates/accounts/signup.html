@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Mulish"
+    />
+    <style>
+      body {
+        font-family: "Mulish", sans-serif;
+        /* font-size: 48px; */
+      }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>cab navigator</title>
+  </head>
+  <body>
+    <div
+      class="py-20 px-8 max-w-[900px] w-full mx-auto flex flex-col md:flex-row gap-x-8 items-start"
+    >
+      <img
+        class="h-full max-w-[440px] rounded-lg object-cover"
+        src="{% static 'imgs/cab.jpg' %}"
+        alt="signup image"
+      />
+      <div class="flex flex-col w-[350px]">
+        <h1 class="mb-4 text-black text-3xl font-bold">Inscrivez vous ici</h1>
+        <form
+          class="w-full text-sm"
+          method="POST"
+          action=""
+          enctype="multipart/form-data"
+        >
+          {% csrf_token %} {% for field in form %}
+          <div>
+            <h3 class="mb-1">{{field.label}}</h3>
+            {% if field.label == role %} none {% endif %} {{field}}
+          </div>
+          {% endfor %}
+
+          <input
+            class="mt-4 px-4 py-2 bg-gray-800 hover:bg-amber-400 text-white hover:text-black rounded-md cursor-pointer"
+            type="submit"
+            value="Inscription"
+          />
+        </form>
+
+        <p class="login-wrapper-footer-text mt-4">
+          Vous avez un compte?
+          <a href="{% url 'login' %}" class="text-amber-400">Cliquez ici</a>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

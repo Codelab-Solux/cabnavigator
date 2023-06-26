@@ -1,0 +1,36 @@
+html {
+  scroll-behavior: smooth;
+  box-sizing: border-box;
+}
+
+/* tables---------------------------------------------------------------------------------------------------- */
+.db-table {
+  border-collapse: collapse;
+}
+
+.db-table tbody tr:nth-of-type(even) {
+  background-color: #e0e7ff;
+}
+
+.active {
+  background: #27272a;
+  color: white;
+  padding: 2px;
+  border-radius: 1rem;
+}
+
+.home-hero {
+  background: url("/static/imgs/cabs.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+/* tabs---------------------------------------------------------------------------------------------------- */
+
+.customtab button.active {
+  border-radius: 0.5em;
+  background-color: black;
+  color: #fff;
+}

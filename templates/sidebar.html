@@ -1,0 +1,202 @@
+{% load static %}
+<div
+
+    class=" bg-white text-black w-[60px] md:w-20 p-4 lg:w-[200px] xl:w-[300px] min-h-screen fixed overflow-auto"
+
+>
+<a
+  class="lg: mb-4 flex items-center"
+  href="{% url 'home' %}"
+>
+<img class="h-6 lg:h-10 mx-auto lg:mx-0 lg:mr-2" src="{% static 'imgs/logo-lng.png' %}" alt="logo" />
+<!-- <h1 class="hidden lg:inline text-xl font-black">Cabnavigator</h1> -->
+</a>
+  <ul class="flex flex-col mx-auto items-center lg:items-start ">
+    <a
+      class="mb-3 px-3 py-2 text-center lg:text-left rounded-md hover:bg-black hover:text-white transition ease-in duration-200 w-full {{home_page}}"
+      href="{% url 'home' %}"
+    >
+      <i class="fa-solid fa-house lg:mr-2"></i> 
+      <span class="hidden lg:inline">
+        Accueil
+      </span>
+    </a>
+    
+    <a
+    class="mb-3 px-3 py-2 text-center lg:text-left rounded-md hover:bg-black hover:text-white transition ease-in duration-200 w-full {{drivers_page}}"
+    href="{% url 'drivers' %}"
+    >
+    <i class="fa-solid fa-user lg:mr-2"></i> 
+    <span class="hidden lg:inline">
+      Conducteurs
+    </span>
+  </a>
+    <a
+    class="mb-3 px-3 py-2 text-center lg:text-left rounded-md hover:bg-black hover:text-white transition ease-in duration-200 w-full {{partners_page}}"
+    href="{% url 'partners' %}"
+    >
+    <i class="fa-solid fa-user-tie lg:mr-2"></i> 
+    <span class="hidden lg:inline">
+      Partenaires
+    </span>
+  </a>
+  
+  <a
+    class="mb-3 px-3 py-2 text-center lg:text-left rounded-md hover:bg-black hover:text-white transition ease-in duration-200 w-full {{vehicles_page}}"
+    href="{% url 'vehicles' %}"
+  >
+    <i class="fa-solid fa-taxi lg:mr-2"></i> 
+    <span class="hidden lg:inline">
+      Vehicules
+    </span>
+  </a>
+      
+    <a
+      class="mb-3 px-3 py-2 text-center lg:text-left rounded-md hover:bg-black hover:text-white transition ease-in duration-200 w-full {{incidents_page}}"
+      href="{% url 'incidents' %}"
+    >
+      <i class="fa-solid fa-burst lg:mr-2"></i>
+      <span class="hidden lg:inline">
+        Incidents  
+      </span>
+    </a>
+  
+    <a
+      class="mb-3 px-3 py-2 text-center lg:text-left rounded-md hover:bg-black hover:text-white transition ease-in duration-200 w-full {{documents_page}}"
+      href="{% url 'documents' %}"
+    >
+      <i class="fa-solid fa-folder lg:mr-2"></i>
+      <span class="hidden lg:inline">
+        Documents  
+      </span>
+    </a>
+
+    <a
+      class="mb-3 px-3 py-2 text-center lg:text-left rounded-md hover:bg-black hover:text-white transition ease-in duration-200 w-full {{expenses_page}}"
+      href="{% url 'expenses' %}"
+    >
+      <i class="fa-solid fa-money-bill-transfer lg:mr-2"></i>
+      <span class="hidden lg:inline">
+        Dépenses  
+      </span>
+    </a>
+
+    <a
+      class="mb-3 px-3 py-2 text-center lg:text-left rounded-md hover:bg-black hover:text-white transition ease-in duration-200 w-full {{finance_page}}"
+      href="{% url 'finances' %}"
+    >
+      <i class="fa-solid fa-coins lg:lg:mr-2"></i> 
+      <span class="hidden lg:inline">
+        Finances 
+      </span>
+    </a>
+
+    <a
+      class="mb-3 px-3 py-2 text-center lg:text-left rounded-md hover:bg-black hover:text-white transition ease-in duration-200 w-full {{chats_page}}"
+      href="{% url 'chats' %}"
+    >
+      <i class="fa-solid fa-comments lg:mr-2"></i> 
+      <span class="hidden lg:inline">
+        Messagerie
+      </span>
+    </a>
+
+    {% if user.role.sec_level >= 3 %}
+    <a
+      class="mb-3 px-3 py-2 text-center lg:text-left rounded-md hover:bg-black hover:text-white transition ease-in duration-200 w-full {{parameters_page}}"
+      href="{% url 'parameters' %}"
+    >
+      <i class="fa-solid fa-cog lg:mr-2"></i> 
+      <span class="hidden lg:inline">
+        Parametres
+      </span>
+    </a>
+    <a
+      class="lg: mb-4 px-3 py-2 rounded-md hover:bg-black hover:text-white transition ease-in duration-200 w-full"
+      href="{% url 'admin:index' %}"
+      ><i class="fa-solid fa-lock lg:mr-2"></i> <span class="hidden lg:inline ">
+        Admin Dashboard</a
+        >
+      </span>
+    {% endif %}
+
+ <div
+      class="px-1 py-2 lg:p-2  bg-black flex flex-col lg:flex-row items-center gap-1 lg:gap-2 mb-2 sm:text-sm lg:text-md rounded-md cursor-pointer w-full"
+    >
+    {% if not user.image %}
+    <img
+      class="hidden lg:inline h-10 w-10 rounded-full object-cover"
+      src="{% static 'imgs/anon.png' %}"
+      alt="user image"
+    />
+    {% else %}
+    <img
+      class="hidden lg:block h-10 w-10 rounded-full object-cover"
+      src="{{user.image.url}}"
+      alt="user image"
+    />
+    {% endif %}
+      <div class="hidden lg:block w-full">
+        <p class="text-white font-bold">{{user.get_short_name}}</p>
+        <p class="text-gray-300">@{{user.username}}</p>
+      </div>
+      <div class="relative">
+
+        <button
+          type="button"
+          class=""
+          name="dropdownBtn"
+          id="dropdownBtn"
+          aria-expanded="false"
+          aria-haspopup="true"
+          onclick="toggleDropdown(this)"
+        >
+          <i class="fa-sharp fa-solid fa-caret-down text-purple-900 bg-white hover:bg-gray-200 py-2 px-3  rounded-md"></i>
+      
+        </button>
+  
+        <div
+          class="mb-4  w-full lg:p-2 hidden absolute right-0 top-10 origin-top-left bg-black z-30 rounded-md lg:w-40 flex flex-col gap-2 items-center overflow-hidden"
+          role="menu"
+          aria-orientation="vertical"
+          aria-labelledby="user-menu-button"
+          tabindex="-1"
+          id="dropdownMenu"
+        >
+          <a href="{% url 'user_profile' user.id  %}"
+            class="p-2 flex items-center text-sm text-gray-300 hover:bg-white hover:text-black lg:rounded-md w-full"
+            role="menuitem"
+            tabindex="-1"
+            id="user-menu-item-0"
+            >
+                  <i class="fa-solid fa-user lg:mr-2"></i> 
+            <span class="hidden lg:inline">Mon Profile</span>
+            </a
+          >
+          <a
+      href="{% url 'home' %}"
+            class="p-2 flex items-center text-sm text-gray-300 hover:bg-white hover:text-black lg:rounded-md w-full"
+            role="menuitem"
+            tabindex="-1"
+            id="user-menu-item-1"
+            >
+            <i class="fa-solid fa-gear lg:mr-2"></i>
+              <span class="hidden lg:inline">Parametres</span>
+            </a
+          >
+          <a
+            href="{% url 'logout' %}"
+            class="p-2 flex items-center text-sm text-red-700 hover:bg-red-700 hover:text-white lg:rounded-md w-full"
+            role="menuitem"
+            tabindex="-1"
+            id="user-menu-item-2"
+            >
+            <i class="fa-solid fa-right-from-bracket lg:mr-2"></i>
+            <span class="hidden lg:inline">Deconnexion </span>
+            </a
+          >
+        </div>
+      </div>
+    </div>
+  </ul>
+</div>

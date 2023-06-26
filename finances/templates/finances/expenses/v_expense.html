@@ -1,0 +1,204 @@
+{% extends 'main.html' %} {% load static %} {% block content %}
+<div class="px-8 w-full max-w-[1350px] mx-auto min-h-screen">
+  <!--------------------------------------- mini navbar --------------------------------------->
+  <nav
+    class="mx-auto my-4 py-2 flex items-center gap-2 items-center text-xs w-full max-w-[1350px]"
+  >
+    {% if curr_expense and not form %}
+    <div class="flex gap-4">
+      <a
+        href="{% url 'edit_v_expense' curr_expense.id %}"
+        class="px-4 py-2 bg-gray-800 text-white hover:bg-amber-300 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+        >Modifier cette dépense<i class="fa-solid fa-pen-to-square ml-4"></i
+      ></a>
+      <a
+        href="{% url 'delete_v_expense' curr_expense.id %}"
+        class="px-4 py-2 bg-red-700 text-white hover:bg-red-900 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+        >Supprimer cette dépense<i class="fa-solid fa-trash ml-4"></i
+      ></a>
+    </div>
+    {% else %}
+    <a
+      href="{% url 'create_v_expense' %}"
+      class="px-4 py-2 bg-gray-800 text-white hover:bg-amber-300 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+      >Ajouter une nouvelle dépenses<i class="fa-solid fa-coins ml-2"></i
+    ></a>
+    {% endif %}
+  </nav>
+
+  <!--------------------------------------- forms layout --------------------------------------->
+
+  {% if not form %}
+
+  <section
+    class="p-8 bg-white flex flex-col gap-8 justify-between rounded-md overflow-hidden"
+  >
+    <div class="grid md:grid-cols-2 gap-8 w-full">
+      <div class="relative">
+        {% if not curr_expense.image %}
+        <img
+          class="h-60 w-full rounded-md object-cover"
+          src="{% static 'imgs/sig.jpg' %}"
+          alt="vehicle image"
+        />
+        {% else %}
+        <img
+          class="h-60 w-full rounded-md object-cover"
+          src="{{curr_expense.image.url}}"
+          alt="vehicle image"
+        />
+        {% endif %} {% if obj.is_audited %}
+        <span
+          class="absolute top-4 right-4 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
+        >
+          Audité
+        </span>
+        {% else %}
+        <span
+          class="absolute top-4 right-4 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
+        >
+          Non-audité
+        </span>
+        {% endif %}
+      </div>
+      <!--  -->
+      <div class="p-4 flex flex-col justify-between">
+        <h4 class="text-black text-md">
+          {{curr_expense.vehicle.make}} {{curr_expense.vehicle.model}}
+          <tt class="font-bold text-xl"
+            >[-{{curr_expense.vehicle.plate_number}}-]</tt
+          >
+        </h4>
+        <p class="py-2 text-sm">
+          {{curr_expense.title}}
+          <span class="font-bold text-black">{{curr_expense.amount}} CFA</span>
+        </p>
+        <p class="py-2 text-sm">Journee du {{curr_expense.date}}</p>
+        <p class="py-2 text-sm">{{curr_expense.details}}</p>
+        <!-- <p class="py-2 text-sm">
+          Date ajouté {{curr_expense.date_posted.date}}
+        </p> -->
+      </div>
+      <!--  -->
+    </div>
+
+    {% if rel_expenses %}
+    <!--------------------------------------- related depenses --------------------------------------->
+
+    <div class="p-4 w-full mx-auto rounded-md">
+      <h3 class="mb-4 text-gray-700 text-xl font-black">
+        Autre depenses connexes
+      </h3>
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+      >
+        {% for obj in rel_expenses %}
+        <div
+          class="relative flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
+        >
+          {% if obj.is_audited %}
+          <span
+            class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
+          >
+            Audité
+          </span>
+          {% else %}
+          <span
+            class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
+          >
+            Non-audité
+          </span>
+          {% endif %}
+          <a href="{% url 'v_expense' obj.id  %}">
+            {% if not obj.image %}
+            <img
+              class="h-40 w-full object-cover"
+              src="{% static 'imgs/pos.jpg' %}"
+              alt="d_doc image"
+            />
+            {% else %}
+            <img
+              class="h-40 w-full object-cover"
+              src="{{obj.image.url}}"
+              alt="d_doc image"
+            />
+            {% endif %}
+            <div class="p-4 flex flex-col justify-between">
+              <h4 class="text-black text-md font-bold">
+                {{obj.title}} ({{obj.amount}} CFA)
+              </h4>
+              <tt class="mt-2 text-sm font-bold">
+                {{obj.driver.last_name}} {{obj.driver.first_name}}
+              </tt>
+              <p class="mt-2 text-sm">{{obj.date}} - {{obj.time}}</p>
+            </div>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    {% endif %}
+  </section>
+
+  {% else %}
+  <!--------------------------------------- driver form -->
+  <section
+    id="d_form"
+    class="mb-4 p-4 lg:p-8 border border-2 border-gray-800 w-full mx-auto rounded-md"
+  >
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8">
+      <div class="rounded-md mx-auto rounded-lg text-sm w-full">
+        <h3 class="mb-4 text-black text-xl font-bold">
+          Formualire de dépense des vehicules
+        </h3>
+        <form
+          class="w-full"
+          method="POST"
+          action=""
+          enctype="multipart/form-data"
+        >
+          {% csrf_token %}
+          <!--  -->
+          <div class="md:grid grid-cols-1 gap-4">
+            {% for field in form %}
+            <div>
+              <h3 class="mb-1">{{field.label}}</h3>
+              {{field}}
+            </div>
+            {% endfor %}
+          </div>
+          <div class="my-4 flex gap-4 items-end">
+            <input
+              class="px-8 py-2 bg-gray-700 hover:bg-black text-white rounded-md cursor-pointer"
+              type="submit"
+              value="Enregistrer"
+            />
+            <a
+              class="bg-white px-8 py-2 rounded-md hover:bg-red-700 hover:text-white"
+              href="{{request.META.HTTP_REFERER}}"
+            >
+              Annuler
+            </a>
+          </div>
+        </form>
+      </div>
+      {% if not curr_expense.image %}
+      <img
+        class="h-full w-full rounded-md object-cover"
+        src="{% static 'imgs/pos.jpg' %}"
+        alt="vehicle image"
+      />
+      {% else %}
+      <img
+        class="h-full w-full rounded-md object-cover"
+        src="{{curr_expense.image.url}}"
+        alt="vehicle image"
+      />
+      {% endif %}
+    </div>
+  </section>
+  {% endif %}
+</div>
+
+{% endblock %}

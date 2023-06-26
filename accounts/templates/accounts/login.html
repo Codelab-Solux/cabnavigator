@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Mulish"
+    />
+    <style>
+      body {
+        font-family: "Mulish", sans-serif;
+        /* font-size: 48px; */
+      }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>cab navigator</title>
+  </head>
+  <body>
+    <div
+      class="py-20 px-8 max-w-[900px] w-full mx-auto flex flex-col md:flex-row gap-x-8 items-center"
+    >
+      <img
+        class="h-full max-w-[440px] rounded-md"
+        src="{% static 'imgs/cab.jpg' %}"
+        alt="login image"
+      />
+      <div class="flex flex-col w-[350px]">
+        <h1 class="mb-4 text-black text-3xl font-bold">Connectez vous ici</h1>
+        <form method="POST" action="">
+          {% csrf_token %}
+          <div class="flex flex-col mb-2">
+            <label for="username">Email</label>
+            <input
+              type="email"
+              name="username"
+              class="mt-2 px-4 py-2 rounded-md w-full bg-gray-100"
+              placeholder="adresse email"
+              required
+            />
+          </div>
+          <div class="flex flex-col mb-4">
+            <label for="password">Mot de pass</label>
+            <input
+              type="password"
+              name="password"
+              class="mt-2 px-4 py-2 rounded-md w-full bg-gray-100"
+              placeholder="mot de pass"
+              required
+            />
+          </div>
+          {% if request.GET.next %}
+          <input type="hidden" name="next" value="{{request.GET.next}}" />
+          {% endif %}
+
+          <input
+            type="submit"
+            value="Connexion"
+            class="px-4 py-2 bg-gray-800 hover:bg-amber-400 text-white hover:text-black rounded-md cursor-pointer"
+          />
+        </form>
+
+        <!-- <a href="#!" class="forgot-password-link mt-4">Password forgotten?</a> -->
+
+        <p class="login-wrapper-footer-text mt-4">
+          Vous n'avez pas de compte?
+          <a href="{% url 'signup' %}" class="text-amber-400">Cliquez ici</a>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

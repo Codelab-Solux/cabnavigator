@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Poppins"
+    />
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        /* font-size: 48px; */
+      }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
+      integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer="true"></script>
+    <script
+      src="https://kit.fontawesome.com/f601cf3e61.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="{% static 'scripts.js' %}" defer="true"></script>
+    <link href="{% static 'styles.css' %}" rel="stylesheet" />
+    <title>cab navigator</title>
+  </head>
+
+  <body class="flex flex-row bg-white text-gray-600 max-w-full mx-auto">
+    {% if user.is_authenticated %}
+    <input id="curr_user" type="hidden" value="{{user.id}}" />
+    {% endif %}
+    <!--  -->
+    {% include 'sidebar.html' %}
+    <!--  -->
+    <div
+      class="w-full ml-[60px] md:ml-[80px] lg:ml-[200px] xl:ml-[300px] bg-gray-200 min-h-screen"
+    >
+      {% block content %} {% endblock %}
+    </div>
+  </body>
+</html>

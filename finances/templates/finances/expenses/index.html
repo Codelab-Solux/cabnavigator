@@ -1,0 +1,248 @@
+{% extends 'main.html' %} {% load static %} {% block content %}
+<div class="p-8 w-full max-w-[1350px] mx-auto min-h-screen">
+  <!--------------------------------------- mini navbar --------------------------------------->
+
+  <!--------------------------------------- tab buttons --------------------------------------->
+  <nav
+    class="customtab mx-auto mb-8 p-1 bg-black rounded-md flex justify-between gap-2 w-full text-sm"
+  >
+    <button
+      class="tablinks px-4 py-2 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+      onclick="openTab(event, 'd_expenses')"
+      id="defaultOpen"
+    >
+      <i class="fa-solid fa-user lg:mr-2"></i>
+      <span class="hidden lg:inline"> Dépenses des conducteurs </span>
+    </button>
+    <button
+      class="tablinks px-4 py-2 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+      onclick="openTab(event, 'v_expenses')"
+    >
+      <i class="fa-solid fa-car lg:mr-2"></i>
+      <span class="hidden lg:inline"> Dépenses des vehicules </span>
+    </button>
+    <button
+      class="tablinks px-4 py-2 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+      onclick="openTab(event, 'g_expenses')"
+    >
+      <i class="fa-solid fa-landmark lg:mr-2"></i>
+      <span class="hidden lg:inline"> Dépenses de la compagnie </span>
+    </button>
+  </nav>
+
+  <!--------------------------------------- driver expenses --------------------------------------->
+  <section id="d_expenses" class="tabcontent w-full">
+    {% if user.role.sec_level >= 1 %}
+    <a
+      href="{% url 'create_d_expense' %}"
+      class="px-4 py-2 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
+      >Ajouter une dépenses<i class="fa-solid fa-plus ml-4"></i
+    ></a>
+    {% endif %}
+    <div class="w-full mx-auto my-8">
+      {% if not d_expenses %}
+
+      <!--------------------------------------- No data placeholder --------------------------------------->
+      <div
+        class="p-8 my-40 bg-gray-100 max-w-[400px] mx-auto rounded-md flex-col text-center"
+      >
+        <i class="fa-regular fa-folder-open text-7xl"></i>
+        <p class="mt-4">Aucune données disponible pour le moment</p>
+      </div>
+
+      {% else %}
+      <!--------------------------------------- d_expenses --------------------------------------->
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+      >
+        {% for obj in d_expenses %}
+        <div
+          class="relative flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
+        >
+          {% if obj.is_audited %}
+          <span
+            class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
+            >Auditée
+          </span>
+          {% else %}
+          <span
+            class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
+          >
+            Non-auditée
+          </span>
+          {% endif %}
+          <a href="{% url 'd_expense' obj.id  %}">
+            {% if not obj.image %}
+            <img
+              class="h-40 w-full object-cover"
+              src="{% static 'imgs/pos.jpg' %}"
+              alt="d_doc image"
+            />
+            {% else %}
+            <img
+              class="h-40 w-full object-cover"
+              src="{{obj.image.url}}"
+              alt="d_doc image"
+            />
+            {% endif %}
+            <div class="p-4 flex flex-col justify-between">
+              <h4 class="text-black text-md font-bold">
+                {{obj.title}} à {{obj.amount}} CFA
+              </h4>
+              <tt class="mt-2 text-sm font-bold">
+                {{obj.driver.last_name}} {{obj.driver.first_name}}
+              </tt>
+              <p class="mt-2 text-sm">{{obj.date}} - {{obj.time}}</p>
+            </div>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </section>
+
+  <!--------------------------------------- vehicle Dépenses --------------------------------------->
+  <section id="v_expenses" class="tabcontent w-full">
+    {% if user.role.sec_level >= 1 %}
+    <a
+      href="{% url 'create_v_expense' %}"
+      class="px-4 py-2 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
+      >Ajouter une dépenses<i class="fa-solid fa-plus ml-4"></i
+    ></a>
+    {% endif %}
+    <div class="w-full mx-auto my-8">
+      {% if not v_expenses %}
+
+      <!--------------------------------------- No data placeholder --------------------------------------->
+      <div
+        class="p-8 my-40 bg-gray-100 max-w-[400px] mx-auto rounded-md flex-col text-center"
+      >
+        <i class="fa-regular fa-folder-open text-7xl"></i>
+        <p class="mt-4">Aucune données disponible pour le moment</p>
+      </div>
+
+      {% else %}
+      <!--------------------------------------- v_expenses --------------------------------------->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {% for obj in v_expenses %}
+        <div
+          class="relative flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
+        >
+          {% if obj.is_audited %}
+          <span
+            class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
+            >Auditée
+          </span>
+          {% else %}
+          <span
+            class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
+          >
+            Non-auditée
+          </span>
+          {% endif %}
+          <a href="{% url 'v_expense' obj.id  %}">
+            {% if not obj.image %}
+            <img
+              class="h-40 w-full object-cover"
+              src="{% static 'imgs/sig.jpg' %}"
+              alt="v_expenses image"
+            />
+            {% else %}
+            <img
+              class="h-40 w-full object-cover"
+              src="{{obj.image.url}}"
+              alt="v_expenses image"
+            />
+            {% endif %}
+            <div class="p-4 flex flex-col justify-between">
+              <h4 class="text-black text-md font-bold">
+                {{obj.title}} à {{obj.amount}} CFA
+              </h4>
+              <tt class="mt-2 text-sm font-bold">
+                {{obj.vehicle.make}} {{obj.vehicle.model}}
+                -{{obj.vehicle.plate_number}}-
+              </tt>
+              <p class="mt-2 text-sm">{{obj.date}} - {{obj.time}}</p>
+            </div>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </section>
+
+  <!--------------------------------------- general Dépenses --------------------------------------->
+  <section id="g_expenses" class="tabcontent w-full">
+    {% if user.role.sec_level >= 1 %}
+    <a
+      href="{% url 'create_g_expense' %}"
+      class="px-4 py-2 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
+      >Ajouter une dépenses<i class="fa-solid fa-plus ml-4"></i
+    ></a>
+    {% endif %}
+    <div class="w-full mx-auto my-8">
+      {% if not g_expenses %}
+
+      <!--------------------------------------- No data placeholder --------------------------------------->
+      <div
+        class="p-8 my-40 bg-gray-100 max-w-[400px] mx-auto rounded-md flex-col text-center"
+      >
+        <i class="fa-regular fa-folder-open text-7xl"></i>
+        <p class="mt-4">Aucune données disponible pour le moment</p>
+      </div>
+
+      {% else %}
+      <!--------------------------------------- v_expenses --------------------------------------->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {% for obj in g_expenses %}
+        <div
+          class="relative flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
+        >
+          {% if obj.is_audited %}
+          <span
+            class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
+            >Auditée
+          </span>
+          {% else %}
+          <span
+            class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
+          >
+            Non-auditée
+          </span>
+          {% endif %}
+          <a href="{% url 'vehicle_doc' obj.id  %}">
+            {% if not obj.image %}
+            <img
+              class="h-40 w-full object-cover"
+              src="{% static 'imgs/sig.jpg' %}"
+              alt="v_expenses image"
+            />
+            {% else %}
+            <img
+              class="h-40 w-full object-cover"
+              src="{{obj.image.url}}"
+              alt="v_expenses image"
+            />
+            {% endif %}
+            <div class="p-4 flex flex-col justify-between">
+              <h4 class="text-black text-md font-bold">
+                {{obj.vehicle.make}} {{obj.vehicle.model}}
+                [-{{obj.vehicle.plate_number}}-]
+              </h4>
+              <p class="py-2 text-sm">{{obj.type.name}}</p>
+              <p class="py-2 text-sm">
+                {{obj.issue_date.date}} - {{obj.expiry_date.date}}
+              </p>
+            </div>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </section>
+</div>
+
+{% endblock %}

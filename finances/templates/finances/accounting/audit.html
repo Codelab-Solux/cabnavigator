@@ -1,0 +1,355 @@
+{% extends 'main.html' %} {% load static %} {% block content %}
+<div class="px-8 w-full max-w-[1350px] mx-auto min-h-screen">
+  <!--------------------------------------- hero section --------------------------------------->
+  <section class="w-full my-4 py-2">
+    <div class="bg-black p-6 w-full h-60 rounded-md overflow-hidden">
+      <h1 class="text-white text-3xl font-bold">Audit & Controle</h1>
+
+      <p class="mt-4 text-gray-200">
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Assumenda unde
+        tempore, voluptas exercitationem dignissimos asperiores qui harum
+        corrupti consequuntur ratione.
+      </p>
+    </div>
+  </section>
+
+  <!--------------------------------------- tab buttons --------------------------------------->
+  <nav
+    class="customtab mx-auto my-4 p-2 bg-black rounded-md flex justify-between gap-2 w-full"
+  >
+    <button
+      class="tablinks px-4 py-2 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+      onclick="openTab(event, 'd_expenses')"
+      id="defaultOpen"
+    >
+      <i class="fa-solid fa-user lg:mr-2"></i>
+      <span class="hidden lg:inline"> Dépenses des conducteurs </span>
+    </button>
+    <button
+      class="tablinks px-4 py-2 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+      onclick="openTab(event, 'v_expenses')"
+    >
+      <i class="fa-solid fa-car lg:mr-2"></i>
+      <span class="hidden lg:inline"> Dépenses des vehicules </span>
+    </button>
+    <button
+      class="tablinks px-4 py-2 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+      onclick="openTab(event, 'g_expenses')"
+    >
+      <i class="fa-solid fa-landmark lg:mr-2"></i>
+      <span class="hidden lg:inline"> Dépenses de la compagnie </span>
+    </button>
+    <button
+      class="tablinks px-4 py-2 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+      onclick="openTab(event, 'payments')"
+    >
+      <i class="fa-solid fa-money-bills lg:mr-2"></i>
+      <span class="hidden lg:inline"> Versement des conducteurs</span>
+    </button>
+    <button
+      class="tablinks px-4 py-2 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+      onclick="openTab(event, 'payouts')"
+    >
+      <i class="fa-solid fa-money-check lg:mr-2"></i>
+      <span class="hidden lg:inline"> Paiements des conducteurs</span>
+    </button>
+    <button
+      class="tablinks px-4 py-2 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+      onclick="openTab(event, 'ledgers')"
+    >
+      <i class="fa-solid fa-money-bill-transfer lg:mr-2"></i>
+      <span class="hidden lg:inline">Recap des transactions</span>
+    </button>
+  </nav>
+
+  <!--------------------------------------- driver expenses --------------------------------------->
+  <section id="d_expenses" class="tabcontent w-full mx-auto mb-8">
+    {% if not d_expenses %}
+
+    <!--------------------------------------- No data placeholder --------------------------------------->
+    <div
+      class="p-8 my-40 bg-gray-100 max-w-[400px] mx-auto rounded-md flex-col text-center"
+    >
+      <i class="fa-regular fa-folder-open text-7xl"></i>
+      <p class="mt-4">Aucune données disponible pour le moment</p>
+    </div>
+
+    {% else %}
+    <!--------------------------------------- d_expenses --------------------------------------->
+    <div class="flex flex-col gap-4">
+      {% for obj in d_expenses %}
+      <a href="{% url 'd_expense' obj.id  %}">
+        <div
+          class="p-4 flex flex-col md:flex-row justify-between items-center bg-white rounded-md overflow-hidden"
+        >
+          <p>{{obj.driver.last_name}} {{obj.driver.first_name}}</p>
+          <p class="text-red-600 text-md font-bold">
+            <i class="fa-solid fa-arrow-up mr-2"></i>{{obj.amount}} CFA
+          </p>
+          <p class="text-sm">{{obj.title|truncatechars:50}}</p>
+          <p class="text-sm">{{obj.details|truncatechars:50}}</p>
+          <p class="text-sm">{{obj.date}} à {{obj.date}}</p>
+          {% if obj.is_audited %}
+          <p
+            class="top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
+          >
+            Audité
+          </p>
+          {% else %}
+          <p
+            class="top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
+          >
+            Non-audité
+          </p>
+          {% endif %}
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </section>
+  <!--------------------------------------- vehicle expenses --------------------------------------->
+  <section id="v_expenses" class="tabcontent w-full mx-auto mb-8">
+    {% if not v_expenses %}
+
+    <!--------------------------------------- No data placeholder --------------------------------------->
+    <div
+      class="p-8 my-40 bg-gray-100 max-w-[400px] mx-auto rounded-md flex-col text-center"
+    >
+      <i class="fa-regular fa-folder-open text-7xl"></i>
+      <p class="mt-4">Aucune données disponible pour le moment</p>
+    </div>
+
+    {% else %}
+    <!--------------------------------------- ledgers --------------------------------------->
+    <div class="flex flex-col gap-4">
+      {% for obj in v_expenses %}
+      <a href="{% url 'v_expense' obj.id  %}">
+        <div
+          class="p-4 flex flex-col md:flex-row justify-between items-center bg-white rounded-md overflow-hidden"
+        >
+          <p>{{obj.vehicle.make}} {{obj.vehicle.model}}</p>
+
+          <tt class="mt-2 text-sm font-bold">-{{obj.vehicle.plate_number}}-</tt>
+          <p class="text-red-600 text-md font-bold">
+            <i class="fa-solid fa-arrow-up mr-2"></i>{{obj.amount}} CFA
+          </p>
+          <p class="text-sm">{{obj.title|truncatechars:50}}</p>
+          <p class="text-sm">{{obj.details|truncatechars:50}}</p>
+          <p class="text-sm">{{obj.date}}</p>
+          {% if obj.is_audited %}
+          <p
+            class="top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
+          >
+            Audité
+          </p>
+          {% else %}
+          <p
+            class="top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
+          >
+            Non-audité
+          </p>
+          {% endif %}
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </section>
+  <!--------------------------------------- company expenses --------------------------------------->
+  <section id="g_expenses" class="tabcontent w-full mx-auto mb-8">
+    {% if not g_expenses %}
+
+    <!--------------------------------------- No data placeholder --------------------------------------->
+    <div
+      class="p-8 my-40 bg-gray-100 max-w-[400px] mx-auto rounded-md flex-col text-center"
+    >
+      <i class="fa-regular fa-folder-open text-7xl"></i>
+      <p class="mt-4">Aucune données disponible pour le moment</p>
+    </div>
+
+    {% else %}
+    <!--------------------------------------- ledgers --------------------------------------->
+    <div class="flex flex-col gap-4">
+      {% for obj in g_expenses %}
+      <a href="{% url 'v_expense' obj.id  %}">
+        <div
+          class="p-4 flex flex-col md:flex-row justify-between items-center bg-white rounded-md overflow-hidden"
+        >
+          <p>{{obj.author.last_name}} {{obj.author.first_name}}</p>
+          <p class="text-red-600 text-md font-bold">
+            <i class="fa-solid fa-arrow-up mr-2"></i>{{obj.amount}} CFA
+          </p>
+          <p class="text-sm">{{obj.title|truncatechars:50}}</p>
+          <p class="text-sm">{{obj.details|truncatechars:50}}</p>
+          <p class="text-sm">{{obj.date}}</p>
+          {% if obj.is_audited %}
+          <p
+            class="top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
+          >
+            Audité
+          </p>
+          {% else %}
+          <p
+            class="top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
+          >
+            Non-audité
+          </p>
+          {% endif %}
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </section>
+  <!--------------------------------------- vehicle payments --------------------------------------->
+  <section id="payments" class="tabcontent w-full mx-auto mb-8">
+    {% if not payments %}
+
+    <!--------------------------------------- No data placeholder --------------------------------------->
+    <div
+      class="p-8 my-40 bg-gray-100 max-w-[400px] mx-auto rounded-md flex-col text-center"
+    >
+      <i class="fa-regular fa-folder-open text-7xl"></i>
+      <p class="mt-4">Aucune données disponible pour le moment</p>
+    </div>
+
+    {% else %}
+    <!--------------------------------------- ledgers --------------------------------------->
+    <div class="flex flex-col gap-4">
+      {% for obj in payments %}
+      <a href="{% url 'payment' obj.id  %}">
+        <div
+          class="p-4 flex flex-col md:flex-row justify-between items-center bg-white rounded-md overflow-hidden"
+        >
+          <p>{{obj.driver.last_name}} {{obj.driver.first_name}}</p>
+          <p>{{obj.vehicle.make}} {{obj.vehicle.model}}</p>
+
+          <tt class="mt-2 text-sm font-bold">-{{obj.vehicle.plate_number}}-</tt>
+          <p class="text-green-600 text-md font-bold">
+            <i class="fa-solid fa-arrow-down mr-2"></i>{{obj.amount}} CFA
+          </p>
+          <p class="text-sm">{{obj.title|truncatechars:50}}</p>
+          <p class="text-sm">{{obj.details|truncatechars:50}}</p>
+          <p class="text-sm">
+            {{obj.date}} ({{obj.start_time}} - {{obj.end_time}})
+          </p>
+          {% if obj.is_audited %}
+          <p
+            class="top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
+          >
+            Audité
+          </p>
+          {% else %}
+          <p
+            class="top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
+          >
+            Non-audité
+          </p>
+          {% endif %}
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </section>
+  <!--------------------------------------- driver payouts --------------------------------------->
+  <section id="payouts" class="tabcontent w-full mx-auto mb-8">
+    {% if not payouts %}
+
+    <!--------------------------------------- No data placeholder --------------------------------------->
+    <div
+      class="p-8 my-40 bg-gray-100 max-w-[400px] mx-auto rounded-md flex-col text-center"
+    >
+      <i class="fa-regular fa-folder-open text-7xl"></i>
+      <p class="mt-4">Aucune données disponible pour le moment</p>
+    </div>
+
+    {% else %}
+    <!--------------------------------------- ledgers --------------------------------------->
+    <div class="flex flex-col gap-4">
+      {% for obj in payouts %}
+      <a href="{% url 'payout' obj.id  %}">
+        <div
+          class="p-4 flex flex-col md:flex-row justify-between items-center bg-white rounded-md overflow-hidden"
+        >
+          <p>{{obj.driver.last_name}} {{obj.driver.first_name}}</p>
+          <p>{{obj.type}}</p>
+          <p class="text-red-600 text-md font-bold">
+            <i class="fa-solid fa-arrow-up mr-2"></i>{{obj.amount}} CFA
+          </p>
+          <p class="text-sm">{{obj.days_worked}} jours travaillé(s)</p>
+          <p class="text-sm">{{obj.type}}</p>
+          <p class="text-sm">{{obj.date_paid}}</p>
+          {% if obj.is_audited %}
+          <p
+            class="top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
+          >
+            Audité
+          </p>
+          {% else %}
+          <p
+            class="top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
+          >
+            Non-audité
+          </p>
+          {% endif %}
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </section>
+  <!--------------------------------------- vehicle ledger --------------------------------------->
+  <section id="ledgers" class="tabcontent w-full mx-auto">
+    {% if not ledgers %}
+
+    <!--------------------------------------- No data placeholder --------------------------------------->
+    <div
+      class="p-8 my-40 bg-gray-100 max-w-[400px] mx-auto rounded-md flex-col text-center"
+    >
+      <i class="fa-regular fa-folder-open text-7xl"></i>
+      <p class="mt-4">Aucune données disponible pour le moment</p>
+    </div>
+
+    {% else %}
+    <!--------------------------------------- ledgers --------------------------------------->
+    <div class="flex flex-col gap-4">
+      {% for obj in ledgers %}
+      <a href="{% url 'ledger' obj.id  %}">
+        <div
+          class="p-4 flex flex-col md:flex-row justify-between items-center bg-white rounded-md overflow-hidden"
+        >
+          <p>{{obj.vehicle.make}} {{obj.vehicle.model}}</p>
+
+          <tt class="mt-2 text-sm font-bold">-{{obj.vehicle.plate_number}}-</tt>
+          <p class="text-red-600 text-md font-bold">
+            <i class="fa-solid fa-arrow-up mr-2"></i>{{obj.debit}} CFA
+          </p>
+          <p class="text-green-600 text-md font-bold">
+            <i class="fa-solid fa-arrow-down mr-2"></i>{{obj.credit}} CFA
+          </p>
+          <p class="text-sm">{{obj.details|truncatechars:50}}</p>
+          <p class="text-sm">{{obj.date}}</p>
+          {% if obj.is_audited %}
+          <p
+            class="top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
+          >
+            Audité
+          </p>
+          {% else %}
+          <p
+            class="top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
+          >
+            Non-audité
+          </p>
+          {% endif %}
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </section>
+</div>
+
+{% endblock %}
