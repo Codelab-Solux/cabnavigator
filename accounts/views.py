@@ -63,6 +63,29 @@ def logoutUser(req):
 
 
 @login_required(login_url='login')
+def create_user(req):
+
+    if req.user.role.sec_level >= 3:
+        form = CreateUserForm()
+        if req.method == 'POST':
+            form = CreateUserForm(req.POST)
+            if form.is_valid():
+                form.save()
+                messages.success(req, "Le nouveau compte vien d'être créé.")
+                return redirect('users')
+        else:
+            form = CreateUserForm()
+    else:
+        form = None
+    context = {
+        "create_user_page": "active",
+        'title': 'create_user',
+        'form': form,
+    }
+    return render(req, 'accounts/user.html', context)
+
+
+@login_required(login_url='login')
 def users(req):
     if req.user.role.sec_level < 4:
         return redirect(req.META.get('HTTP_REFERER'))

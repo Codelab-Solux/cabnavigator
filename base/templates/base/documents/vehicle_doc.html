@@ -1,0 +1,144 @@
+{% extends 'main.html' %} {% load static %} {% block content %}
+<!--------------------------------------- mini navbar --------------------------------------->
+<nav
+  class="mx-auto flex items-center gap-2 items-center text-xs w-full max-w-[1350px]"
+>
+  <a
+    href="{{request.META.HTTP_REFERER}}"
+    class="mb-4 px-4 py-3 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    ><i class="fa-solid fa-arrow-left"></i
+  ></a>
+  {% if curr_doc and not form %}
+  <a
+    href="{% url 'edit_vdoc' curr_doc.id %}"
+    class="mb-4 px-4 py-3 bg-black text-white hover:bg-green-600 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    >Modifier<i class="fa-solid fa-pen-to-square ml-4"></i
+  ></a>
+  {% endif %} {% if curr_doc and not form and user.role.sec_level >= 3 %}
+  <a
+    href="{% url 'delete_vdoc' curr_doc.id %}"
+    class="mb-4 px-4 py-3 bg-black text-white hover:bg-red-700 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    >Supprimer<i class="fa-solid fa-trash ml-4"></i
+  ></a>
+  {% endif %}
+</nav>
+
+<!--------------------------------------- forms layout --------------------------------------->
+
+{% if not form %}
+
+<section
+  class="p-8 bg-white lg:grid grid-cols-2 gap-4 justify-between rounded-md overflow-hidden"
+>
+  <div class="flex flex-col gap-4 w-full">
+    {% if not curr_doc.image %}
+    <img
+      class="h-80 border border-2 w-full rounded-md object-cover"
+      src="{% static 'imgs/sig.jpg' %}"
+      alt="vehicle image"
+    />
+    {% else %}
+    <img
+      class="h-80 border border-2 w-full rounded-md object-cover"
+      src="{{curr_doc.image.url}}"
+      alt="vehicle image"
+    />
+    {% endif %}
+    <!--  -->
+    <div class="flex flex-col justify-between">
+      <h4 class="text-black text-md font-bold">
+        {{curr_doc.vehicle.make}} {{curr_doc.vehicle.model}}
+        <tt> [-{{curr_doc.vehicle.plate_number}}-] </tt>
+      </h4>
+      <p class="pt-2 text-sm">Type de docuemnt : {{curr_doc.type.name}}</p>
+      <p class="pt-2 text-sm">
+        Validité : {{curr_doc.issue_date.date}} - {{curr_doc.expiry_date.date}}
+      </p>
+      <p class="pt-2 text-sm">Date ajouté {{curr_doc.date_posted.date}}</p>
+    </div>
+    <!--  -->
+  </div>
+
+  <!--------------------------------------- related documents --------------------------------------->
+
+  <div class="w-full mx-auto rounded-md">
+    <h3 class="mb-4 text-black text-lg font-bold">Documents connexes</h3>
+    {% if not rel_documents %}
+
+    <!--------------------------------------- No data placeholder --------------------------------------->
+    {% include 'components/no_data.html' %} {% else %}
+    <div class="flex flex-row flex-wrap gap-4">
+      {% for obj in rel_documents %}
+      <div
+        class="relative w-[220px] flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
+      >
+        {% if obj.is_valid %}
+        <span
+          class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
+        >
+          Valid
+        </span>
+        {% else %}
+        <span
+          class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
+        >
+          Invalid
+        </span>
+        {% endif %}
+        <a href="{% url 'vehicle_doc' obj.id  %}">
+          <div class="p-4 flex flex-col justify-between">
+            <h4 class="text-black text-md font-bold">
+              {{obj.vehicle.last_name}} {{obj.vehicle.first_name}}
+            </h4>
+            <p class="pt-2 text-sm">{{obj.type.name}}</p>
+            <p class="pt-2 text-sm">
+              {{obj.issue_date.date}} - {{obj.expiry_date.date}}
+            </p>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+{% else %}
+<!--------------------------------------- vehicle form -->
+<section
+  id="d_form"
+  class="mb-4 p-4 lg:p-8 bg-white w-full mx-auto rounded-md text-sm"
+>
+  <h3 class="mb-4 text-black text-2xl font-bold">
+    Formulaire de document pour Véhicules
+  </h3>
+
+  <form class="w-full" method="POST" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+    <!--  -->
+    <div class="flex flex-row flex-wrap gap-4">
+      {% for field in form %}
+      <div>
+        <h3 class="mb-1">{{field.label}}</h3>
+        {{field}}
+      </div>
+      {% endfor %}
+    </div>
+    <div class="my-4 flex gap-4 items-end">
+      <input
+        class="px-8 py-2 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md cursor-pointer"
+        type="submit"
+        value="Enregistrer"
+      />
+      <a
+        class="bg-white px-8 py-2 rounded-md hover:bg-red-700 hover:text-white"
+        href="{{request.META.HTTP_REFERER}}"
+      >
+        Annuler
+      </a>
+    </div>
+  </form>
+</section>
+{% endif %}
+<!--  -->
+{% endblock %}

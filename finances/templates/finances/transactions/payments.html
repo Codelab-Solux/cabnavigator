@@ -1,103 +1,101 @@
 {% extends 'main.html' %} {% load static %} {% block content %}
-<div class="px-8 w-full max-w-[1350px] mx-auto min-h-screen">
-  <!--------------------------------------- mini navbar --------------------------------------->
+<!--------------------------------------- mini navbar --------------------------------------->
 
-  <nav
-    class="mx-auto my-4 py-2 flex flex-col md:flex-row justify-between items-center gap-2 items-center text-xs w-full max-w-[1350px]"
+<nav
+  class="mx-auto flex flex-col md:flex-row justify-between items-center gap-2 items-center text-xs w-full max-w-[1350px]"
+>
+  <!--------------------------------------- search form --------------------------------------->
+  {% if user.role.sec_level >= 1 %}
+  <a
+    href="{% url 'create_payment' %}"
+    class="px-4 py-2 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
+    >Faire un encaissement<i class="fa-solid fa-plus ml-4"></i
+  ></a>
+  {% endif %}
+
+  <form
+    id="search_box"
+    class="w-[400px] max-w-xl flex flex-row justify-between"
   >
-    <!--------------------------------------- search form --------------------------------------->
-    {% if user.role.sec_level >= 1 %}
-    <a
-      href="{% url 'create_payment' %}"
-      class="px-4 py-2 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
-      >Faire un encaissement<i class="fa-solid fa-plus ml-4"></i
-    ></a>
-    {% endif %}
-
-    <form
-      id="search_box"
-      class="w-[400px] max-w-xl flex flex-row justify-between"
+    <input
+      type="text"
+      name="query"
+      id="querier"
+      required
+      class="px-4 py-2 bg-white text-black w-full rounded-l-md outline-none"
+      placeholder="Recherchez..."
+    />
+    <button
+      class="group px-4 py-2 text-sm bg-black hover:bg-amber-300 text-white hover:text-black rounded-r-md transition duration-300 ease-in-out"
+      type="submit"
     >
-      <input
-        type="text"
-        name="query"
-        id="querier"
-        required
-        class="px-4 py-2 bg-white text-black w-full rounded-l-md outline-none"
-        placeholder="Recherchez..."
-      />
-      <button
-        class="group px-4 py-2 text-sm bg-black hover:bg-amber-300 text-white hover:text-black rounded-r-md transition duration-300 ease-in-out"
-        type="submit"
-      >
-        <i class="fa-solid fa-magnifying-glass"></i>
-      </button>
-    </form>
-  </nav>
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+  </form>
+</nav>
 
-  <!--------------------------------------- vehicle payments --------------------------------------->
-  <section class="w-full mx-auto my-8">
-    {% if not payments %}
+<!--------------------------------------- vehicle payments --------------------------------------->
+<section class="w-full mx-auto my-8">
+  {% if not payments %}
 
-    <!--------------------------------------- No data placeholder --------------------------------------->
+  <!--------------------------------------- No data placeholder --------------------------------------->
+  <div
+    class="p-8 my-40 bg-gray-100 max-w-[400px] mx-auto rounded-md flex-col text-center"
+  >
+    <i class="fa-regular fa-folder-open text-7xl"></i>
+    <p class="mt-4">Aucune données disponible pour le moment</p>
+  </div>
+
+  {% else %}
+  <!--------------------------------------- payments --------------------------------------->
+  <div
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+  >
+    {% for obj in payments %}
     <div
-      class="p-8 my-40 bg-gray-100 max-w-[400px] mx-auto rounded-md flex-col text-center"
+      class="relative flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
     >
-      <i class="fa-regular fa-folder-open text-7xl"></i>
-      <p class="mt-4">Aucune données disponible pour le moment</p>
-    </div>
-
-    {% else %}
-    <!--------------------------------------- payments --------------------------------------->
-    <div
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
-    >
-      {% for obj in payments %}
-      <div
-        class="relative flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
+      {% if obj.is_audited %}
+      <span
+        class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
       >
-        {% if obj.is_valid %}
-        <span
-          class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
-        >
-          Valid
-        </span>
+        Audité
+      </span>
+      {% else %}
+      <span
+        class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
+      >
+        Non-audité
+      </span>
+      {% endif %}
+      <a href="{% url 'payment' obj.id  %}">
+        {% if not obj.image %}
+        <img
+          class="h-20 w-full object-cover"
+          src="{% static 'imgs/exp.jpg' %}"
+          alt="d_doc image"
+        />
         {% else %}
-        <span
-          class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
-        >
-          Invalid
-        </span>
+        <img
+          class="h-20 w-full object-cover"
+          src="{{obj.image.url}}"
+          alt="d_doc image"
+        />
         {% endif %}
-        <a href="{% url 'payment' obj.id  %}">
-          {% if not obj.image %}
-          <img
-            class="h-40 w-full object-cover"
-            src="{% static 'imgs/exp.jpg' %}"
-            alt="d_doc image"
-          />
-          {% else %}
-          <img
-            class="h-40 w-full object-cover"
-            src="{{obj.image.url}}"
-            alt="d_doc image"
-          />
-          {% endif %}
-          <div class="p-4 flex flex-col justify-between">
-            <h4 class="text-black text-md font-bold">{{obj.amount}} CFA</h4>
-            <tt class="mt-2 text-sm font-bold">
-              {{obj.driver.last_name}} {{obj.driver.first_name}}
-            </tt>
-            <p class="mt-2 text-sm">
-              {{obj.date}} de {{obj.start_time}} à {{obj.end_time}}
-            </p>
-          </div>
-        </a>
-      </div>
-      {% endfor %}
+        <div class="p-4 flex flex-col justify-between">
+          <h4 class="text-black text-md font-bold">{{obj.amount}} CFA</h4>
+          <tt class="mt-2 text-sm font-bold">
+            {{obj.driver.last_name}} {{obj.driver.first_name}}
+          </tt>
+          <p class="mt-2 text-sm">
+            {{obj.date}} de {{obj.start_time}} à {{obj.end_time}}
+          </p>
+        </div>
+      </a>
     </div>
-    {% endif %}
-  </section>
-</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</section>
 
 {% endblock %}

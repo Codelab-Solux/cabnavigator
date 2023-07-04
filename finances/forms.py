@@ -20,18 +20,18 @@ class DriverExpenseForm(forms.ModelForm):
             'driver': 'Conducteur',
             'title': 'Titre de la depense',
             'amount': 'Montant Payé',
-            'motive': 'Raisons',
+            'details': 'Raisons',
             'date': 'Date',
             'time': 'Heure',
             'receit': 'Reçu',
         }
         widgets = {
-            'driver': forms.Select(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'title': forms.TextInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'amount': forms.NumberInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'motive': forms.Textarea(attrs={"rows": "6", 'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'date': DateInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'time': TimeInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
+            'driver': forms.Select(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'title': forms.TextInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'amount': forms.NumberInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'details': forms.Textarea(attrs={"rows": "6", 'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'date': DateInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'time': TimeInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
         }
 
 
@@ -44,18 +44,18 @@ class VehicleExpenseForm(forms.ModelForm):
             'vehicle': 'Véhicule',
             'title': 'Titre de la depense',
             'amount': 'Montant Payé',
-            'motive': 'Raisons',
+            'details': 'Raisons',
             'date': 'Date',
             'time': 'Heure',
             'receit': 'Reçu',
         }
         widgets = {
-            'vehicle': forms.Select(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'title': forms.TextInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'amount': forms.NumberInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'motive': forms.Textarea(attrs={"rows": "6", 'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'date': DateInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'time': TimeInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
+            'vehicle': forms.Select(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'title': forms.TextInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'amount': forms.NumberInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'details': forms.Textarea(attrs={"rows": "6", 'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'date': DateInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'time': TimeInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
         }
 
 
@@ -63,23 +63,22 @@ class GlobalExpenseForm(forms.ModelForm):
     class Meta:
         model = GlobalExpense
         fields = ('__all__')
-        exclude = ('date_posted',)
+        exclude = ('date_posted', 'author')
         labels = {
-            'author': 'Autheur',
             'title': 'Titre de la depense',
             'amount': 'Montant Payé',
-            'motive': 'Raisons',
+            'details': 'Raisons',
             'date': 'Date',
             'time': 'Heure',
             'receit': 'Reçu',
         }
         widgets = {
-            'author': forms.Select(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'title': forms.TextInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'amount': forms.NumberInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'motive': forms.Textarea(attrs={"rows": "6", 'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'date': DateInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'time': TimeInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
+            # 'author': forms.Select(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'title': forms.TextInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'amount': forms.NumberInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'details': forms.Textarea(attrs={"rows": "6", 'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'date': DateInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'time': TimeInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
         }
 
 
@@ -97,14 +96,14 @@ class PaymentForm(forms.ModelForm):
             'end_time': 'Fin',
         }
         widgets = {
-            'driver': forms.Select(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'vehicle': forms.Select(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'type': forms.Select(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'amount': forms.NumberInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'date': DateInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'start_time': TimeInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'end_time': TimeInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'observation': forms.TextInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
+            'driver': forms.Select(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'vehicle': forms.Select(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'type': forms.Select(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'amount': forms.NumberInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'date': DateInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'start_time': TimeInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'end_time': TimeInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'observation': forms.TextInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
         }
 
 
@@ -124,14 +123,14 @@ class PayoutForm(forms.ModelForm):
             'end_date': 'Fin des Jours travaillés',
         }
         widgets = {
-            'driver': forms.Select(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'vehicle': forms.Select(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'type': forms.Select(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'observation': forms.TextInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'amount': forms.NumberInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'days_worked': forms.NumberInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'start_date': DateInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'end_date': DateInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
+            'driver': forms.Select(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'vehicle': forms.Select(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'type': forms.Select(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'observation': forms.TextInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'amount': forms.NumberInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'days_worked': forms.NumberInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'start_date': DateInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'end_date': DateInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
         }
 
 
@@ -150,11 +149,36 @@ class LedgerForm(forms.ModelForm):
             'end_date': 'Fin',
         }
         widgets = {
-            'vehicle': forms.Select(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'details': forms.TextInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'debit': forms.NumberInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'credit': forms.NumberInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'profit': forms.NumberInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'date': DateInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
-            'end_date': DateInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-white w-full"}),
+            'vehicle': forms.Select(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'details': forms.TextInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'debit': forms.NumberInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'credit': forms.NumberInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'profit': forms.NumberInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'date': DateInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'end_date': DateInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+        }
+
+
+class DividendForm(forms.ModelForm):
+    class Meta:
+        model = Dividend
+        fields = ('__all__')
+        exclude = ('date_paid',)
+        labels = {
+            'partner': 'Partenaire',
+            'vehicle': 'Véhicule',
+            'days_worked': 'Jours travaillés',
+            'gross_income': 'Gain brut',
+            'net_income': 'Gain net',
+            'comment': 'Commentaire',
+            'is_audited': 'Audité',
+        }
+        widgets = {
+            'partner': forms.Select(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'vehicle': forms.Select(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'days_worked': forms.NumberInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'gross_income': forms.NumberInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'net_income': forms.NumberInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            'comment': forms.Textarea(attrs={"rows": "6", 'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
+            # 'is_audited': forms.BooleanField(required=True)
         }

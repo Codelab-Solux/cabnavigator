@@ -1,52 +1,50 @@
 {% extends 'main.html' %} {% load static %} {% block content %}
-<div class="p-8 w-full max-w-[1350px] mx-auto min-h-screen flex flex-col gap-6">
-  <!--------------------------------------- hero section --------------------------------------->
-  <section class="w-full">
-    <div class="bg-black p-6 w-full h-80 rounded-md overflow-hidden">
-      <h1 class="text-white text-4xl font-bold">Parametres</h1>
+<!--------------------------------------- hero section --------------------------------------->
+<section class="w-full">
+  <div class="bg-black p-6 w-full h-80 rounded-md overflow-hidden">
+    <h1 class="text-white text-4xl font-bold">Parametres</h1>
 
-      <p class="mt-4 text-gray-200">
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Assumenda unde
-        tempore, voluptas exercitationem dignissimos asperiores qui harum
-        corrupti consequuntur ratione.
-      </p>
-    </div>
-  </section>
+    <p class="mt-4 text-gray-200">
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Assumenda unde
+      tempore, voluptas exercitationem dignissimos asperiores qui harum corrupti
+      consequuntur ratione.
+    </p>
+  </div>
+</section>
 
-  <!--------------------------------------- type of documents --------------------------------------->
-  <section>
-    <h3 class="font-bold text-black text-xl">Types de documents</h3>
-    <div class="md:grid grid-cols-2 gap-6 lg:grid-cols-4 xl:grid-cols-6">
-      {% for obj in doc_types %}
-      <a
-        href="{% url 'd_expenses' %}"
-        class="p-4 mt-4 w-full bg-white mx-auto flex items-center gap-4 rounded-md group"
-      >
-        <i class="fa-solid fa-file text-xl group-hover:text-black"></i>
+<!--------------------------------------- type of documents --------------------------------------->
+<section>
+  <h3 class="font-bold text-black text-xl">Types de documents</h3>
+  <div class="md:grid grid-cols-2 gap-6 lg:grid-cols-4 xl:grid-cols-6">
+    {% for obj in doc_types %}
+    <a
+      href="{% url 'd_expenses' %}"
+      class="p-4 mt-4 w-full bg-white mx-auto flex items-center gap-4 rounded-md group"
+    >
+      <i class="fa-solid fa-file text-xl group-hover:text-black"></i>
+      <p>{{obj.name}}</p>
+    </a>
+
+    {% endfor %}
+  </div>
+</section>
+<section>
+  <h3 class="font-bold text-black text-xl">Types de roles</h3>
+  <div class="md:grid grid-cols-2 gap-6 lg:grid-cols-4 xl:grid-cols-5">
+    {% for obj in roles %}
+    <a
+      href="{% url 'd_expenses' %}"
+      class="p-4 mt-4 w-full bg-white mx-auto flex items-center gap-4 rounded-md group"
+    >
+      <i class="fa-solid fa-user-lock text-xl group-hover:text-black"></i>
+      <div class="flex flex-col">
         <p>{{obj.name}}</p>
-      </a>
+        <span class="font-bold text-lg text-black">{{obj.sec_level}}</span>
+      </div>
+    </a>
 
-      {% endfor %}
-    </div>
-  </section>
-  <section>
-    <h3 class="font-bold text-black text-xl">Types de roles</h3>
-    <div class="md:grid grid-cols-2 gap-6 lg:grid-cols-4 xl:grid-cols-5">
-      {% for obj in roles %}
-      <a
-        href="{% url 'd_expenses' %}"
-        class="p-4 mt-4 w-full bg-white mx-auto flex items-center gap-4 rounded-md group"
-      >
-        <i class="fa-solid fa-user-lock text-xl group-hover:text-black"></i>
-        <div class="flex flex-col">
-          <p>{{obj.name}}</p>
-          <span class="font-bold text-lg text-black">{{obj.sec_level}}</span>
-        </div>
-      </a>
-
-      {% endfor %}
-    </div>
-  </section>
-</div>
+    {% endfor %}
+  </div>
+</section>
 
 {% endblock %}

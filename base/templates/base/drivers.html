@@ -1,107 +1,97 @@
 {% extends 'main.html' %} {% load static %} {% block content %}
-<div class="px-8 w-full max-w-[1350px] mx-auto min-h-screen">
-  <!--------------------------------------- mini navbar --------------------------------------->
+<!--------------------------------------- mini navbar --------------------------------------->
 
-  <nav
-    class="mx-auto mt-4 py-2 flex justify-between items-center gap-2 items-center text-xs w-full max-w-[1350px]"
-  >
-    {% if user.role.sec_level == 1 and is_driver == False %}
-    <a
-      href="{% url 'create_driver' %}"
-      class="px-4 py-2 bg-black text-white hover:bg-amber-300 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
-      >Ajouter un Conducteur<i class="fa-solid fa-plus ml-4"></i
-    ></a>
-    {% elif user.role.sec_level >= 3 %}
-    <a
-      href="{% url 'create_driver' %}"
-      class="px-4 py-2 bg-black text-white hover:bg-amber-300 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
-      >Ajouter un Conducteur<i class="fa-solid fa-plus ml-4"></i
-    ></a>
-    {% endif %}
+<nav
+  class="mx-auto flex justify-between items-center gap-2 items-center text-xs w-full"
+>
+  {% if user.role.sec_level >= 3 %}
+  <a
+    href="{% url 'create_driver' %}"
+    class="px-4 py-3 bg-black text-white hover:bg-amber-300 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    ><span class="hidden md:inline">Ajouter un Conducteur</span
+    ><i class="fa-solid fa-plus md:ml-4"></i
+  ></a>
+  {% endif %}
 
-    <form
-      id="search_box"
-      class="w-[400px] max-w-xl flex flex-row justify-between"
+  <form id="search_box" class="w-full max-w-md flex flex-row justify-between">
+    <input
+      type="text"
+      name="query"
+      id="querier"
+      required
+      class="px-4 py-2 bg-white text-black w-full rounded-l-md outline-none"
+      placeholder="Recherchez..."
+    />
+    <button
+      class="group px-4 py-2 text-sm bg-black hover:bg-amber-300 text-white hover:text-black rounded-r-md transition duration-300 ease-in-out"
+      type="submit"
     >
-      <input
-        type="text"
-        name="query"
-        id="querier"
-        required
-        class="px-4 py-2 bg-white text-black w-full rounded-l-md outline-none"
-        placeholder="Recherchez..."
-      />
-      <button
-        class="group px-4 py-2 text-sm bg-black hover:bg-amber-300 text-white hover:text-black rounded-r-md transition duration-300 ease-in-out"
-        type="submit"
-      >
-        <i class="fa-solid fa-magnifying-glass"></i>
-      </button>
-    </form>
-  </nav>
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+  </form>
+</nav>
 
-  <!--------------------------------------- drivers --------------------------------------->
-  <section id="drivers" class="py-4 w-full text-left">
-    <div class="w-full mx-auto">
-      {% if not drivers %}
+<!--------------------------------------- drivers --------------------------------------->
+<section id="drivers" class="py-4 w-full text-left">
+  <div class="w-full mx-auto">
+    {% if not drivers %}
 
-      <!--------------------------------------- No data placeholder --------------------------------------->
-      <div
-        class="p-8 my-40 bg-gray-100 max-w-[400px] mx-auto rounded-md flex-col text-center"
-      >
-        <i class="fa-regular fa-folder-open text-7xl"></i>
-        <p class="mt-4">Aucune données disponible pour le moment</p>
-      </div>
-
-      {% else %}
-      <!--------------------------------------- drivers --------------------------------------->
-      <div
-        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
-      >
-        {% for obj in drivers %}
-        <div
-          class="relative flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
-        >
-          {% if obj.is_active %}
-          <span
-            class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
-          >
-            Actif
-          </span>
-          {% else %}
-          <span
-            class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
-          >
-            Inactif
-          </span>
-          {% endif %}
-          <a href="{% url 'driver' obj.id  %}">
-            {% if not obj.image %}
-            <img
-              class="h-40 w-full object-cover"
-              src="{% static 'imgs/dvr.jpg' %}"
-              alt="driver image"
-            />
-            {% else %}
-            <img
-              class="h-40 w-full object-cover"
-              src="{{obj.image.url}}"
-              alt="driver image"
-            />
-            {% endif %}
-            <div class="p-4 flex flex-col justify-between">
-              <h4 class="text-black text-md font-bold">
-                {{obj.civility}} {{obj.user.last_name}} {{obj.user.first_name}}
-              </h4>
-              <p class="py-2 text-sm">{{obj.city}}</p>
-            </div>
-          </a>
-        </div>
-        {% endfor %}
-      </div>
-      {% endif %}
+    <!--------------------------------------- No data placeholder --------------------------------------->
+    <div
+      class="p-8 my-40 bg-gray-100 max-w-[400px] mx-auto rounded-md flex-col text-center"
+    >
+      <i class="fa-regular fa-folder-open text-7xl"></i>
+      <p class="mt-4">Aucune données disponible pour le moment</p>
     </div>
-  </section>
-</div>
+
+    {% else %}
+    <!--------------------------------------- drivers --------------------------------------->
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+    >
+      {% for obj in drivers %}
+      <div
+        class="relative flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
+      >
+        {% if obj.is_active %}
+        <span
+          class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
+        >
+          Actif
+        </span>
+        {% else %}
+        <span
+          class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
+        >
+          Inactif
+        </span>
+        {% endif %}
+        <a href="{% url 'driver' obj.id  %}">
+          {% if not obj.image %}
+          <img
+            class="h-20 w-full object-cover"
+            src="{% static 'imgs/dvr.jpg' %}"
+            alt="driver image"
+          />
+          {% else %}
+          <img
+            class="h-20 w-full object-cover"
+            src="{{obj.image.url}}"
+            alt="driver image"
+          />
+          {% endif %}
+          <div class="p-4 flex flex-col justify-between">
+            <h4 class="text-black text-md font-bold">
+              {{obj.civility}} {{obj.last_name}} {{obj.first_name}}
+            </h4>
+            <p class="py-2 text-sm">{{obj.city}}</p>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
 
 {% endblock %}

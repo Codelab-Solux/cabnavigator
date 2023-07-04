@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, Avg, Min, Max
 
 from accounts.models import Role
+from finances.models import *
 
 
 from .forms import *
@@ -21,6 +22,7 @@ def home(req):
     vehicles = Vehicle.objects.all().count()
     incidents = Incident.objects.all().count()
     d_docs = DriverDocument.objects.all().count()
+    p_docs = PartnerDocument.objects.all().count()
     v_docs = VehicleDocument.objects.all().count()
 
     context = {
@@ -31,6 +33,7 @@ def home(req):
         'vehicles': vehicles,
         'incidents': incidents,
         'd_docs': d_docs,
+        'p_docs': p_docs,
         'v_docs': v_docs,
 
     }
@@ -50,8 +53,8 @@ def drivers(req):
     drivers = Driver.objects.filter(
         Q(city__icontains=query)
         | Q(address__icontains=query)
-        | Q(user__first_name__icontains=query)
-        | Q(user__last_name__icontains=query)
+        | Q(first_name__icontains=query)
+        | Q(last_name__icontains=query)
     )
     ordering = ['date_joined']
 
@@ -69,10 +72,20 @@ def drivers(req):
 def driver(req, pk):
     user = req.user
     curr_driver = Driver.objects.get(id=pk)
+    documents = DriverDocument.objects.filter(driver=curr_driver)
+    expenses = DriverExpense.objects.filter(driver=curr_driver)
+    payouts = Payout.objects.filter(driver=curr_driver)
+    payments = Payment.objects.filter(driver=curr_driver)
+    incidents = Incident.objects.filter(driver=curr_driver)
     context = {
         "driver_page": "active",
         'title': 'driver',
         'curr_driver': curr_driver,
+        'documents': documents,
+        'expenses': expenses,
+        'payments': payments,
+        'payouts': payouts,
+        'incidents': incidents,
 
     }
     return render(req, 'base/driver.html', context)
@@ -114,7 +127,15 @@ def edit_driver(req, pk):
     return render(req, 'base/driver.html', context)
 
 
+@login_required(login_url='login')
+def delete_driver(req, pk):
+    obj = Driver.objects.get(id=pk)
+    if req.user.role.sec_level < 3:
+        return HttpResponseRedirect(req.META.get('HTTP_REFERER'))
+    obj.delete()
+    return HttpResponseRedirect(req.META.get('HTTP_REFERER'))
 # --------------------------------------------------------------------partners CRUD--------------------------------------------------------
+
 
 @login_required(login_url='login')
 def partners(req):
@@ -146,10 +167,25 @@ def partners(req):
 def partner(req, pk):
     user = req.user
     curr_partner = Partner.objects.get(id=pk)
+    documents = PartnerDocument.objects.filter(partner=curr_partner)
+    vehicles = Vehicle.objects.filter(owner=curr_partner.user)
+    payments = Payment.objects.filter(
+        vehicle__in=Vehicle.objects.filter(owner=curr_partner.user))
+
+    # for obj in vehicles:
+    #     rev = Payment.objects.filter(vehicle=obj)
+    #     payments.append(rev)
+
+    # payments = payments
+
+    print('Partner page', payments)
     context = {
         "partner_page": "active",
         'title': 'partner',
         'curr_partner': curr_partner,
+        'documents': documents,
+        'vehicles': vehicles,
+        'payments': payments,
 
     }
     return render(req, 'base/partner.html', context)
@@ -191,7 +227,15 @@ def edit_partner(req, pk):
     return render(req, 'base/partner.html', context)
 
 
+@login_required(login_url='login')
+def delete_partner(req, pk):
+    obj = Partner.objects.get(id=pk)
+    if req.user.role.sec_level < 3:
+        return HttpResponseRedirect(req.META.get('HTTP_REFERER'))
+    obj.delete()
+    return HttpResponseRedirect(req.META.get('HTTP_REFERER'))
 # --------------------------------------------------------------------vehicles CRUD--------------------------------------------------------
+
 
 @login_required(login_url='login')
 def vehicles(req):
@@ -225,10 +269,18 @@ def vehicles(req):
 def vehicle(req, pk):
     user = req.user
     curr_vehicle = Vehicle.objects.get(plate_number=pk)
+    docs = VehicleDocument.objects.filter(vehicle=curr_vehicle)
+    payments = Payment.objects.filter(vehicle=curr_vehicle)
+    expenses = VehicleExpense.objects.filter(vehicle=curr_vehicle)
+    incidents = Incident.objects.filter(vehicle=curr_vehicle)
     context = {
         "vehicle_page": "active",
         'title': 'vehicle',
         'curr_vehicle': curr_vehicle,
+        'docs': docs,
+        'payments': payments,
+        'expenses': expenses,
+        'incidents': incidents,
 
     }
     return render(req, 'base/vehicle.html', context)
@@ -270,33 +322,33 @@ def edit_vehicle(req, pk):
     return render(req, 'base/vehicle.html', context)
 
 
+@login_required(login_url='login')
+def delete_vehicle(req, pk):
+    obj = Vehicle.objects.get(id=pk)
+    if req.user.role.sec_level < 3:
+        return HttpResponseRedirect(req.META.get('HTTP_REFERER'))
+    obj.delete()
+    return HttpResponseRedirect(req.META.get('HTTP_REFERER'))
 # -------------------------------------------------------------------- documents CRUD --------------------------------------------------------
+
 
 @login_required(login_url='login')
 def documents(req):
     user = req.user
-    query = req.GET.get('query') if req.GET.get('query') != None else ''
-    d_docs = DriverDocument.objects.filter(
-        # Q(driver__user__first_name__model__icontains=query)
-        Q(type__name__icontains=query)
-        | Q(issue_date__icontains=query)
-        | Q(expiry_date__icontains=query)
-    )
-    v_docs = VehicleDocument.objects.filter(
-        Q(type__name__icontains=query)
-        | Q(issue_date__icontains=query)
-        | Q(expiry_date__icontains=query)
-    )
+    d_docs = DriverDocument.objects.all()
+    p_docs = PartnerDocument.objects.all()
+    v_docs = VehicleDocument.objects.all()
     ordering = ['date_posted']
 
     context = {
         "documents_page": "active",
         'title': 'documents',
         'd_docs': d_docs,
+        'p_docs': p_docs,
         'v_docs': v_docs,
         'ordering': ordering,
     }
-    return render(req, 'base/documents.html', context)
+    return render(req, 'base/documents/index.html', context)
 
 
 # -------------------------------- driver documents ------------------------------------
@@ -306,8 +358,8 @@ def driver_docs(req):
     user = req.user
     query = req.GET.get('query') if req.GET.get('query') != None else ''
     documents = DriverDocument.objects.filter(
-        Q(driver__user__first_name__icontains=query)
-        | Q(driver__user__last_name__icontains=query)
+        Q(driver__first_name__icontains=query)
+        | Q(driver__last_name__icontains=query)
         | Q(type__name__icontains=query)
         | Q(issue_date__icontains=query)
         | Q(expiry_date__icontains=query)
@@ -316,24 +368,27 @@ def driver_docs(req):
 
     context = {
         "driver_documents_page": "active",
-        'title': 'driver_documents',
+        'title': 'driver documents',
         'documents': documents,
         'ordering': ordering,
     }
-    return render(req, 'base/driver_docs.html', context)
+    return render(req, 'base/documents/driver_docs.html', context)
 
 
 @login_required(login_url='login')
 def driver_doc(req, pk):
     user = req.user
     curr_doc = DriverDocument.objects.get(id=pk)
+    rel_documents = DriverDocument.objects.filter(
+        driver=curr_doc.driver).exclude(id=pk)
     context = {
         "document_page": "active",
-        'title': 'driver_document',
+        'title': 'driver document',
         'curr_doc': curr_doc,
+        'rel_documents': rel_documents,
 
     }
-    return render(req, 'base/driver_doc.html', context)
+    return render(req, 'base/documents/driver_doc.html', context)
 
 
 @login_required(login_url='login')
@@ -351,10 +406,10 @@ def create_ddoc(req):
 
     context = {
         "create_document_page": "active",
-        "title": 'create_driver_document',
+        "title": 'create driver document',
         "form": form,
     }
-    return render(req, 'base/driver_doc.html', context)
+    return render(req, 'base/documents/driver_doc.html', context)
 
 
 @login_required(login_url='login')
@@ -376,15 +431,108 @@ def edit_ddoc(req, pk):
         "title": 'edit_driver_document',
         "form": form,
         "curr_doc": curr_doc}
-    return render(req, 'base/driver_doc.html', context)
+    return render(req, 'base/documents/driver_doc.html', context)
 
 
 @login_required(login_url='login')
 def delete_ddoc(req, pk):
-    doc = DriverDocument.objects.get(id=pk)
+    obj = DriverDocument.objects.get(id=pk)
     if req.user.role.sec_level < 3:
         return HttpResponseRedirect(req.META.get('HTTP_REFERER'))
-    doc.delete()
+    obj.delete()
+    return HttpResponseRedirect(req.META.get('HTTP_REFERER'))
+
+
+# -------------------------------- partner documents ------------------------------------
+
+@login_required(login_url='login')
+def partner_docs(req):
+    user = req.user
+    query = req.GET.get('query') if req.GET.get('query') != None else ''
+    documents = PartnerDocument.objects.filter(
+        Q(partner__first_name__icontains=query)
+        | Q(partner__last_name__icontains=query)
+        | Q(type__name__icontains=query)
+        | Q(issue_date__icontains=query)
+        | Q(expiry_date__icontains=query)
+    )
+    ordering = ['date_posted']
+
+    context = {
+        "partner_documents_page": "active",
+        'title': 'partner documents',
+        'documents': documents,
+        'ordering': ordering,
+    }
+    return render(req, 'base/documents/partner_docs.html', context)
+
+
+@login_required(login_url='login')
+def partner_doc(req, pk):
+    user = req.user
+    curr_doc = PartnerDocument.objects.get(id=pk)
+    rel_documents = PartnerDocument.objects.filter(
+        partner=curr_doc.partner).exclude(id=pk)
+    context = {
+        "document_page": "active",
+        'title': 'driver_document',
+        'curr_doc': curr_doc,
+        'rel_documents': rel_documents,
+
+    }
+    return render(req, 'base/documents/partner_doc.html', context)
+
+
+@login_required(login_url='login')
+def create_pdoc(req):
+    user = req.user
+    # if user.role.sec_level == 2:
+    #     return redirect(req.META.get('HTTP_REFERER', '/'))
+
+    form = PartnerDocumentForm()
+    if req.method == 'POST':
+        form = PartnerDocumentForm(req.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('documents')
+
+    context = {
+        "create_document_page": "active",
+        "title": 'create_driver_document',
+        "form": form,
+    }
+    return render(req, 'base/documents/partner_doc.html', context)
+
+
+@login_required(login_url='login')
+def edit_pdoc(req, pk):
+    user = req.user
+    curr_doc = DriverDocument.objects.get(id=pk)
+    if curr_doc.driver != user and user.role.sec_level < 3:
+        return redirect(req.META.get('HTTP_REFERER', '/'))
+
+    form = PartnerDocument(instance=curr_doc)
+    if req.method == 'POST':
+        form = PartnerDocumentForm(req.POST, instance=curr_doc)
+        if form.is_valid():
+            form.save()
+            return redirect('documents')
+
+    context = {
+        "edit_document_page": "active",
+        "title": 'edit_driver_document',
+        "form": form,
+        "curr_doc": curr_doc,
+    }
+    return render(req, 'base/documents/partner_doc.html', context)
+
+
+@login_required(login_url='login')
+def delete_pdoc(req, pk):
+    obj = PartnerDocument.objects.get(id=pk)
+    if req.user.role.sec_level < 3:
+        return HttpResponseRedirect(req.META.get('HTTP_REFERER'))
+    obj.delete()
     return HttpResponseRedirect(req.META.get('HTTP_REFERER'))
 
 
@@ -408,7 +556,7 @@ def vehicle_docs(req):
         'documents': documents,
         'ordering': ordering,
     }
-    return render(req, 'base/vehicle_docs.html', context)
+    return render(req, 'base/documents/vehicle_docs.html', context)
 
 
 login_required(login_url='login')
@@ -431,20 +579,23 @@ def create_vdoc(req):
         "title": 'create_vehicle_document',
         "form": form,
     }
-    return render(req, 'base/vehicle_doc.html', context)
+    return render(req, 'base/documents/vehicle_doc.html', context)
 
 
 @login_required(login_url='login')
 def vehicle_doc(req, pk):
     user = req.user
     curr_doc = VehicleDocument.objects.get(id=pk)
+    rel_documents = VehicleDocument.objects.filter(
+        vehicle=curr_doc.vehicle).exclude(id=pk)
     context = {
         "document_page": "active",
         'title': 'vehicle_document',
         'curr_doc': curr_doc,
+        'rel_documents': rel_documents,
 
     }
-    return render(req, 'base/vehicle_doc.html', context)
+    return render(req, 'base/documents/vehicle_doc.html', context)
 
 
 @login_required(login_url='login')
@@ -465,15 +616,15 @@ def edit_vdoc(req, pk):
         "title": 'edit_vehicle_document',
         "form": form,
         "curr_doc": curr_doc}
-    return render(req, 'base/vehicle_doc.html', context)
+    return render(req, 'base/documents/vehicle_doc.html', context)
 
 
 @login_required(login_url='login')
 def delete_vdoc(req, pk):
-    doc = VehicleDocument.objects.get(id=pk)
+    obj = VehicleDocument.objects.get(id=pk)
     if req.user.role.sec_level < 3:
         return HttpResponseRedirect(req.META.get('HTTP_REFERER'))
-    doc.delete()
+    obj.delete()
     return HttpResponseRedirect(req.META.get('HTTP_REFERER'))
 
 
@@ -495,8 +646,8 @@ def incidents(req):
             Q(vehicle__plate_number__icontains=query)
             | Q(vehicle__model__icontains=query)
             | Q(vehicle__make__icontains=query)
-            | Q(driver__user__first_name__icontains=query)
-            | Q(driver__user__first_name__icontains=query)
+            | Q(driver__first_name__icontains=query)
+            | Q(driver__first_name__icontains=query)
         ).order_by('date_posted')
 
     context = {
@@ -561,6 +712,15 @@ def edit_incident(req, pk):
         "curr_incident": curr_incident
     }
     return render(req, 'base/incident.html', context)
+
+
+@login_required(login_url='login')
+def delete_incident(req, pk):
+    obj = Incident.objects.get(id=pk)
+    if req.user.role.sec_level < 3:
+        return HttpResponseRedirect(req.META.get('HTTP_REFERER'))
+    obj.delete()
+    return HttpResponseRedirect(req.META.get('HTTP_REFERER'))
 
 
 @login_required(login_url='login')

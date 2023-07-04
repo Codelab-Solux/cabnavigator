@@ -1,98 +1,96 @@
 {% extends 'main.html' %} {% load static %} {% block content %}
-<div class="px-8 w-full max-w-[1350px] mx-auto">
-  <!--------------------------------------- mini navbar --------------------------------------->
+<!--------------------------------------- mini navbar --------------------------------------->
 
-  <nav class="mx-auto py-2 flex gap-2 items-center text-xs w-full">
-    <a
-      class="p-2 hover:bg-gray-100 hover:text-blue-950 rounded-full transition ease-in duration-200"
-      href="{% url 'home' %}"
-      ><i class="fa-solid fa-house"></i>
-    </a>
-    /
-    <a
-      class="hover:text-blue-950 hover:underline transition ease-in duration-200"
-      href="{% url 'users' %}"
-      >Users</a
-    >
-    /
-    <span>{{profile.username}}</span>
-  </nav>
-  <!--------------------------------------- hero section --------------------------------------->
-
-  <div
-    class="flex flex-col md:flex-row justify-between gap-4 border border-4 border-blue-950 p-4 rounded-xl"
+<nav class="mx-auto py-2 flex gap-2 items-center text-xs w-full">
+  <a
+    class="p-2 hover:bg-gray-100 hover:text-blue-950 rounded-full transition ease-in duration-200"
+    href="{% url 'home' %}"
+    ><i class="fa-solid fa-house"></i>
+  </a>
+  /
+  <a
+    class="hover:text-blue-950 hover:underline transition ease-in duration-200"
+    href="{% url 'users' %}"
+    >Users</a
   >
-    <div class="flex flex-col h-full rounded-md overflow-hidden">
-      {% if not profile.image %}
-      <img
-        class="h-60 w-full object-cover"
-        src="{% static 'imgs/anon.png' %}"
-        alt="profile"
-      />
-      {% else %}
-      <img
-        class="h-60 w-full object-cover"
-        src="{{profile.image.url}}"
-        alt="profile"
-      />
-      {% endif %}
-      <div
-        class="bg-blue-950 h-full font-bold text-white flex flex-col text justify-between px-4 py-2"
-      >
-        <p>
-          <span>{{profile.last_name|title}} {{profile.first_name|title}} </span>
-        </p>
-        <p>
-          <span>{{profile.email}}</span>
-        </p>
-        <p>
-          <span>{{profile.phone}}</span>
-        </p>
-        <p>
-          <span>{{profile.role|title}}</span>
-        </p>
-      </div>
-    </div>
+  /
+  <span>{{profile.username}}</span>
+</nav>
+<!--------------------------------------- hero section --------------------------------------->
 
-    {% if form %}
-    <form
-      class="p-4 w-full bg-gray-200 rounded-md text-sm flex flex-col gap-4 lg:flex-row lg:flex-wrap"
-      method="POST"
-      action=""
-      enctype="multipart/form-data"
-    >
-      {% csrf_token %} {% for field in form %}
-      <div>
-        <h3 class="mb-1">{{field.label}}</h3>
-        {{field}}
-      </div>
-      {% endfor %}
-      <div class="p-4 h-20 bg-gray-200 rounded-xl flex gap-4 items-center">
-        <input
-          class="px-4 py-2 bg-blue-950 hover:bg-amber-400 text-white hover:text-black rounded-md cursor-pointer"
-          type="submit"
-          value="Enregistrer"
-        />
-        <a
-          class="bg-white px-4 py-2 rounded-md hover:bg-gray-700 hover:text-white"
-          href="{{request.META.HTTP_REFERER}}"
-        >
-          Cancel
-        </a>
-        {% if user.is_superuser %}
-        <a
-          class="px-4 py-2 rounded-md bg-red-500 text-white hover:animate-pulse"
-          id="delete_btn"
-          onclick="return confirm('Voulez vous supprimer le compte de cet utilisateur?')"
-          href="{% url 'delete_user' profile.id  %}"
-          >Supprimer ce compte<i
-            class="ml-2 fa-solid fa-trash hover:text-red-700"
-          ></i
-        ></a>
-        {% endif %}
-      </div>
-    </form>
+<div
+  class="flex flex-col md:flex-row justify-between gap-4 border border-4 border-blue-950 p-4 rounded-xl"
+>
+  <div class="flex flex-col h-full rounded-md overflow-hidden">
+    {% if not profile.image %}
+    <img
+      class="h-60 w-full object-cover"
+      src="{% static 'imgs/anon.png' %}"
+      alt="profile"
+    />
+    {% else %}
+    <img
+      class="h-60 w-full object-cover"
+      src="{{profile.image.url}}"
+      alt="profile"
+    />
     {% endif %}
+    <div
+      class="bg-blue-950 h-full font-bold text-white flex flex-col text justify-between px-4 py-2"
+    >
+      <p>
+        <span>{{profile.last_name|title}} {{profile.first_name|title}} </span>
+      </p>
+      <p>
+        <span>{{profile.email}}</span>
+      </p>
+      <p>
+        <span>{{profile.phone}}</span>
+      </p>
+      <p>
+        <span>{{profile.role|title}}</span>
+      </p>
+    </div>
   </div>
+
+  {% if form %}
+  <form
+    class="p-4 w-full bg-gray-200 rounded-md text-sm flex flex-col gap-4 lg:flex-row lg:flex-wrap"
+    method="POST"
+    action=""
+    enctype="multipart/form-data"
+  >
+    {% csrf_token %} {% for field in form %}
+    <div>
+      <h3 class="mb-1">{{field.label}}</h3>
+      {{field}}
+    </div>
+    {% endfor %}
+    <div class="p-4 h-20 bg-gray-200 rounded-xl flex gap-4 items-center">
+      <input
+        class="px-4 py-2 bg-blue-950 hover:bg-amber-400 text-white hover:text-black rounded-md cursor-pointer"
+        type="submit"
+        value="Enregistrer"
+      />
+      <a
+        class="bg-white px-4 py-2 rounded-md hover:bg-gray-700 hover:text-white"
+        href="{{request.META.HTTP_REFERER}}"
+      >
+        Cancel
+      </a>
+      {% if user.is_superuser %}
+      <a
+        class="px-4 py-2 rounded-md bg-red-500 text-white hover:animate-pulse"
+        id="delete_btn"
+        onclick="return confirm('Voulez vous supprimer le compte de cet utilisateur?')"
+        href="{% url 'delete_user' profile.id  %}"
+        >Supprimer ce compte<i
+          class="ml-2 fa-solid fa-trash hover:text-red-700"
+        ></i
+      ></a>
+      {% endif %}
+    </div>
+  </form>
+  {% endif %}
 </div>
 {% endblock %}

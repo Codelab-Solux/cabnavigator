@@ -1,101 +1,97 @@
 {% extends 'main.html' %} {% load static %} {% block content %}
-<div class="px-8 w-full max-w-[1350px] mx-auto min-h-screen">
-  <!--------------------------------------- mini navbar --------------------------------------->
+<!--------------------------------------- mini navbar --------------------------------------->
 
-  <nav
-    class="mx-auto mt-4 py-2 flex justify-between items-center gap-2 items-center text-xs w-full max-w-[1350px]"
-  >
-    <a
-      href="{% url 'create_incident' %}"
-      class="px-4 py-2 bg-black text-white hover:bg-amber-300 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
-      >Signaler un Incident<i class="fa-solid fa-plus ml-4"></i
-    ></a>
+<nav
+  class="mx-auto flex justify-between items-center gap-2 items-center text-xs w-full"
+>
+  <a
+    href="{% url 'create_incident' %}"
+    class="px-4 py-3 bg-black text-white hover:bg-amber-300 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    ><span class="hidden md:inline"> Signaler un Incident</span
+    ><i class="fa-solid fa-plus md:ml-4"></i
+  ></a>
 
-    <form
-      id="search_box"
-      class="w-[400px] max-w-xl flex flex-row justify-between"
+  <form id="search_box" class="w-full max-w-md flex flex-row justify-between">
+    <input
+      type="text"
+      name="query"
+      id="querier"
+      required
+      class="px-4 py-2 bg-white text-black w-full rounded-l-md outline-none"
+      placeholder="Recherchez..."
+    />
+    <button
+      class="group px-4 py-2 text-sm bg-black hover:bg-amber-300 text-white hover:text-black rounded-r-md transition duration-300 ease-in-out"
+      type="submit"
     >
-      <input
-        type="text"
-        name="query"
-        id="querier"
-        required
-        class="px-4 py-2 bg-white text-black w-full rounded-l-md outline-none"
-        placeholder="Recherchez..."
-      />
-      <button
-        class="group px-4 py-2 text-sm bg-black hover:bg-amber-300 text-white hover:text-black rounded-r-md transition duration-300 ease-in-out"
-        type="submit"
-      >
-        <i class="fa-solid fa-magnifying-glass"></i>
-      </button>
-    </form>
-  </nav>
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+  </form>
+</nav>
 
-  <!--------------------------------------- incidents --------------------------------------->
-  <section id="incidents" class="py-4 w-full text-left">
-    <div class="w-full mx-auto">
-      {% if not incidents %}
+<!--------------------------------------- incidents --------------------------------------->
+<section id="incidents" class="py-4 w-full text-left">
+  <div class="w-full mx-auto">
+    {% if not incidents %}
 
-      <!--------------------------------------- No data placeholder --------------------------------------->
-      <div
-        class="p-8 my-40 bg-gray-100 max-w-[400px] mx-auto rounded-md flex-col text-center"
-      >
-        <i class="fa-regular fa-folder-open text-7xl"></i>
-        <p class="mt-4">Aucune données disponible pour le moment</p>
-      </div>
-
-      {% else %}
-      <!--------------------------------------- incidents --------------------------------------->
-      <div
-        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
-      >
-        {% for obj in incidents %}
-        <div
-          class="relative flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
-        >
-          {% if obj.is_solved %}
-          <span
-            class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
-          >
-            Résolu
-          </span>
-          {% else %}
-          <span
-            class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
-          >
-            Non-résolu
-          </span>
-          {% endif %}
-
-          <a href="{% url 'incident' obj.id  %}">
-            {% if not obj.image %}
-            <img
-              class="h-40 w-full object-cover"
-              src="{% static 'imgs/totaled.jpg' %}"
-              alt="incident image"
-            />
-            {% else %}
-            <img
-              class="h-40 w-full object-cover"
-              src="{{obj.image.url}}"
-              alt="incident image"
-            />
-            {% endif %}
-            <div class="p-4 flex flex-col justify-between">
-              <h4 class="text-black text-md font-bold">
-                {{obj.vehicle.make}} {{obj.vehicle.model}}
-                [-{{obj.plate_number|upper}}-]
-              </h4>
-              <p class="py-2 text-sm">{{obj.year}}</p>
-            </div>
-          </a>
-        </div>
-        {% endfor %}
-      </div>
-      {% endif %}
+    <!--------------------------------------- No data placeholder --------------------------------------->
+    <div
+      class="p-8 my-40 bg-gray-100 max-w-[400px] mx-auto rounded-md flex-col text-center"
+    >
+      <i class="fa-regular fa-folder-open text-7xl"></i>
+      <p class="mt-4">Aucune données disponible pour le moment</p>
     </div>
-  </section>
-</div>
+
+    {% else %}
+    <!--------------------------------------- incidents --------------------------------------->
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+    >
+      {% for obj in incidents %}
+      <div
+        class="relative flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
+      >
+        {% if obj.is_solved %}
+        <span
+          class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
+        >
+          Résolu
+        </span>
+        {% else %}
+        <span
+          class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
+        >
+          Non-résolu
+        </span>
+        {% endif %}
+
+        <a href="{% url 'incident' obj.id  %}">
+          {% if not obj.image %}
+          <img
+            class="h-20 w-full object-cover"
+            src="{% static 'imgs/crash.jpg' %}"
+            alt="incident image"
+          />
+          {% else %}
+          <img
+            class="h-20 w-full object-cover"
+            src="{{obj.image.url}}"
+            alt="incident image"
+          />
+          {% endif %}
+          <div class="p-4 flex flex-col justify-between">
+            <h4 class="text-black text-md font-bold">
+              {{obj.vehicle.make}} {{obj.vehicle.model}}
+              [-{{obj.vehicle.plate_number|upper}}-]
+            </h4>
+            <p class="pt-2 text-sm">{{obj.date}} à {{obj.time}}</p>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
 
 {% endblock %}

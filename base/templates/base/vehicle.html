@@ -1,56 +1,67 @@
 {% extends 'main.html' %} {% load static %} {% block content %}
-<div class="px-8 w-full max-w-[1350px] mx-auto min-h-screen">
-  <!--------------------------------------- mini navbar --------------------------------------->
+<!--------------------------------------- mini navbar --------------------------------------->
+<nav
+  class="mb-4 mx-auto flex items-center gap-2 items-center text-xs w-full max-w-[1350px]"
+>
+  <a
+    href="{{request.META.HTTP_REFERER}}"
+    class="px-4 py-3 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    ><i class="fa-solid fa-arrow-left"></i
+  ></a>
   {% if user == curr_vehicle.owner and not form %}
-  <nav
-    class="mx-auto mt-4 py-2 flex justify-between items-center gap-2 items-center text-xs w-full max-w-[1350px]"
-  >
-    <a
-      href="{% url 'edit_vehicle' curr_vehicle.plate_number %}"
-      class="px-4 py-2 bg-black text-white hover:bg-amber-200 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
-      >Modifier le profile de mon véhicule<i
-        class="fa-solid fa-pen-to-square ml-4"
-      ></i
-    ></a>
-  </nav>
-  {% endif %} {% if not form %}
-  <!--------------------------------------- vehicle layout --------------------------------------->
-  <section class="my-6 flex flex-col justify-between items-start gap-8">
-    <div class="grid md:grid-cols-2 gap-8 w-full">
-      {% if not curr_vehicle.image %}
-      <img
-        class="h-80 border border-2 w-full rounded-md object-cover"
-        src="{% static 'imgs/taxi.jpg' %}"
-        alt="vehicle image"
-      />
-      {% else %}
-      <img
-        class="h-80 border border-2 w-full rounded-md object-cover"
-        src="{{curr_vehicle.image.url}}"
-        alt="vehicle image"
-      />
-      {% endif %}
-      <!--  -->
-      <div class="bg-black text-gray-300 text-sm p-8 rounded-md flex flex-col">
-        <h4 class="text-white text-xl font-bold flex items-center">
-          <!-- <i class="fa-solid fa-car lg:mr-2"></i> -->
-          {{curr_vehicle.make}} {{curr_vehicle.model}} {{curr_vehicle.year}}
-          <img class="mx-2 h-4" src="{{curr_vehicle.country.flag}}" />
-          ({{curr_vehicle.country}})
-        </h4>
-        <p class="py-2">Etat : {{curr_vehicle.state}}</p>
-        <p class="py-2">Couleur : {{curr_vehicle.color}}</p>
-        <p class="py-2">Fournisseurs : {{curr_vehicle.supplier}}</p>
-        <p class="py-2">Transmission : {{curr_vehicle.transmission}}</p>
-        <p class="py-2">
-          Immatriculation : {{curr_vehicle.plate_number|upper}}
-        </p>
-        <p class="py-2">
-          Numéro de série (VIN) : {{curr_vehicle.serial_number}}
-        </p>
-      </div>
-      <!--  -->
-      <!-- <div
+  <a
+    href="{% url 'edit_vehicle' curr_vehicle.plate_number %}"
+    class="px-4 py-2 bg-black text-white hover:bg-amber-200 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    >Modifier<i class="fa-solid fa-pen-to-square ml-4"></i
+  ></a>
+  {% endif %} {% if curr_vehicle and not form and user.role.sec_level >= 3 %}
+  <a
+    href="{% url 'edit_vehicle' curr_vehicle.plate_number %}"
+    class="px-4 py-3 bg-black text-white hover:bg-green-600 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    >Modifier<i class="fa-solid fa-pen-to-square ml-4"></i
+  ></a>
+  <a
+    href="{% url 'delete_vehicle' curr_vehicle.plate_number %}"
+    class="px-4 py-3 bg-black text-white hover:bg-red-700 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    >Supprimer<i class="fa-solid fa-trash ml-4"></i
+  ></a>
+  {% endif %}
+</nav>
+
+<!--------------------------------------- vehicle layout --------------------------------------->
+{% if not form %}
+<section class="my-4 flex flex-col justify-between items-start gap-8">
+  <div class="grid md:grid-cols-2 gap-8 w-full">
+    {% if not curr_vehicle.image %}
+    <img
+      class="h-80 border border-2 w-full rounded-md object-cover"
+      src="{% static 'imgs/corolla.jpg' %}"
+      alt="vehicle image"
+    />
+    {% else %}
+    <img
+      class="h-80 border border-2 w-full rounded-md object-cover"
+      src="{{curr_vehicle.image.url}}"
+      alt="vehicle image"
+    />
+    {% endif %}
+    <!--  -->
+    <div class="bg-black text-gray-300 text-sm p-8 rounded-md flex flex-col">
+      <h4 class="text-white text-xl font-bold flex items-center">
+        <!-- <i class="fa-solid fa-car lg:mr-2"></i> -->
+        {{curr_vehicle.make}} {{curr_vehicle.model}} {{curr_vehicle.year}}
+        <img class="mx-2 h-4" src="{{curr_vehicle.country.flag}}" />
+        ({{curr_vehicle.country}})
+      </h4>
+      <p class="py-2">Etat : {{curr_vehicle.state}}</p>
+      <p class="py-2">Couleur : {{curr_vehicle.color}}</p>
+      <p class="py-2">Fournisseurs : {{curr_vehicle.supplier}}</p>
+      <p class="py-2">Transmission : {{curr_vehicle.transmission}}</p>
+      <p class="py-2">Immatriculation : {{curr_vehicle.plate_number|upper}}</p>
+      <p class="py-2">Numéro de série (VIN) : {{curr_vehicle.serial_number}}</p>
+    </div>
+    <!--  -->
+    <!-- <div
         class="omni-calculator"
         data-calculator="finance/car-depreciation"
         data-width="300"
@@ -73,66 +84,318 @@
         </div>
       </div>
       <script async src="https://cdn.omnicalculator.com/sdk.js"></script> -->
-    </div>
+  </div>
+</section>
 
-    <!--------------------------------------- related vehicles --------------------------------------->
-
-    <div class="p-4 w-full bg-white h-40 max-w-[1350px] mx-auto rounded-md">
-      <h3 class="mb-2 text-gray-700 text-xl font-black">Voir plus</h3>
-    </div>
-  </section>
-
-  {% else %}
-
-  <section
-    class="mb-4 p-4 border border-2 border-gray-800 lg:p-8 w-full mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-8 rounded-md"
+<!--------------------------------------- related stuff --------------------------------------->
+<div
+  class="customtab mx-auto mb-4 p-1 bg-black rounded-md flex justify-between gap-1 w-full text-sm"
+>
+  <button
+    class="tablinks py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+    onclick="openTab(event, 'docs')"
+    id="defaultOpen"
   >
-    <!--------------------------------------- consultaion form -->
-    <div class="bg-gray-200 rounded-md mx-auto w-full rounded-lg text-sm">
-      <h3 class="mb-4 text-black text-3xl font-bold">
-        {% if not curr_vehicle %} Ajouter un nouveau véhicule {% else %}
-        Modifier de mon véhicule {% endif %}
-      </h3>
-      <form
-        class="w-full"
-        method="POST"
-        action=""
-        enctype="multipart/form-data"
-      >
-        {% csrf_token %}
-        <!--  -->
-        <div class="md:grid grid-cols-2 gap-4">
-          {% for field in form %}
-          <div>
-            <h3 class="mb-1">{{field.label}}</h3>
-            {{field}}
-          </div>
-          {% endfor %}
-        </div>
-        <div class="my-4 flex gap-4 items-end">
-          <input
-            class="px-8 py-2 bg-gray-700 hover:bg-black text-white rounded-md cursor-pointer"
-            type="submit"
-            value="Enregistrer"
-          />
-          <a
-            class="bg-white px-8 py-2 rounded-md hover:bg-red-700 hover:text-white"
-            href="{{request.META.HTTP_REFERER}}"
-          >
-            Annuler
-          </a>
-        </div>
-      </form>
+    <i class="fa-solid fa-folder-open lg:mr-2"></i>
+    <span class="hidden xl:inline">Documents</span>
+  </button>
+  <button
+    class="tablinks py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+    onclick="openTab(event, 'payments')"
+  >
+    <i class="fa-solid fa-arrow-down lg:mr-2"></i>
+    <span class="hidden xl:inline">Gains</span>
+  </button>
+  <button
+    class="tablinks py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+    onclick="openTab(event, 'expenses')"
+  >
+    <i class="fa-solid fa-arrow-up lg:mr-2"></i>
+    <span class="hidden xl:inline">Dépenses</span>
+  </button>
+  <button
+    class="tablinks py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+    onclick="openTab(event, 'incidents')"
+  >
+    <i class="fa-solid fa-burst lg:mr-2"></i>
+    <span class="hidden xl:inline">Incidents</span>
+  </button>
+</div>
+<!--------------------------------------- related documents --------------------------------------->
+<section id="docs" class="tabcontent w-full bg-white p-6 mt-4 rounded-md">
+  {% if user.role.sec_level >= 1 %}
+  <a
+    href="{% url 'create_vdoc' %}"
+    class="px-4 py-2 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
+    >Ajouter un document<i class="fa-solid fa-plus ml-4"></i
+  ></a>
+  {% endif %}
+  <div class="w-full mx-auto my-8">
+    {% if not docs %}
+    <!--------------------------------------- No data placeholder --------------------------------------->
+    <div
+      class="p-8 my-40 bg-gray-100 max-w-[400px] mx-auto rounded-md flex-col text-center"
+    >
+      <i class="fa-regular fa-folder-open text-7xl"></i>
+      <p class="mt-4">Aucune données disponible pour le moment</p>
     </div>
 
-    <img
-      class="w-full h-full rounded-md object-cover"
-      src="{% static 'imgs/taxi.jpg' %}"
-      alt="consultaion image"
-    />
-  </section>
+    {% else %}
+    <!--------------------------------------- v_docs --------------------------------------->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {% for obj in docs %}
+      <div
+        class="relative flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
+      >
+        {% if obj.is_valid %}
+        <span
+          class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
+        >
+          Valid
+        </span>
+        {% else %}
+        <span
+          class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
+        >
+          Invalid
+        </span>
+        {% endif %}
+        <a href="{% url 'vehicle_doc' obj.id  %}">
+          <div class="p-4 flex flex-col justify-between">
+            <h4 class="text-black text-md font-bold">{{obj.type.name}}</h4>
+            <p class="pt-2 text-sm">
+              {{obj.vehicle.make}} {{obj.vehicle.model}}
+              [-{{obj.vehicle.plate_number}}-]
+            </p>
+            <p class="pt-2 text-sm">
+              {{obj.issue_date.date}} - {{obj.expiry_date.date}}
+            </p>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
 
+<!--------------------------------------- related payments --------------------------------------->
+<section id="payments" class="tabcontent w-full bg-white p-6 mt-4 rounded-md">
+  {% if user.role.sec_level >= 1 %}
+  <a
+    href="{% url 'create_payment' %}"
+    class="px-4 py-2 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
+    >Ajouter un document<i class="fa-solid fa-plus ml-4"></i
+  ></a>
   {% endif %}
-</div>
+  <div class="w-full mx-auto my-8">
+    {% if not payments %}
+    <!--------------------------------------- No data placeholder --------------------------------------->
+    <div
+      class="p-8 my-40 bg-gray-100 max-w-[400px] mx-auto rounded-md flex-col text-center"
+    >
+      <i class="fa-regular fa-folder-open text-7xl"></i>
+      <p class="mt-4">Aucune données disponible pour le moment</p>
+    </div>
 
-{% endblock %}
+    {% else %}
+    <!--------------------------------------- v_docs --------------------------------------->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {% for obj in payments %}
+      <div
+        class="relative flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
+      >
+        {% if obj.is_audited %}
+        <span
+          class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
+        >
+          Audité
+        </span>
+        {% else %}
+        <span
+          class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
+        >
+          Non-audité
+        </span>
+        {% endif %}
+        <a href="{% url 'payment' obj.id  %}">
+          <div class="p-4 flex flex-col justify-between">
+            <h4 class="text-black text-md font-bold">{{obj.amount}} CFA</h4>
+            <p class="pt-2 text-sm">
+              {{obj.vehicle.make}} {{obj.vehicle.model}}
+              [-{{obj.vehicle.plate_number}}-]
+            </p>
+            <p class="pt-2 text-sm">
+              {{obj.vehicle.last_name}} {{obj.vehicle.first_name}}
+            </p>
+            <p class="pt-2 text-sm">{{obj.date_paid}}</p>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<!--------------------------------------- related expenses --------------------------------------->
+<section id="expenses" class="tabcontent w-full bg-white p-6 mt-4 rounded-md">
+  {% if user.role.sec_level >= 1 %}
+  <a
+    href="{% url 'create_payment' %}"
+    class="px-4 py-2 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
+    >Ajouter un document<i class="fa-solid fa-plus ml-4"></i
+  ></a>
+  {% endif %}
+  <div class="w-full mx-auto my-8">
+    {% if not expenses %}
+    <!--------------------------------------- No data placeholder --------------------------------------->
+    <div
+      class="p-8 my-40 bg-gray-100 max-w-[400px] mx-auto rounded-md flex-col text-center"
+    >
+      <i class="fa-regular fa-folder-open text-7xl"></i>
+      <p class="mt-4">Aucune données disponible pour le moment</p>
+    </div>
+
+    {% else %}
+    <!--------------------------------------- v_docs --------------------------------------->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {% for obj in expenses %}
+      <div
+        class="relative flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
+      >
+        {% if obj.is_audited %}
+        <span
+          class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
+        >
+          Audité
+        </span>
+        {% else %}
+        <span
+          class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
+        >
+          Non-audité
+        </span>
+        {% endif %}
+        <a href="{% url 'v_expense' obj.id  %}">
+          <div class="p-4 flex flex-col justify-between">
+            <h4 class="text-black text-md font-bold">
+              {{obj.title}} à {{obj.amount}} CFA
+            </h4>
+            <p class="pt-2 text-sm">
+              {{obj.vehicle.make}} {{obj.vehicle.model}}
+              [-{{obj.vehicle.plate_number}}-]
+            </p>
+            <p class="pt-2 text-sm">
+              {{obj.vehicle.last_name}} {{obj.vehicle.first_name}}
+            </p>
+            <p class="pt-2 text-sm">{{obj.date}}, {{obj.time}}</p>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<!--------------------------------------- related incidents --------------------------------------->
+<section id="incidents" class="tabcontent w-full bg-white p-6 mt-4 rounded-md">
+  {% if user.role.sec_level >= 1 %}
+  <a
+    href="{% url 'create_incident' %}"
+    class="px-4 py-2 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
+    >Ajouter un document<i class="fa-solid fa-plus ml-4"></i
+  ></a>
+  {% endif %}
+  <div class="w-full mx-auto my-8">
+    {% if not incidents %}
+    <!--------------------------------------- No data placeholder --------------------------------------->
+    <div
+      class="p-8 my-40 bg-gray-100 max-w-[400px] mx-auto rounded-md flex-col text-center"
+    >
+      <i class="fa-regular fa-folder-open text-7xl"></i>
+      <p class="mt-4">Aucune données disponible pour le moment</p>
+    </div>
+
+    {% else %}
+    <!--------------------------------------- v_docs --------------------------------------->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {% for obj in incidents %}
+      <div
+        class="relative flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
+      >
+        {% if obj.is_solved %}
+        <span
+          class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
+        >
+          Résolu
+        </span>
+        {% else %}
+        <span
+          class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
+        >
+          Non-résolu
+        </span>
+        {% endif %}
+
+        <a href="{% url 'incident' obj.id  %}">
+          <div class="p-4 flex flex-col justify-between">
+            <h4 class="text-black text-md font-bold">{{obj.title}}</h4>
+            <p class="pt-2 text-sm">
+              {{obj.vehicle.make}} {{obj.vehicle.model}}
+              [-{{obj.vehicle.plate_number|upper}}-]
+            </p>
+            <p class="pt-2 text-sm">{{obj.date}}, {{obj.time}}</p>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+{% else %}
+<section class="mt-4 p-4 lg:p-8 bg-white w-full mx-auto rounded-md text-sm">
+  <h3 class="mb-4 text-black text-2xl font-bold">
+    {% if not curr_vehicle %}
+    <!--  -->
+    Ajouter un nouveau véhicule
+    <!--  -->
+    {% else %} Modifier de mon véhicule
+    <!--  -->
+    {% endif %}
+  </h3>
+  <form
+    class="w-full flex flex-col justify-between gap-6"
+    method="POST"
+    action=""
+    enctype="multipart/form-data"
+  >
+    {% csrf_token %}
+    <!--  -->
+    <div class="flex flex-col md:flex-row flex-wrap gap-5">
+      {% for field in form %}
+      <div>
+        <h3 class="mb-1">{{field.label}}</h3>
+        {{field}}
+      </div>
+      {% endfor %}
+    </div>
+    <div class="my-4 flex gap-4 items-end">
+      <input
+        class="px-8 py-2 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md cursor-pointer"
+        type="submit"
+        value="Enregistrer"
+      />
+      <a
+        class="bg-gray-200 px-8 py-2 rounded-md hover:bg-red-700 hover:text-white"
+        href="{{request.META.HTTP_REFERER}}"
+      >
+        Annuler
+      </a>
+    </div>
+  </form>
+</section>
+{% endif %} {% endblock %}

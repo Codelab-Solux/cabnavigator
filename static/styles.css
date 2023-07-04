@@ -13,8 +13,8 @@ html {
 }
 
 .active {
-  background: #27272a;
-  color: white;
+  background: #fcd34d;
+  color: black;
   padding: 2px;
   border-radius: 1rem;
 }

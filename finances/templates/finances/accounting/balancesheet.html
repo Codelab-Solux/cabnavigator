@@ -1,142 +1,138 @@
 {% extends 'main.html' %} {% load static %} {% block content %}
-<div class="p-8 w-full max-w-[1350px] mx-auto min-h-screen flex flex-col gap-6">
-  <!--------------------------------------- hero section --------------------------------------->
-  <section class="w-full">
-    <div class="bg-black p-6 w-full h-60 rounded-md overflow-hidden">
-      <h1 class="text-white text-3xl font-bold">Situation financiere</h1>
+<!--------------------------------------- hero section --------------------------------------->
+<section class="w-full">
+  <div class="bg-black p-6 w-full h-60 rounded-md overflow-hidden">
+    <h1 class="text-white text-3xl font-bold">Situation financiere</h1>
 
-      <p class="mt-4 text-gray-200">
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Assumenda unde
-        tempore, voluptas exercitationem dignissimos asperiores qui harum
-        corrupti consequuntur ratione.
+    <p class="mt-4 text-gray-200">
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Assumenda unde
+      tempore, voluptas exercitationem dignissimos asperiores qui harum corrupti
+      consequuntur ratione.
+    </p>
+  </div>
+</section>
+
+<!--------------------------------------- banlance links --------------------------------------->
+<section class="mt-6 md:grid grid-cols-2 gap-6 lg:grid-cols-3">
+  <a
+    href="{% url 'payments' %}"
+    class="p-8 w-full bg-white mx-auto flex flex-col justify-between items-center gap-4 rounded-md group"
+  >
+    <i class="fa-solid fa-arrow-down text-3xl text-green-600"></i>
+
+    <p>Paiements Entrants</p>
+    <span class="font-bold text-lg text-black">{{payments}}</span>
+    <div class="flex gap-4 text-black">
+      <span class="bg-green-50 p-2 rounded-md">Minimum {{min_credit}} CFA</span>
+      <span class="bg-green-200 p-2 rounded-md"
+        >Moyenne {{avg_credit}} CFA</span
+      >
+      <span class="bg-green-400 p-2 rounded-md"
+        >Maximum {{max_credit}} CFA</span
+      >
+    </div>
+    <p class="bg-green-600 p-2 rounded-md w-full text-white font-bold">
+      Total {{ledger_credit}} CFA
+    </p>
+  </a>
+  <a
+    href="{% url 'payouts' %}"
+    class="p-8 w-full bg-white mx-auto flex flex-col justify-between items-center gap-4 rounded-md group"
+  >
+    <i class="fa-solid fa-arrow-up text-3xl text-red-600"></i>
+
+    <p>Paiements Sortants</p>
+    <span class="font-bold text-lg text-black">{{payouts}}</span>
+    <div class="flex gap-4 text-black">
+      <span class="bg-red-50 p-2 rounded-md">Minimum {{min_debit}} CFA</span>
+      <span class="bg-red-200 p-2 rounded-md">Moyenne {{avg_debit}} CFA</span>
+      <span class="bg-red-400 p-2 rounded-md">Maximum {{max_debit}} CFA</span>
+    </div>
+    <p class="bg-red-600 p-2 rounded-md w-full text-white font-bold">
+      Total {{ledger_debit}} CFA
+    </p>
+  </a>
+  <a
+    href="{% url 'ledgers' %}"
+    class="p-8 w-full bg-white mx-auto flex flex-col justify-between items-center gap-4 rounded-md group"
+  >
+    <i
+      class="fa-solid fa-up-right-and-down-left-from-center text-3xl text-blue-600"
+    ></i>
+
+    <p>Autres Transactions</p>
+    <span class="font-bold text-lg text-black">{{ledgers}}</span>
+    <div class="flex gap-4 text-black">
+      <span class="bg-blue-100 p-2 rounded-md"
+        >Total Entrées {{ledger_credit}} CFA</span
+      >
+      <span class="bg-blue-300 p-2 rounded-md"
+        >Total Sorties {{ledger_debit}} CFA</span
+      >
+    </div>
+    <p class="bg-blue-600 p-2 rounded-md w-full text-white font-bold">
+      Solde {{ledger_balance}} CFA
+    </p>
+  </a>
+</section>
+<!--------------------------------------- expenses links --------------------------------------->
+<section class="mt-6 md:grid grid-cols-2 gap-6 lg:grid-cols-3">
+  <a
+    href="{% url 'd_expenses' %}"
+    class="p-8 w-full bg-white mx-auto flex justify-between items-center gap-4 rounded-md group"
+  >
+    <i class="fa-solid fa-users text-3xl text-black"></i>
+    <div>
+      <p>Dépenses des conducteurs</p>
+      <p>
+        Nombre de dépenses :<span class="font-bold text-black ml-2"
+          >{{d_expenses}}</span
+        >
+      </p>
+      <p>
+        Total des dépenses :<span class="font-bold text-black ml-2"
+          >{{total_d_expenses}}</span
+        >
       </p>
     </div>
-  </section>
-
-  <!--------------------------------------- banlance links --------------------------------------->
-  <section class="md:grid grid-cols-2 gap-6 lg:grid-cols-3">
-    <a
-      href="{% url 'payments' %}"
-      class="p-8 w-full bg-white mx-auto flex flex-col justify-between items-center gap-4 rounded-md group"
-    >
-      <i class="fa-solid fa-arrow-down text-3xl text-green-600"></i>
-
-      <p>Paiements Entrants</p>
-      <span class="font-bold text-lg text-black">{{payments}}</span>
-      <div class="flex gap-4 text-black">
-        <span class="bg-green-50 p-2 rounded-md"
-          >Minimum {{min_credit}} CFA</span
+  </a>
+  <a
+    href="{% url 'v_expenses' %}"
+    class="p-8 w-full bg-white mx-auto flex justify-between items-center gap-4 rounded-md group"
+  >
+    <i class="fa-solid fa-taxi text-3xl text-black"></i>
+    <div>
+      <p>Dépenses des vehicules</p>
+      <p>
+        Nombre de dépenses :<span class="font-bold text-black ml-2"
+          >{{v_expenses}}</span
         >
-        <span class="bg-green-200 p-2 rounded-md"
-          >Moyenne {{avg_credit}} CFA</span
-        >
-        <span class="bg-green-400 p-2 rounded-md"
-          >Maximum {{max_credit}} CFA</span
-        >
-      </div>
-      <p class="bg-green-600 p-2 rounded-md w-full text-white font-bold">
-        Total {{ledger_credit}} CFA
       </p>
-    </a>
-    <a
-      href="{% url 'payouts' %}"
-      class="p-8 w-full bg-white mx-auto flex flex-col justify-between items-center gap-4 rounded-md group"
-    >
-      <i class="fa-solid fa-arrow-up text-3xl text-red-600"></i>
-
-      <p>Paiements Sortants</p>
-      <span class="font-bold text-lg text-black">{{payouts}}</span>
-      <div class="flex gap-4 text-black">
-        <span class="bg-red-50 p-2 rounded-md">Minimum {{min_debit}} CFA</span>
-        <span class="bg-red-200 p-2 rounded-md">Moyenne {{avg_debit}} CFA</span>
-        <span class="bg-red-400 p-2 rounded-md">Maximum {{max_debit}} CFA</span>
-      </div>
-      <p class="bg-red-600 p-2 rounded-md w-full text-white font-bold">
-        Total {{ledger_debit}} CFA
-      </p>
-    </a>
-    <a
-      href="{% url 'ledgers' %}"
-      class="p-8 w-full bg-white mx-auto flex flex-col justify-between items-center gap-4 rounded-md group"
-    >
-      <i
-        class="fa-solid fa-up-right-and-down-left-from-center text-3xl text-blue-600"
-      ></i>
-
-      <p>Autres Transactions</p>
-      <span class="font-bold text-lg text-black">{{ledgers}}</span>
-      <div class="flex gap-4 text-black">
-        <span class="bg-blue-100 p-2 rounded-md"
-          >Total Entrées {{ledger_credit}} CFA</span
+      <p>
+        Total des dépenses :<span class="font-bold text-black ml-2"
+          >{{total_d_expenses}}</span
         >
-        <span class="bg-blue-300 p-2 rounded-md"
-          >Total Sorties {{ledger_debit}} CFA</span
-        >
-      </div>
-      <p class="bg-blue-600 p-2 rounded-md w-full text-white font-bold">
-        Solde {{ledger_balance}} CFA
       </p>
-    </a>
-  </section>
-  <!--------------------------------------- expenses links --------------------------------------->
-  <section class="md:grid grid-cols-2 gap-6 lg:grid-cols-3">
-    <a
-      href="{% url 'd_expenses' %}"
-      class="p-8 w-full bg-white mx-auto flex justify-between items-center gap-4 rounded-md group"
-    >
-      <i class="fa-solid fa-users text-3xl text-black"></i>
-      <div>
-        <p>Dépenses des conducteurs</p>
-        <p>
-          Nombre de dépenses :<span class="font-bold text-black ml-2"
-            >{{d_expenses}}</span
-          >
-        </p>
-        <p>
-          Total des dépenses :<span class="font-bold text-black ml-2"
-            >{{total_d_expenses}}</span
-          >
-        </p>
-      </div>
-    </a>
-    <a
-      href="{% url 'v_expenses' %}"
-      class="p-8 w-full bg-white mx-auto flex justify-between items-center gap-4 rounded-md group"
-    >
-      <i class="fa-solid fa-taxi text-3xl text-black"></i>
-      <div>
-        <p>Dépenses des vehicules</p>
-        <p>
-          Nombre de dépenses :<span class="font-bold text-black ml-2"
-            >{{v_expenses}}</span
-          >
-        </p>
-        <p>
-          Total des dépenses :<span class="font-bold text-black ml-2"
-            >{{total_d_expenses}}</span
-          >
-        </p>
-      </div>
-    </a>
-    <a
-      href="{% url 'g_expenses' %}"
-      class="p-8 w-full bg-white mx-auto flex justify-between items-center gap-4 rounded-md group"
-    >
-      <i class="fa-solid fa-landmark text-3xl text-black"></i>
-      <div>
-        <p>Dépenses de la compagnie</p>
-        <p>
-          Nombre de dépenses :<span class="font-bold text-black ml-2"
-            >{{g_expenses}}</span
-          >
-        </p>
-        <p>
-          Total des dépenses :<span class="font-bold text-black ml-2"
-            >{{total_d_expenses}}</span
-          >
-        </p>
-      </div>
-    </a>
-  </section>
-</div>
+    </div>
+  </a>
+  <a
+    href="{% url 'g_expenses' %}"
+    class="p-8 w-full bg-white mx-auto flex justify-between items-center gap-4 rounded-md group"
+  >
+    <i class="fa-solid fa-landmark text-3xl text-black"></i>
+    <div>
+      <p>Dépenses de la compagnie</p>
+      <p>
+        Nombre de dépenses :<span class="font-bold text-black ml-2"
+          >{{g_expenses}}</span
+        >
+      </p>
+      <p>
+        Total des dépenses :<span class="font-bold text-black ml-2"
+          >{{total_d_expenses}}</span
+        >
+      </p>
+    </div>
+  </a>
+</section>
 {% endblock %}

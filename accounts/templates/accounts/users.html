@@ -1,116 +1,128 @@
 {% extends 'main.html' %} {% load static %} {% block content %}
-<div class="px-8 w-full max-w-[1350px] mx-auto">
-  <!--------------------------------------- mini navbar --------------------------------------->
+<!--------------------------------------- mini navbar --------------------------------------->
 
-  <nav class="mx-auto py-2 flex gap-2 items-center text-xs w-full">
-    <a
-      class="p-2 hover:bg-gray-100 hover:text-blue-950 rounded-full transition ease-in duration-200"
-      href="{% url 'home' %}"
-      ><i class="fa-solid fa-house"></i>
-    </a>
-    /
-    <a
-      class="hover:text-blue-950 hover:underline transition ease-in duration-200"
-      href="{% url 'users' %}"
-      >Users</a
+<nav
+  class="mx-auto flex flex-col md:flex-row justify-between items-center gap-2 items-center text-xs w-full max-w-[1350px]"
+>
+  {% if user.role.sec_level >= 1 %}
+  <a
+    href="{% url 'create_user' %}"
+    class="px-4 py-2 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
+    >Ajouter un utilisateur<i class="fa-solid fa-plus ml-4"></i
+  ></a>
+  {% endif %}
+  <!--------------------------------------- search form --------------------------------------->
+  <form
+    id="search_box"
+    class="w-[400px] max-w-xl flex flex-row justify-between"
+  >
+    <input
+      type="text"
+      name="query"
+      id="querier"
+      required
+      class="px-4 py-2 bg-white text-black w-full rounded-l-md outline-none"
+      placeholder="Recherchez..."
+    />
+    <button
+      class="group px-4 py-2 text-sm bg-black hover:bg-amber-300 text-white hover:text-black rounded-r-md transition duration-300 ease-in-out"
+      type="submit"
     >
-  </nav>
-  <!--------------------------------------- hero section --------------------------------------->
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+  </form>
+</nav>
+<!--------------------------------------- hero section --------------------------------------->
 
-  <div class="mb-4 border border-4 border-blue-950 p-4 rounded-xl">
-    <h1
-      class="mb-2 text-black text-lg font-bold bg-gray-100 px-4 py-2 rounded-lg"
-    >
-      Nouveaux Users
-    </h1>
+<div class="my-4 bg-white p-6 rounded-md">
+  <h1 class="mb-2 text-black text-lg font-bold">Nouveaux Utilisateurs</h1>
 
-    <div class="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-4">
-      {% for e in users %}
-      <a href="{% url 'user_profile' e.id  %}">
-        <div
-          class="p-4 text-gray-500 bg-gray-100 h-50 rounded-md hover:shadow-md"
-        >
-          <h3 class="font-bold text-black text-md">
-            {{e.last_name}} {{e.first_name}}
-          </h3>
-          <h3 class="font-bold text-indigo-900 text-sm">@{{e.username}}</h3>
-          <h3 class="text-sm">{{e.email}}</h3>
-          <h3 class="text-sm">{{e.tel}}</h3>
-        </div>
-      </a>
-      {% endfor %}
-    </div>
-  </div>
-  <div class="mt-6 flex flex-col lg:flex-row justify-between gap-8">
-    <div class="flex flex-col w-full">
-      <h3 class="mb-2 text-black text-lg font-bold">Table des Utilisateurs</h3>
-      <div class="overflow-auto rounded-xl text-sm bg-gray-50">
-        <table class="w-full text-left db-table">
-          <thead class="bg-black text-white">
-            <tr>
-              <th class="p-4 text-sm">Pseudo</th>
-              <th class="p-4 text-sm">Nom</th>
-              <th class="p-4 text-sm">Prenoms</th>
-              <th class="p-4 text-sm">Adresse mail</th>
-              <th class="p-4 text-sm">Telephone</th>
-              <th class="p-4 text-sm">Role</th>
-              <th class="p-4 text-sm">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for e in users %}
-            <tr
-              class="text-gray-500 hover:text-black hover:bg-white hover:shadow-xl transition-all duration-50"
-            >
-              <td class="p-3">{{e.username}}</td>
-              <td class="p-3">{{e.first_name}}</td>
-              <td class="p-3">{{e.last_name}}</td>
-              <td class="p-3">{{e.email}}</td>
-              <td class="p-3">{{e.phone}}</td>
-              <td class="p-3">{{e.role}}</td>
-              <td class="flex justify-around p-3">
-                <a href="{% url 'user_profile' e.id  %}"
-                  ><i class="fa-solid fa-eye"></i
-                ></a>
-                {% if user.role.sec_level == 6 %}
-                <a
-                  id="delete_btn"
-                  onclick="return confirm('Voulez vous supprimer le compte de cet utilisateur?')"
-                  href="{% url 'delete_user' e.id  %}"
-                  ><i class="fa-solid fa-trash hover:text-red-700"></i
-                ></a>
-                {% endif %}
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <!-- user creation form -->
-    {% if request.user.role == 'admin' %}
-    <div class="flex flex-col xs:w-full lg:w-2/6">
-      <h3 class="mb-2 text-black text-lg font-bold">Ajouter un utilisateur</h3>
-      <form
-        class="p-4 w-full bg-gray-100 rounded-lg text-sm"
-        method="POST"
-        action=""
-        enctype="multipart/form-data"
+  <div class="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+    {% for e in users %}
+    <a href="{% url 'user_profile' e.id  %}">
+      <div
+        class="p-4 text-gray-500 bg-gray-100 h-50 rounded-md hover:shadow-md"
       >
-        {% csrf_token %} {% for field in form %}
-        <div>
-          <h3 class="mb-1">{{field.label}}</h3>
-          {{field}}
-        </div>
-        {% endfor %}
-        <input
-          class="mt-4 px-4 py-2 bg-black hover:bg-indigo-900 text-white rounded-md cursor-pointer"
-          type="submit"
-          value="Enregistrer"
-        />
-      </form>
-    </div>
-    {% endif %}
+        <h3 class="font-bold text-black text-md">
+          {{e.last_name}} {{e.first_name}}
+        </h3>
+        <h3 class="font-bold text-indigo-900 text-sm">@{{e.username}}</h3>
+        <h3 class="text-sm">{{e.email}}</h3>
+        <h3 class="text-sm">{{e.tel}}</h3>
+      </div>
+    </a>
+    {% endfor %}
   </div>
+</div>
+<div class="mt-6 flex flex-col lg:flex-row justify-between gap-8">
+  <div class="flex flex-col w-full">
+    <h3 class="mb-2 text-black text-lg font-bold">Table des Utilisateurs</h3>
+    <div class="overflow-auto rounded-xl text-sm bg-gray-50">
+      <table class="w-full text-left db-table">
+        <thead class="bg-black text-white">
+          <tr>
+            <th class="p-4 text-sm">Pseudo</th>
+            <th class="p-4 text-sm">Nom</th>
+            <th class="p-4 text-sm">Prenoms</th>
+            <th class="p-4 text-sm">Adresse mail</th>
+            <th class="p-4 text-sm">Telephone</th>
+            <th class="p-4 text-sm">Role</th>
+            <th class="p-4 text-sm">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for e in users %}
+          <tr
+            class="text-gray-500 hover:text-black hover:bg-white hover:shadow-xl transition-all duration-50"
+          >
+            <td class="p-3">{{e.username}}</td>
+            <td class="p-3">{{e.first_name}}</td>
+            <td class="p-3">{{e.last_name}}</td>
+            <td class="p-3">{{e.email}}</td>
+            <td class="p-3">{{e.phone}}</td>
+            <td class="p-3">{{e.role}}</td>
+            <td class="flex justify-around p-3">
+              <a href="{% url 'user_profile' e.id  %}"
+                ><i class="fa-solid fa-eye"></i
+              ></a>
+              {% if user.role.sec_level == 6 %}
+              <a
+                id="delete_btn"
+                onclick="return confirm('Voulez vous supprimer le compte de cet utilisateur?')"
+                href="{% url 'delete_user' e.id  %}"
+                ><i class="fa-solid fa-trash hover:text-red-700"></i
+              ></a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- user creation form -->
+  {% if request.user.role == 'admin' %}
+  <div class="flex flex-col xs:w-full lg:w-2/6">
+    <h3 class="mb-2 text-black text-lg font-bold">Ajouter un utilisateur</h3>
+    <form
+      class="p-4 w-full bg-gray-100 rounded-lg text-sm"
+      method="POST"
+      action=""
+      enctype="multipart/form-data"
+    >
+      {% csrf_token %} {% for field in form %}
+      <div>
+        <h3 class="mb-1">{{field.label}}</h3>
+        {{field}}
+      </div>
+      {% endfor %}
+      <input
+        class="mt-4 px-4 py-2 bg-black hover:bg-indigo-900 text-white rounded-md cursor-pointer"
+        type="submit"
+        value="Enregistrer"
+      />
+    </form>
+  </div>
+  {% endif %}
 </div>
 {% endblock %}

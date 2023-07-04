@@ -202,6 +202,7 @@ def create_v_expense(req):
     form = VehicleExpenseForm()
     if req.method == 'POST':
         form = VehicleExpenseForm(req.POST)
+        # print(form.instance)
         if form.is_valid():
             form.save()
             return redirect('expenses')
@@ -295,6 +296,7 @@ def create_g_expense(req):
     form = GlobalExpenseForm()
     if req.method == 'POST':
         form = GlobalExpenseForm(req.POST)
+        form.instance.author = user
         if form.is_valid():
             form.save()
             return redirect('expenses')
@@ -354,6 +356,7 @@ def transactions(req):
     }
     return render(req, 'finances/transactions/index.html', context)
 
+
 # -------------------------------- driver payments ------------------------------------
 
 
@@ -361,6 +364,7 @@ def transactions(req):
 def payments(req):
     user = req.user
     payments = Payment.objects.all()
+    print('Payments page', payments)
     context = {
         "payments_page": "active",
         'title': 'payments',
@@ -713,3 +717,94 @@ def audit(req):
 
     }
     return render(req, 'finances/accounting/audit.html', context)
+
+
+# -------------------------------- partner dividends ------------------------------------
+
+
+@login_required(login_url='login')
+def dividends(req):
+    user = req.user
+    query = req.GET.get('query') if req.GET.get('query') != None else ''
+    dividends = Dividend.objects.filter(
+        Q(partner__last_name__icontains=query)
+        | Q(partner__first_name__icontains=query)
+        | Q(vehicle__make__icontains=query)
+        | Q(vehicle__model__icontains=query)
+        | Q(vehicle__plate_number__icontains=query)
+    ).order_by('date_paid')
+    context = {
+        "dividends_page": "active",
+        'title': 'vehicle dividends',
+        'dividends': dividends,
+
+    }
+    return render(req, 'finances/accounting/dividends.html', context)
+
+
+@login_required(login_url='login')
+def dividend(req, pk):
+    user = req.user
+    curr_dividend = Dividend.objects.get(id=pk)
+    rel_dividends = Dividend.objects.filter(
+        vehicle=curr_dividend.vehicle).exclude(id=pk)
+    context = {
+        "dividend_page": "active",
+        'title': 'driver_dividend',
+        'curr_dividend': curr_dividend,
+        'rel_dividends': rel_dividends,
+
+    }
+    return render(req, 'finances/accounting/dividend.html', context)
+
+
+@login_required(login_url='login')
+def create_dividend(req):
+    user = req.user
+    if user.role.sec_level < 3:
+        return redirect(req.META.get('HTTP_REFERER', '/'))
+
+    form = DividendForm()
+    if req.method == 'POST':
+        form = DividendForm(req.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('dividends')
+
+    context = {
+        "create_dividend_page": "active",
+        "title": 'create_dividends',
+        "form": form,
+    }
+    return render(req, 'finances/accounting/dividend.html', context)
+
+
+@login_required(login_url='login')
+def edit_dividend(req, pk):
+    user = req.user
+    curr_dividend = Dividend.objects.get(id=pk)
+    if not curr_dividend and user.role.sec_level < 3:
+        return redirect(req.META.get('HTTP_REFERER', '/'))
+
+    form = DividendForm(instance=curr_dividend)
+    if req.method == 'POST':
+        form = DividendForm(req.POST, instance=curr_dividend)
+        if form.is_valid():
+            form.save()
+            return redirect('dividends')
+
+    context = {
+        "edit_dividend_page": "active",
+        "title": 'edit_dividend',
+        "form": form,
+        "curr_dividend": curr_dividend}
+    return render(req, 'finances/accounting/dividend.html', context)
+
+
+@login_required(login_url='login')
+def delete_dividend(req, pk):
+    doc = Dividend.objects.get(id=pk)
+    if req.user.role.sec_level < 3:
+        return HttpResponseRedirect(req.META.get('HTTP_REFERER'))
+    doc.delete()
+    return HttpResponseRedirect(req.META.get('HTTP_REFERER'))

@@ -1,164 +1,453 @@
 {% extends 'main.html' %} {% load static %} {% block content %}
-<div class="px-8 w-full max-w-[1350px] mx-auto min-h-screen">
-  <!--------------------------------------- mini navbar --------------------------------------->
-  <nav
-    class="mx-auto mt-4 py-2 flex items-center gap-2 items-center text-xs w-full max-w-[1350px]"
-  >
-    {% if user == curr_driver.user and not form %}
-    <a
-      href="{% url 'edit_driver' curr_driver.id %}"
-      class="mb-4 px-4 py-2 bg-black text-white hover:bg-amber-200 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
-      >Modifier mon profile de conducteur<i
-        class="fa-solid fa-pen-to-square ml-4"
-      ></i
-    ></a>
-    {% elif user.role.sec_level >= 3 and not form %}
-    <a
-      href="{% url 'edit_driver' curr_driver.id %}"
-      class="mb-4 px-4 py-2 bg-black text-white hover:bg-amber-200 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
-      >Modifier le profile de ce conducteur<i
-        class="fa-solid fa-pen-to-square ml-4"
-      ></i
-    ></a>
-    {% elif user != curr_driver.user and not form %}
-    <a
-      href="{% url 'driver' curr_driver.id %}"
-      class="mb-4 px-4 py-2 text-black bg-white hover:bg-gray-100 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
-      >Contacter ce conducteur<i class="fa-solid fa-message ml-4"></i
-    ></a>
+<!--------------------------------------- mini navbar --------------------------------------->
+<nav
+  class="mx-auto flex items-center gap-2 items-center text-xs w-full max-w-[1350px]"
+>
+  <a
+    href="{{request.META.HTTP_REFERER}}"
+    class="mb-4 px-4 py-3 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    ><i class="fa-solid fa-arrow-left"></i
+  ></a>
+  {% if user == curr_driver.user and not form %}
+  <a
+    href="{% url 'edit_driver' curr_driver.id %}"
+    class="mb-4 px-4 py-3 bg-black text-white hover:bg-green-600 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    >Modifier<i class="fa-solid fa-pen-to-square ml-4"></i
+  ></a>
+  {% endif %} {% if curr_driver and not form and user.role.sec_level >= 3 %}
+  <a
+    href="{% url 'edit_driver' curr_driver.id %}"
+    class="mb-4 px-4 py-3 bg-black text-white hover:bg-green-600 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    >Modifier<i class="fa-solid fa-pen-to-square ml-4"></i
+  ></a>
+  <a
+    href="{% url 'delete_driver' curr_driver.id %}"
+    class="mb-4 px-4 py-3 bg-black text-white hover:bg-red-700 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    >Supprimer<i class="fa-solid fa-trash ml-4"></i
+  ></a>
+  {% endif %}
+</nav>
+
+{% if not form %}
+<!--------------------------------------- driver layout --------------------------------------->
+<section class="mb-4 flex flex-col justify-between items-start gap-8">
+  <div class="grid md:grid-cols-2 gap-8 w-full">
+    {% if not curr_driver.image %}
+    <img
+      class="h-80 border border-2 w-full rounded-md object-cover"
+      src="{% static 'imgs/dvr.jpg' %}"
+      alt="driver image"
+    />
+    {% else %}
+    <img
+      class="h-80 border border-2 w-full rounded-md object-cover"
+      src="{{curr_driver.image.url}}"
+      alt="driver image"
+    />
     {% endif %}
-  </nav>
+    <!--  -->
+    <div class="bg-black text-gray-300 text-sm p-8 rounded-md flex flex-col">
+      <h4 class="text-white text-xl font-bold flex items-center">
+        {{curr_driver.civility}} {{curr_driver.user.last_name}}
+        {{curr_driver.user.first_name}}
+        <img class="mx-2 h-4" src="{{curr_driver.nationality.flag}}" />
+        ({{curr_driver.nationality}})
+      </h4>
+      <p class="py-2">{{curr_driver.city}}</p>
 
-  {% if not form %}
-  <!--------------------------------------- driver layout --------------------------------------->
-  <section class="mb-4 flex flex-col justify-between items-start gap-8">
-    <div class="grid md:grid-cols-2 gap-8 w-full">
-      {% if not curr_driver.image %}
-      <img
-        class="h-80 border border-2 w-full rounded-md object-cover"
-        src="{% static 'imgs/dvr.jpg' %}"
-        alt="driver image"
-      />
-      {% else %}
-      <img
-        class="h-80 border border-2 w-full rounded-md object-cover"
-        src="{{curr_driver.image.url}}"
-        alt="driver image"
-      />
-      {% endif %}
-      <!--  -->
-      <div class="bg-black text-gray-300 text-sm p-8 rounded-md flex flex-col">
-        <h4 class="text-white text-xl font-bold flex items-center">
-          {{curr_driver.civility}} {{curr_driver.user.last_name}}
-          {{curr_driver.user.first_name}}
-          <img class="mx-2 h-4" src="{{curr_driver.nationality.flag}}" />
-          ({{curr_driver.nationality}})
-        </h4>
-        <p class="py-2">{{curr_driver.city}}</p>
-
-        <div class="flex flex-col md:flex-row gap-4">
-          <div class="flex flex-col w-60">
-            <h4 class="mb-2 text-white text-lg font-bold">Contacts</h4>
-            <a
-              href="tel:{{curr_driver.tel}}"
-              target="_blank"
-              class="rounded-full bg-transparent hover:text-amber-400"
-            >
-              <i class="fa-solid fa-phone mr-2"></i>{{curr_driver.phone}}
-            </a>
-            <!-- <p class="py-2">
+      <div class="flex flex-col md:flex-row gap-4">
+        <div class="flex flex-col w-60">
+          <h4 class="mb-2 text-white text-lg font-bold">Contacts</h4>
+          <a
+            href="tel:{{curr_driver.tel}}"
+            target="_blank"
+            class="rounded-full bg-transparent hover:text-amber-400"
+          >
+            <i class="fa-solid fa-phone mr-2"></i>{{curr_driver.phone}}
+          </a>
+          <!-- <p class="py-2">
               <i class="fa-brands fa-telegram mr-2"></i>{{curr_driver.bio}}
             </p> -->
-          </div>
-        </div>
-
-        <div class="flex gap-4">
-          <a
-            href="{{curr_driver.facebook_link}}"
-            target="_blank"
-            class="rounded-full bg-transparent hover:text-amber-400"
-          >
-            <i class="text-xl fa-brands fa-facebook"></i>
-          </a>
-          <a
-            href="{{curr_driver.linkedin_link}}"
-            target="_blank"
-            class="rounded-full bg-transparent hover:text-amber-400"
-          >
-            <i class="text-xl fa-brands fa-linkedin-in"></i>
-          </a>
         </div>
       </div>
-      <!--  -->
+
+      <div class="flex gap-4">
+        <a
+          href="{{curr_driver.facebook_link}}"
+          target="_blank"
+          class="rounded-full bg-transparent hover:text-amber-400"
+        >
+          <i class="text-xl fa-brands fa-facebook"></i>
+        </a>
+        <a
+          href="{{curr_driver.linkedin_link}}"
+          target="_blank"
+          class="rounded-full bg-transparent hover:text-amber-400"
+        >
+          <i class="text-xl fa-brands fa-linkedin-in"></i>
+        </a>
+      </div>
     </div>
+    <!--  -->
+  </div>
+</section>
 
-    <!--------------------------------------- related drivers --------------------------------------->
-
-    <div class="p-4 w-full bg-gray-50 h-40 max-w-[1350px] mx-auto rounded-md">
-      <h3 class="mb-2 text-gray-700 text-xl font-black">Voir plus</h3>
-    </div>
-  </section>
-
-  {% else %}
-
-  <section
-    class="mb-4 p-4 border border-2 border-gray-800 lg:p-8 w-full mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-8 rounded-md"
+<!--------------------------------------- related stuff --------------------------------------->
+<div
+  class="customtab mx-auto mb-4 p-1 bg-black rounded-md flex justify-between gap-1 w-full text-sm"
+>
+  <button
+    class="tablinks py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+    onclick="openTab(event, 'docs')"
+    id="defaultOpen"
   >
-    <!--------------------------------------- driver form -->
-    <div class="bg-gray-200 rounded-md mx-auto w-full rounded-lg text-sm">
-      <h3 class="mb-4 text-black text-3xl font-bold">
-        {% if not curr_driver %} Ajouter un nouveau conducteur
-        <!--  -->
-        {% elif user == curr_driver.user %}
-        <!--  -->
-        Modifier mon profile de conducteur
-        <!--  -->
-        {% else %}
-        <!--  -->
-        Modifier le profile de ce conducteur
-        <!--  -->
-        {% endif %}
-      </h3>
-      <form
-        class="w-full"
-        method="POST"
-        action=""
-        enctype="multipart/form-data"
-      >
-        {% csrf_token %}
-        <!--  -->
-        <div class="md:grid grid-cols-2 gap-4">
-          {% for field in form %}
-          <div>
-            <h3 class="mb-1">{{field.label}}</h3>
-            {{field}}
-          </div>
-          {% endfor %}
-        </div>
-        <div class="my-4 flex gap-4 items-end">
-          <input
-            class="px-8 py-2 bg-gray-700 hover:bg-black text-white rounded-md cursor-pointer"
-            type="submit"
-            value="Enregistrer"
-          />
-          <a
-            class="bg-white px-8 py-2 rounded-md hover:bg-red-700 hover:text-white"
-            href="{{request.META.HTTP_REFERER}}"
-          >
-            Annuler
-          </a>
-        </div>
-      </form>
-    </div>
-
-    <img
-      class="w-full h-full rounded-md object-cover"
-      src="{% static 'imgs/dvr.jpg' %}"
-      alt="consultaion image"
-    />
-  </section>
-
-  {% endif %}
+    <i class="fa-solid fa-folder-open lg:mr-2"></i>
+    <span class="hidden xl:inline">Documents</span>
+  </button>
+  <button
+    class="tablinks py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+    onclick="openTab(event, 'expenses')"
+  >
+    <i class="fa-solid fa-arrow-up lg:mr-2"></i>
+    <span class="hidden xl:inline">Dépenses</span>
+  </button>
+  <button
+    class="tablinks py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+    onclick="openTab(event, 'payments')"
+  >
+    <i class="fa-solid fa-arrow-down lg:mr-2"></i>
+    <span class="hidden xl:inline">Recette</span>
+  </button>
+  <button
+    class="tablinks py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+    onclick="openTab(event, 'payouts')"
+  >
+    <i class="fa-solid fa-coins lg:mr-2"></i>
+    <span class="hidden xl:inline">Gains</span>
+  </button>
+  <button
+    class="tablinks py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+    onclick="openTab(event, 'incidents')"
+  >
+    <i class="fa-solid fa-burst lg:mr-2"></i>
+    <span class="hidden xl:inline">Incidents</span>
+  </button>
 </div>
+<!--------------------------------------- related documents --------------------------------------->
+<section id="docs" class="tabcontent w-full bg-white p-6 rounded-md">
+  {% if user.role.sec_level >= 1 %}
+  <a
+    href="{% url 'create_pdoc' %}"
+    class="px-4 py-3 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
+    >Ajouter un document<i class="fa-solid fa-plus ml-4"></i
+  ></a>
+  {% endif %}
+  <div class="w-full mx-auto my-8">
+    {% if not documents %}
+    <!--------------------------------------- No data placeholder --------------------------------------->
+    {% include 'components/no_data.html' %}
+    <!--  -->
 
-{% endblock %}
+    {% else %}
+    <!--------------------------------------- documents --------------------------------------->
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+    >
+      {% for obj in documents %}
+      <div
+        class="relative flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
+      >
+        {% if obj.is_valid %}
+        <span
+          class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
+        >
+          Valid
+        </span>
+        {% else %}
+        <span
+          class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
+        >
+          Invalid
+        </span>
+        {% endif %}
+        <a href="{% url 'partner_doc' obj.id  %}">
+          <div class="p-4 flex flex-col justify-between">
+            <h4 class="text-black text-md font-bold">{{obj.type.name}}</h4>
+            <p class="pt-2 text-sm">
+              {{obj.partner.last_name}} {{obj.partner.first_name}}
+            </p>
+            <p class="pt-2 text-sm">{{obj.date_posted.date}}</p>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<!--------------------------------------- related expenses --------------------------------------->
+<section id="expenses" class="tabcontent w-full bg-white p-6 rounded-md">
+  {% if user.role.sec_level >= 3 %}
+  <a
+    href="{% url 'create_d_expense' %}"
+    class="px-4 py-3 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
+    >Ajouter une dépense<i class="fa-solid fa-plus ml-4"></i
+  ></a>
+  {% endif %}
+  <div class="w-full mx-auto my-8">
+    {% if not expenses %}
+    <!--------------------------------------- No data placeholder --------------------------------------->
+    {% include 'components/no_data.html' %}
+    <!--  -->
+
+    {% else %}
+    <!--------------------------------------- expenses --------------------------------------->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {% for obj in expenses %}
+      <div
+        class="relative flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
+      >
+        {% if obj.is_valid %}
+        <span
+          class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
+        >
+          Valid
+        </span>
+        {% else %}
+        <span
+          class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
+        >
+          Invalid
+        </span>
+        {% endif %}
+        <a href="{% url 'd_expense' obj.id  %}">
+          <div class="p-4 flex flex-col justify-between">
+            <h4 class="text-black text-md font-bold">
+              {{obj.title|truncatechars:17}} <br />
+              à {{obj.amount}} CFA
+            </h4>
+            <tt class="mt-2 text-sm font-bold">
+              {{obj.driver.last_name}} {{obj.driver.first_name}}
+            </tt>
+            <p class="mt-2 text-sm">{{obj.date}} - {{obj.time}}</p>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<!--------------------------------------- related payments --------------------------------------->
+<section id="payments" class="tabcontent w-full bg-white p-6 rounded-md">
+  {% if user.role.sec_level >= 3 %}
+  <a
+    href="{% url 'create_payment' %}"
+    class="px-4 py-3 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
+    >Ajouter une recette<i class="fa-solid fa-plus ml-4"></i
+  ></a>
+  {% endif %}
+  <div class="w-full mx-auto my-8">
+    {% if not payments %}
+    <!--------------------------------------- No data placeholder --------------------------------------->
+    {% include 'components/no_data.html' %}
+    <!--  -->
+
+    {% else %}
+    <!--------------------------------------- payments --------------------------------------->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {% for obj in payments %}
+      <div
+        class="relative flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
+      >
+        {% if obj.is_audited %}
+        <span
+          class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
+        >
+          Audité
+        </span>
+        {% else %}
+        <span
+          class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
+        >
+          Non-audité
+        </span>
+        {% endif %}
+        <a href="{% url 'payment' obj.id   %}">
+          <div class="p-4 flex flex-col justify-between">
+            <h4 class="text-black text-md font-bold">{{obj.amount}} CFA</h4>
+            <tt class="mt-2 text-sm font-bold">
+              {{obj.driver.last_name}} {{obj.driver.first_name}}
+            </tt>
+            <p class="mt-2 text-sm">
+              {{obj.date}} de {{obj.start_time}} à {{obj.end_time}}
+            </p>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<!--------------------------------------- related payouts --------------------------------------->
+<section id="payouts" class="tabcontent w-full bg-white p-6 rounded-md">
+  {% if user.role.sec_level >= 3 %}
+  <a
+    href="{% url 'create_payout' %}"
+    class="px-4 py-3 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
+    >Ajouter un gain<i class="fa-solid fa-plus ml-4"></i
+  ></a>
+  {% endif %}
+  <div class="w-full mx-auto my-8">
+    {% if not payouts %}
+    <!--------------------------------------- No data placeholder --------------------------------------->
+    {% include 'components/no_data.html' %}
+    <!--  -->
+
+    {% else %}
+    <!--------------------------------------- payouts --------------------------------------->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {% for obj in payouts %}
+      <div
+        class="relative flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
+      >
+        {% if obj.is_audited %}
+        <span
+          class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
+        >
+          Audité
+        </span>
+        {% else %}
+        <span
+          class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
+        >
+          Non-audité
+        </span>
+        {% endif %}
+        <a href="{% url 'payout' obj.id  %}">
+          <div class="p-4 flex flex-col justify-between">
+            <h4 class="text-black text-md font-bold">
+              {{obj.amount}} CFA
+              <!-- ({{obj.get_type_display}}) -->
+            </h4>
+            <tt class="mt-2 text-sm font-bold">
+              {{obj.driver.last_name}} {{obj.driver.first_name}}
+            </tt>
+            <p class="mt-2 text-sm">{{obj.start_date}} - {{obj.end_date}}</p>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<!--------------------------------------- related incidents --------------------------------------->
+<section id="incidents" class="tabcontent w-full bg-white p-6 rounded-md">
+  {% if user.role.sec_level >= 1 %}
+  <a
+    href="{% url 'create_incident' %}"
+    class="px-4 py-3 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
+    >Signaler un incident<i class="fa-solid fa-plus ml-4"></i
+  ></a>
+  {% endif %}
+  <div class="w-full mx-auto my-8">
+    {% if not incidents %}
+    <!--------------------------------------- No data placeholder --------------------------------------->
+    {% include 'components/no_data.html' %}
+    <!--  -->
+
+    {% else %}
+    <!--------------------------------------- incidents --------------------------------------->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {% for obj in incidents %}
+      <div
+        class="relative flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
+      >
+        {% if obj.is_solved %}
+        <span
+          class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
+        >
+          Résolu
+        </span>
+        {% else %}
+        <span
+          class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
+        >
+          Non-résolu
+        </span>
+        {% endif %}
+
+        <a href="{% url 'incident' obj.id  %}">
+          <div class="p-4 flex flex-col justify-between">
+            <h4 class="text-black text-md font-bold">
+              {{obj.vehicle.make}} {{obj.vehicle.model|truncatechars:7}}
+              [-{{obj.vehicle.plate_number|upper}}-]
+            </h4>
+            <p class="pt-2 text-sm">{{obj.date}} à {{obj.time}}</p>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+{% else %}
+
+<section
+  id="d_form"
+  class="mb-4 p-4 lg:p-8 bg-white w-full mx-auto rounded-md text-sm"
+>
+  <h3 class="mb-4 text-black text-2xl font-bold">
+    {% if not curr_driver %} Ajouter un nouveau conducteur
+    <!--  -->
+    {% elif user == curr_driver.user %}
+    <!--  -->
+    Modifier mon profile de conducteur
+    <!--  -->
+    {% else %}
+    <!--  -->
+    Modifier le profile de ce conducteur
+    <!--  -->
+    {% endif %}
+  </h3>
+  <form
+    class="w-full flex flex-col justify-between gap-6"
+    method="POST"
+    action=""
+    enctype="multipart/form-data"
+  >
+    {% csrf_token %}
+    <!--  -->
+    <div class="flex flex-col md:flex-row flex-wrap gap-5">
+      {% for field in form %}
+      <div>
+        <h3 class="mb-1">{{field.label}}</h3>
+        {{field}}
+      </div>
+      {% endfor %}
+    </div>
+    <div class="my-4 flex gap-4 items-end">
+      <input
+        class="px-8 py-2 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md cursor-pointer"
+        type="submit"
+        value="Enregistrer"
+      />
+      <a
+        class="bg-gray-200 px-8 py-2 rounded-md hover:bg-red-700 hover:text-white"
+        href="{{request.META.HTTP_REFERER}}"
+      >
+        Annuler
+      </a>
+    </div>
+  </form>
+</section>
+
+{% endif %} {% endblock %}
