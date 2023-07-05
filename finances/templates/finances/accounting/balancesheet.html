@@ -23,12 +23,12 @@
     <p>Paiements Entrants</p>
     <span class="font-bold text-lg text-black">{{payments}}</span>
     <div class="flex gap-2 xl:gap-4 text-black text-xs xl:text-md">
-      <span class="bg-green-50 p-2 rounded-md">Minimum {{min_payment}} CFA</span>
+      <span class="bg-green-50 p-2 rounded-md">Minimum <br> {{min_payment}} CFA</span>
       <span class="bg-green-200 p-2 rounded-md hidden xl:inline"
-        >Moyenne {{avg_payment}} CFA</span
+        >Moyenne <br> {{avg_payment}} CFA</span
       >
       <span class="bg-green-400 p-2 rounded-md"
-        >Maximum {{max_payment}} CFA</span
+        >Maximum <br> {{max_payment}} CFA</span
       >
     </div>
     <p class="bg-green-600 p-2 rounded-md w-full text-white font-bold">
@@ -44,9 +44,9 @@
     <p>Paiements Sortants</p>
     <span class="font-bold text-lg text-black">{{payouts}}</span>
     <div class="flex gap-2 xl:gap-4 text-black text-xs xl:text-md">
-      <span class="bg-red-50 p-2 rounded-md">Minimum {{min_payout}} CFA</span>
-      <span class="bg-red-200 p-2 rounded-md hidden xl:inline">Moyenne {{avg_payout}} CFA</span>
-      <span class="bg-red-400 p-2 rounded-md">Maximum {{max_payout}} CFA</span>
+      <span class="bg-red-50 p-2 rounded-md">Minimum <br> {{min_payout}} CFA</span>
+      <span class="bg-red-200 p-2 rounded-md hidden xl:inline">Moyenne <br> {{avg_payout}} CFA</span>
+      <span class="bg-red-400 p-2 rounded-md">Maximum <br> {{max_payout}} CFA</span>
     </div>
     <p class="bg-red-600 p-2 rounded-md w-full text-white font-bold">
       Total {{total_payout}} CFA
@@ -62,12 +62,12 @@
 
     <p>Recapitulatif</p>
     <span class="font-bold text-lg text-black">{{transactions}}</span>
-    <div class="flex gap-2 xl:gap-4 text-black text-xs xl:text-md">
+    <div class="flex gap-2 xl:gap-4 text-black xl:text-md">
       <span class="bg-blue-100 p-2 rounded-md"
-        >Total Entrées {{total_credit}} CFA</span
+        >Total Entrées <br> {{total_credit}} CFA</span
       >
       <span class="bg-blue-300 p-2 rounded-md"
-        >Total Sorties {{total_debit}} CFA</span
+        >Total Sorties <br> {{total_debit}} CFA</span
       >
     </div>
     <p class="bg-blue-600 p-2 rounded-md w-full text-white font-bold">
