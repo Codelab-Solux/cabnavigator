@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 
+import dj_database_url
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -80,7 +82,7 @@ WSGI_APPLICATION = 'cabnavigator.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    # 'default': dj_database_url.parse('postgres://leparle_user:aQzlmJubZhvEuS0DHEn6TOcpyUwr5zaU@dpg-chdl4vu7avj0djhovptg-a.ohio-postgres.render.com/leparle')
+    # 'default': dj_database_url.parse('postgres://cabnavigator_user:C9AHeKX7aYxOy8gelosT4rQ17orWHHuz@dpg-ciiontenqql0tc60t25g-a.oregon-postgres.render.com/cabnavigator')
     # 'default': dj_database_url.parse(env('DB_URL'))
 
     'default': {

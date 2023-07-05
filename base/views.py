@@ -171,14 +171,22 @@ def partner(req, pk):
     vehicles = Vehicle.objects.filter(owner=curr_partner.user)
     payments = Payment.objects.filter(
         vehicle__in=Vehicle.objects.filter(owner=curr_partner.user))
+    total_revenu = Payment.objects.filter(
+        vehicle__in=Vehicle.objects.filter(owner=curr_partner.user)).aggregate(Sum('amount'))[
+        'amount__sum'] or 0
+    total_expenses = VehicleExpense.objects.filter(
+        vehicle__in=Vehicle.objects.filter(owner=curr_partner.user)).aggregate(Sum('amount'))[
+        'amount__sum'] or 0
+    net_revenu = total_revenu - total_expenses
+    commission = (total_revenu - total_expenses)*curr_partner.contract.commission/100
+    total_net = net_revenu - commission
 
-    # for obj in vehicles:
-    #     rev = Payment.objects.filter(vehicle=obj)
-    #     payments.append(rev)
-
-    # payments = payments
-
-    print('Partner page', payments)
+    print('total revenu : ', total_revenu,
+            'total_expenses :', total_expenses,
+            'net_revenu :', net_revenu,
+            'total_net :', total_net,
+            'commission :', commission,
+          )
     context = {
         "partner_page": "active",
         'title': 'partner',
@@ -186,6 +194,11 @@ def partner(req, pk):
         'documents': documents,
         'vehicles': vehicles,
         'payments': payments,
+        'total_revenu': total_revenu,
+        'total_expenses': total_expenses,
+        'net_revenu': net_revenu,
+        'commission': commission,
+        'total_net': total_net,
 
     }
     return render(req, 'base/partner.html', context)
@@ -273,6 +286,11 @@ def vehicle(req, pk):
     payments = Payment.objects.filter(vehicle=curr_vehicle)
     expenses = VehicleExpense.objects.filter(vehicle=curr_vehicle)
     incidents = Incident.objects.filter(vehicle=curr_vehicle)
+    total_revenu = Payment.objects.filter(vehicle=curr_vehicle).aggregate(Sum('amount'))[
+        'amount__sum'] or 0
+    total_expenses = VehicleExpense.objects.filter(vehicle=curr_vehicle).aggregate(Sum('amount'))[
+        'amount__sum'] or 0
+    total_net = total_revenu - total_expenses
     context = {
         "vehicle_page": "active",
         'title': 'vehicle',
@@ -281,6 +299,9 @@ def vehicle(req, pk):
         'payments': payments,
         'expenses': expenses,
         'incidents': incidents,
+        'total_revenu': total_revenu,
+        'total_expenses': total_expenses,
+        'total_net': total_net,
 
     }
     return render(req, 'base/vehicle.html', context)

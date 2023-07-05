@@ -51,13 +51,7 @@
     <i class="fa-solid fa-money-check lg:mr-2"></i>
     <span class="hidden lg:inline"> Paiements des conducteurs</span>
   </button>
-  <button
-    class="tablinks px-4 py-2 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
-    onclick="openTab(event, 'ledgers')"
-  >
-    <i class="fa-solid fa-money-bill-transfer lg:mr-2"></i>
-    <span class="hidden lg:inline">Recap des transactions</span>
-  </button>
+
 </nav>
 
 <!--------------------------------------- driver expenses --------------------------------------->
@@ -279,56 +273,6 @@
         <p class="text-sm">{{obj.days_worked}} jours travaillé(s)</p>
         <p class="text-sm">{{obj.type}}</p>
         <p class="text-sm">{{obj.date_paid}}</p>
-        {% if obj.is_audited %}
-        <p
-          class="top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
-        >
-          Audité
-        </p>
-        {% else %}
-        <p
-          class="top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
-        >
-          Non-audité
-        </p>
-        {% endif %}
-      </div>
-    </a>
-    {% endfor %}
-  </div>
-  {% endif %}
-</section>
-<!--------------------------------------- vehicle ledger --------------------------------------->
-<section id="ledgers" class="tabcontent w-full mx-auto">
-  {% if not ledgers %}
-
-  <!--------------------------------------- No data placeholder --------------------------------------->
-  <div
-    class="p-8 my-40 bg-gray-100 max-w-[400px] mx-auto rounded-md flex-col text-center"
-  >
-    <i class="fa-regular fa-folder-open text-7xl"></i>
-    <p class="mt-4">Aucune données disponible pour le moment</p>
-  </div>
-
-  {% else %}
-  <!--------------------------------------- ledgers --------------------------------------->
-  <div class="flex flex-col gap-4">
-    {% for obj in ledgers %}
-    <a href="{% url 'ledger' obj.id  %}">
-      <div
-        class="p-4 flex flex-col md:flex-row justify-between items-center bg-white rounded-md overflow-hidden"
-      >
-        <p>{{obj.vehicle.make}} {{obj.vehicle.model}}</p>
-
-        <tt class="mt-2 text-sm font-bold">-{{obj.vehicle.plate_number}}-</tt>
-        <p class="text-red-600 text-md font-bold">
-          <i class="fa-solid fa-arrow-up mr-2"></i>{{obj.debit}} CFA
-        </p>
-        <p class="text-green-600 text-md font-bold">
-          <i class="fa-solid fa-arrow-down mr-2"></i>{{obj.credit}} CFA
-        </p>
-        <p class="text-sm">{{obj.details|truncatechars:50}}</p>
-        <p class="text-sm">{{obj.date}}</p>
         {% if obj.is_audited %}
         <p
           class="top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"

@@ -1,23 +1,23 @@
 {% extends 'main.html' %} {% load static %} {% block content %}
 <!--------------------------------------- mini navbar --------------------------------------->
 <nav
-  class="mx-auto flex items-center gap-2 items-center text-xs w-full max-w-[1350px]"
+  class="mb-4 mx-auto flex items-center gap-2 items-center text-xs w-full max-w-[1350px]"
 >
   <a
     href="{{request.META.HTTP_REFERER}}"
-    class="mb-4 px-4 py-3 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    class="px-4 py-3 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
     ><i class="fa-solid fa-arrow-left"></i
   ></a>
   {% if curr_doc and not form %}
   <a
     href="{% url 'edit_vdoc' curr_doc.id %}"
-    class="mb-4 px-4 py-3 bg-black text-white hover:bg-green-600 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    class="px-4 py-3 bg-black text-white hover:bg-green-600 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
     >Modifier<i class="fa-solid fa-pen-to-square ml-4"></i
   ></a>
   {% endif %} {% if curr_doc and not form and user.role.sec_level >= 3 %}
   <a
     href="{% url 'delete_vdoc' curr_doc.id %}"
-    class="mb-4 px-4 py-3 bg-black text-white hover:bg-red-700 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    class="px-4 py-3 bg-black text-white hover:bg-red-700 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
     >Supprimer<i class="fa-solid fa-trash ml-4"></i
   ></a>
   {% endif %}

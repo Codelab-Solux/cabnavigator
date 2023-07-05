@@ -104,7 +104,7 @@
     onclick="openTab(event, 'payments')"
   >
     <i class="fa-solid fa-arrow-down lg:mr-2"></i>
-    <span class="hidden xl:inline">Gains</span>
+    <span class="hidden xl:inline">Recettes</span>
   </button>
   <button
     class="tablinks py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
@@ -112,6 +112,13 @@
   >
     <i class="fa-solid fa-arrow-up lg:mr-2"></i>
     <span class="hidden xl:inline">Dépenses</span>
+  </button>
+  <button
+    class="tablinks py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+    onclick="openTab(event, 'stats')"
+  >
+    <i class="fa-solid fa-chart-pie lg:mr-2"></i>
+    <span class="hidden xl:inline">Statistiques</span>
   </button>
   <button
     class="tablinks py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
@@ -296,6 +303,33 @@
       {% endfor %}
     </div>
     {% endif %}
+  </div>
+</section>
+
+<!--------------------------------------- stats --------------------------------------->
+<section id="stats" class="tabcontent w-full bg-white p-6 rounded-md">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <div class="p-6 flex flex-col justify-between border-2 rounded-md">
+      <h4 class="text-green-500 text-xl font-bold">{{total_revenu}} CFA</h4>
+      <p class="mt-2 text-sm">Revenu Brut</p>
+    </div>
+    <div class="p-6 flex flex-col justify-between border-2 rounded-md">
+      <h4 class="text-red-500 text-xl font-bold">{{total_expenses}} CFA</h4>
+      <p class="mt-2 text-sm">Dépenses</p>
+    </div>
+    <div class="p-6 flex flex-col justify-between border-2 rounded-md">
+      {% if total_net < 0 %}
+      <h4 class="text-red-500 text-xl font-bold">{{total_net}} CFA</h4>
+      {% else %}
+      <h4 class="text-green-500 text-xl font-bold">{{total_net}} CFA</h4>
+      {% endif %}
+      <p class="mt-2 text-sm">Revenu Net</p>
+    </div>
+    <img
+      class=" w-full rounded-md object-cover"
+      src="{% static 'imgs/pie.png' %}"
+      alt="vehicle image"
+    />
   </div>
 </section>
 

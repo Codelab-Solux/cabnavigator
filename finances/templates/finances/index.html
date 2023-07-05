@@ -113,18 +113,6 @@
 <!--------------------------------------- records links --------------------------------------->
 <section class="md:grid grid-cols-2 md:gap-6 md:grid-cols-3">
   <a
-    href="{% url 'ledgers' %}"
-    class="p-4 mt-4 w-full bg-white mx-auto flex items-center gap-4 rounded-md group"
-  >
-    <i class="fa-solid fa-calculator text-xl group-hover:text-sky-500"></i>
-    <div class="flex justify-between items-center w-full">
-      <p>Comptatibilté</p>
-      <span>
-        <i class="hidden group-hover:inline fa-solid fa-caret-right"></i>
-      </span>
-    </div>
-  </a>
-  <a
     href="{% url 'audit' %}"
     class="p-4 mt-4 w-full bg-white mx-auto flex items-center gap-4 rounded-md group"
   >
@@ -141,7 +129,7 @@
     class="p-4 mt-4 w-full bg-white mx-auto flex items-center gap-4 rounded-md group"
   >
     <i
-      class="fa-solid fa-file-invoice-dollar text-xl group-hover:text-lime-500"
+      class="fa-solid fa-file-invoice-dollar text-xl group-hover:text-sky-500"
     ></i>
     <div class="flex justify-between items-center w-full">
       <p>Situation Financiere</p>
@@ -150,8 +138,20 @@
       </span>
     </div>
   </a>
+    <a
+    href="{% url 'audit' %}"
+    class="p-4 mt-4 w-full bg-white mx-auto flex items-center gap-4 rounded-md group"
+  >
+    <i class="fa-solid fa-chart-pie text-xl group-hover:text-lime-500"></i>
+    <div class="flex justify-between items-center w-full">
+      <p>Statistiques</p>
+      <span>
+        <i class="hidden group-hover:inline fa-solid fa-caret-right"></i>
+      </span>
+    </div>
+  </a>
 </section>
-<a
+<!-- <a
   href="{% url 'dividends' %}"
   class="p-4 mt-4 w-full bg-white mx-auto flex items-center gap-4 rounded-md group"
 >
@@ -162,6 +162,6 @@
       <i class="hidden group-hover:inline fa-solid fa-caret-right"></i>
     </span>
   </div>
-</a>
+</a> -->
 
 {% endblock %}

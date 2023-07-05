@@ -30,23 +30,25 @@
 
 {% if not form %}
 <!--------------------------------------- driver layout --------------------------------------->
-<section class="mb-4 flex flex-col justify-between items-start gap-8">
-  <div class="grid md:grid-cols-2 gap-8 w-full">
+<section class="mb-4 flex flex-col justify-between items-start gap-4">
+  <div class="grid md:grid-cols-2 gap-4 w-full">
     {% if not curr_driver.image %}
     <img
-      class="h-80 border border-2 w-full rounded-md object-cover"
+      class="h-[320px] w-full rounded-md object-cover"
       src="{% static 'imgs/dvr.jpg' %}"
       alt="driver image"
     />
     {% else %}
     <img
-      class="h-80 border border-2 w-full rounded-md object-cover"
+      class="h-[320px] w-full rounded-md object-cover"
       src="{{curr_driver.image.url}}"
       alt="driver image"
     />
     {% endif %}
     <!--  -->
-    <div class="bg-black text-gray-300 text-sm p-8 rounded-md flex flex-col">
+    <div
+      class="h-[320px] bg-black text-gray-300 text-sm p-8 rounded-md flex flex-col gap-2 overflow-hidden"
+    >
       <h4 class="text-white text-xl font-bold flex items-center">
         {{curr_driver.civility}} {{curr_driver.user.last_name}}
         {{curr_driver.user.first_name}}
@@ -54,39 +56,22 @@
         ({{curr_driver.nationality}})
       </h4>
       <p class="py-2">{{curr_driver.city}}</p>
-
-      <div class="flex flex-col md:flex-row gap-4">
-        <div class="flex flex-col w-60">
-          <h4 class="mb-2 text-white text-lg font-bold">Contacts</h4>
-          <a
-            href="tel:{{curr_driver.tel}}"
-            target="_blank"
-            class="rounded-full bg-transparent hover:text-amber-400"
-          >
-            <i class="fa-solid fa-phone mr-2"></i>{{curr_driver.phone}}
-          </a>
-          <!-- <p class="py-2">
-              <i class="fa-brands fa-telegram mr-2"></i>{{curr_driver.bio}}
-            </p> -->
-        </div>
-      </div>
-
-      <div class="flex gap-4">
+      <div class="flex items-center gap-4">
         <a
-          href="{{curr_driver.facebook_link}}"
+          href="tel:{{curr_driver.tel}}"
           target="_blank"
-          class="rounded-full bg-transparent hover:text-amber-400"
+          class="px-4 py-2 rounded-md bg-white hover:bg-amber-400 text-black"
         >
-          <i class="text-xl fa-brands fa-facebook"></i>
+          <i class="fa-solid fa-phone mr-2"></i>{{curr_driver.phone}}
         </a>
         <a
-          href="{{curr_driver.linkedin_link}}"
-          target="_blank"
-          class="rounded-full bg-transparent hover:text-amber-400"
+          href="{% url 'chat_page' curr_driver.user.id %}"
+          class="px-4 py-2 rounded-md bg-white hover:bg-amber-400 text-black"
         >
-          <i class="text-xl fa-brands fa-linkedin-in"></i>
+          <i class="fa-solid fa-comments mr-2"></i> Contacter
         </a>
       </div>
+      <p class="py-2">{{curr_driver.bio}}</p>
     </div>
     <!--  -->
   </div>
@@ -170,7 +155,7 @@
           Invalid
         </span>
         {% endif %}
-        <a href="{% url 'partner_doc' obj.id  %}">
+        <a href="{% url 'driver_doc' obj.id  %}">
           <div class="p-4 flex flex-col justify-between">
             <h4 class="text-black text-md font-bold">{{obj.type.name}}</h4>
             <p class="pt-2 text-sm">

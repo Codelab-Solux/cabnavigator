@@ -16,65 +16,66 @@
 <section class="mt-6 md:grid grid-cols-2 gap-6 lg:grid-cols-3">
   <a
     href="{% url 'payments' %}"
-    class="p-8 w-full bg-white mx-auto flex flex-col justify-between items-center gap-4 rounded-md group"
+    class="p-4 md:p-6 xl:p-8 w-full bg-white mx-auto flex flex-col justify-between items-center gap-4 rounded-md group"
   >
     <i class="fa-solid fa-arrow-down text-3xl text-green-600"></i>
 
     <p>Paiements Entrants</p>
     <span class="font-bold text-lg text-black">{{payments}}</span>
-    <div class="flex gap-4 text-black">
-      <span class="bg-green-50 p-2 rounded-md">Minimum {{min_credit}} CFA</span>
-      <span class="bg-green-200 p-2 rounded-md"
-        >Moyenne {{avg_credit}} CFA</span
+    <div class="flex gap-2 xl:gap-4 text-black text-xs xl:text-md">
+      <span class="bg-green-50 p-2 rounded-md">Minimum {{min_payment}} CFA</span>
+      <span class="bg-green-200 p-2 rounded-md hidden xl:inline"
+        >Moyenne {{avg_payment}} CFA</span
       >
       <span class="bg-green-400 p-2 rounded-md"
-        >Maximum {{max_credit}} CFA</span
+        >Maximum {{max_payment}} CFA</span
       >
     </div>
     <p class="bg-green-600 p-2 rounded-md w-full text-white font-bold">
-      Total {{ledger_credit}} CFA
+      Total {{ledger_payment}} CFA
     </p>
   </a>
   <a
     href="{% url 'payouts' %}"
-    class="p-8 w-full bg-white mx-auto flex flex-col justify-between items-center gap-4 rounded-md group"
+    class="p-4 md:p-6 xl:p-8 w-full bg-white mx-auto flex flex-col justify-between items-center gap-4 rounded-md group"
   >
     <i class="fa-solid fa-arrow-up text-3xl text-red-600"></i>
 
     <p>Paiements Sortants</p>
     <span class="font-bold text-lg text-black">{{payouts}}</span>
-    <div class="flex gap-4 text-black">
-      <span class="bg-red-50 p-2 rounded-md">Minimum {{min_debit}} CFA</span>
-      <span class="bg-red-200 p-2 rounded-md">Moyenne {{avg_debit}} CFA</span>
-      <span class="bg-red-400 p-2 rounded-md">Maximum {{max_debit}} CFA</span>
+    <div class="flex gap-2 xl:gap-4 text-black text-xs xl:text-md">
+      <span class="bg-red-50 p-2 rounded-md">Minimum {{min_payout}} CFA</span>
+      <span class="bg-red-200 p-2 rounded-md hidden xl:inline">Moyenne {{avg_payout}} CFA</span>
+      <span class="bg-red-400 p-2 rounded-md">Maximum {{max_payout}} CFA</span>
     </div>
     <p class="bg-red-600 p-2 rounded-md w-full text-white font-bold">
-      Total {{ledger_debit}} CFA
+      Total {{total_payout}} CFA
     </p>
   </a>
   <a
     href="{% url 'ledgers' %}"
-    class="p-8 w-full bg-white mx-auto flex flex-col justify-between items-center gap-4 rounded-md group"
+    class="p-4 md:p-6 xl:p-8 w-full bg-white mx-auto flex flex-col justify-between items-center gap-4 rounded-md group"
   >
     <i
       class="fa-solid fa-up-right-and-down-left-from-center text-3xl text-blue-600"
     ></i>
 
-    <p>Autres Transactions</p>
+    <p>Recapitulatif</p>
     <span class="font-bold text-lg text-black">{{ledgers}}</span>
-    <div class="flex gap-4 text-black">
+    <div class="flex gap-2 xl:gap-4 text-black text-xs xl:text-md">
       <span class="bg-blue-100 p-2 rounded-md"
-        >Total Entrées {{ledger_credit}} CFA</span
+        >Total Entrées {{total_credit}} CFA</span
       >
       <span class="bg-blue-300 p-2 rounded-md"
-        >Total Sorties {{ledger_debit}} CFA</span
+        >Total Sorties {{total_debit}} CFA</span
       >
     </div>
     <p class="bg-blue-600 p-2 rounded-md w-full text-white font-bold">
-      Solde {{ledger_balance}} CFA
+      Solde {{total_balance}} CFA
     </p>
   </a>
 </section>
+
 <!--------------------------------------- expenses links --------------------------------------->
 <section class="mt-6 md:grid grid-cols-2 gap-6 lg:grid-cols-3">
   <a

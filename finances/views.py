@@ -631,43 +631,61 @@ def balancesheet(req):
     v_expenses = VehicleExpense.objects.all().count()
     g_expenses = GlobalExpense.objects.all().count()
 
-    total_d_expenses = DriverExpense.objects.all().aggregate(Sum('amount'))[
+    # --------------------------------------------------------credit / payments--------------------------------------------------------
+    total_payment = Payment.objects.all().aggregate(Sum('amount'))[
         'amount__sum'] or 0
+    max_payment = Payment.objects.all().aggregate(Max('amount'))[
+        'amount__max'] or 0
+    min_payment = Payment.objects.all().aggregate(Min('amount'))[
+        'amount__min'] or 0
+    avg_payment = Payment.objects.all().aggregate(Avg('amount'))[
+        'amount__avg'] or 0
 
-    # credit
-    ledger_credit = Ledger.objects.all().aggregate(Sum('credit'))[
-        'credit__sum'] or 0
-    max_credit = Ledger.objects.all().aggregate(Max('credit'))[
-        'credit__max'] or 0
-    min_credit = Ledger.objects.all().aggregate(Min('credit'))[
-        'credit__min'] or 0
-    avg_credit = Ledger.objects.all().aggregate(Avg('credit'))[
-        'credit__avg'] or 0.00
-
-    # debit
-    ledger_debit = Ledger.objects.all().aggregate(Sum('debit'))[
-        'debit__sum'] or 0
-    max_debit = Ledger.objects.all().aggregate(Max('debit'))[
-        'debit__max'] or 0
-    min_debit = Ledger.objects.all().aggregate(Min('debit'))[
-        'debit__min'] or 0
-    avg_debit = Ledger.objects.all().aggregate(Avg('debit'))[
-        'debit__avg'] or 0.00
+    # --------------------------------------------------------debit--------------------------------------------------------
+    
+    # payouts--------------------------------------------------------
+    total_payout = Payout.objects.all().aggregate(Sum('amount'))[
+        'amount__sum'] or 0
+    max_payout = Payout.objects.all().aggregate(Max('amount'))[
+        'amount__max'] or 0
+    min_payout = Payout.objects.all().aggregate(Min('amount'))[
+        'amount__min'] or 0
+    avg_payout = Payout.objects.all().aggregate(Avg('amount'))[
+        'amount__avg'] or 0
+    
+    # expenses--------------------------------------------------------
+    total_d_exp = DriverExpense.objects.all().aggregate(Sum('amount'))[
+        'amount__sum'] or 0
+    max_d_exp = DriverExpense.objects.all().aggregate(Max('amount'))[
+        'amount__max'] or 0
+    min_d_exp = DriverExpense.objects.all().aggregate(Min('amount'))[
+        'amount__min'] or 0
+    avg_d_exp = DriverExpense.objects.all().aggregate(Avg('amount'))[
+        'amount__avg'] or 0
+    
+    total_v_exp = VehicleExpense.objects.all().aggregate(Sum('amount'))[
+        'amount__sum'] or 0
+    max_v_exp = VehicleExpense.objects.all().aggregate(Max('amount'))[
+        'amount__max'] or 0
+    min_v_exp = VehicleExpense.objects.all().aggregate(Min('amount'))[
+        'amount__min'] or 0
+    avg_v_exp = VehicleExpense.objects.all().aggregate(Avg('amount'))[
+        'amount__avg'] or 0
+    
+    total_g_exp = GlobalExpense.objects.all().aggregate(Sum('amount'))[
+        'amount__sum'] or 0
+    max_g_exp = GlobalExpense.objects.all().aggregate(Max('amount'))[
+        'amount__max'] or 0
+    min_g_exp = GlobalExpense.objects.all().aggregate(Min('amount'))[
+        'amount__min'] or 0
+    avg_g_exp = GlobalExpense.objects.all().aggregate(Avg('amount'))[
+        'amount__avg'] or 0
 
     # balance
-    ledger_balance = ledger_credit - ledger_debit
+    total_credit = total_payout
+    total_debit = total_payout + total_d_exp + total_v_exp + total_g_exp
+    total_balance = total_credit - total_debit
 
-    print(f'''
-        total_credit : {ledger_credit}
-          min_credit : {min_credit}
-          avg_credit : {avg_credit}
-          max_credit : {max_credit}
-        total_debit : {ledger_debit}
-          min_debit : {min_debit}
-          avg_debit : {avg_debit}
-          max_debit : {max_debit}
-          balance : {ledger_balance}
-          ''')
     context = {
         "balancesheet_page": "active",
         'title': 'company balancesheet',
@@ -677,20 +695,41 @@ def balancesheet(req):
         'd_expenses': d_expenses,
         'v_expenses': v_expenses,
         'g_expenses': g_expenses,
+
         # credit
-        'ledger_credit': ledger_credit,
-        'max_credit': max_credit,
-        'min_credit': min_credit,
-        'avg_credit': avg_credit,
+        'total_payment': total_payment,
+        'max_payment': max_payment,
+        'min_payment': min_payment,
+        'avg_payment': avg_payment,
+
         # debit
-        'ledger_debit ': ledger_debit,
-        'max_debit ': max_debit,
-        'min_debit ': min_debit,
-        'avg_debit ': avg_debit,
+        'total_payout': total_payout,
+        'max_payout': max_payout,
+        'min_payout': min_payout,
+        'avg_payout': avg_payout,
+
         # d_expenses
-        'total_d_expenses ': total_d_expenses,
+        'total_d_expenses ': total_d_exp,
+        'max_d_expenses': max_d_exp,
+        'min_d_expenses': min_d_exp,
+        'avg_d_expenses': avg_d_exp,
+
+        # v_expenses
+        'total_v_expenses ': total_v_exp,
+        'max_v_expenses': max_v_exp,
+        'min_v_expenses': min_v_exp,
+        'avg_v_expenses': avg_v_exp,
+
+        # g_expenses
+        'total_g_expenses ': total_g_exp,
+        'max_g_expenses': max_g_exp,
+        'min_g__expenses': min_g_exp,
+        'avg_g__expenses': avg_g_exp,
+        
         # balance
-        'ledger_balance ': ledger_balance,
+        'total_credit': total_credit,
+        'total_debit': total_debit,
+        'total_balance': total_balance,
 
     }
     return render(req, 'finances/accounting/balancesheet.html', context)
@@ -699,7 +738,6 @@ def balancesheet(req):
 @login_required(login_url='login')
 def audit(req):
     user = req.user
-    ledgers = Ledger.objects.all().all().order_by('-date')
     payments = Payment.objects.all().all().order_by('-date_paid')
     payouts = Payout.objects.all().all().order_by('-date_paid')
     d_expenses = DriverExpense.objects.all().order_by('-date_posted')
@@ -708,7 +746,6 @@ def audit(req):
     context = {
         "audit_page": "active",
         'title': 'audits',
-        'ledgers': ledgers,
         'payments': payments,
         'payouts': payouts,
         'd_expenses': d_expenses,
