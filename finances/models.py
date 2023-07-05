@@ -143,39 +143,3 @@ class Revenue(models.Model):
     def get_absolute_url(self):
         return reverse('revenue', kwargs={'pk': self.pk})
 
-
-class Ledger(models.Model):
-    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
-    details = models.CharField(max_length=1000, blank=True, null=True)
-    debit = models.IntegerField(null=False, blank=True, default='0')
-    credit = models.IntegerField(null=False, blank=True, default='0')
-    date = models.DateField(null=True, blank=True)
-    is_audited = models.BooleanField(default=False)
-
-    def __str__(self):
-        return f'{self.vehicle.plate_number} [{self.credit} - {self.debit}]'
-
-    def get_absolute_url(self):
-        return reverse('ledger', kwargs={'pk': self.pk})
-
-
-transaction_types = (
-    ('debit', 'Encaissement'),
-    ('credit', 'Décaissement'),
-)
-
-
-class Transaction(models.Model):
-
-    type = models.CharField(
-        max_length=50, choices=transaction_types)
-    amount = models.IntegerField(null=False, blank=True, default='0')
-    details = models.CharField(max_length=1000, blank=True, null=True)
-    date = models.DateTimeField(auto_now=True)
-    is_audited = models.BooleanField(default=False)
-
-    def __str__(self):
-        return f'{self.vehicle.plate_number} [{self.credit} - {self.debit}]'
-
-    def get_absolute_url(self):
-        return reverse('ledger', kwargs={'pk': self.pk})

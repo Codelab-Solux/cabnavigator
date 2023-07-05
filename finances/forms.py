@@ -133,32 +133,6 @@ class PayoutForm(forms.ModelForm):
             'end_date': DateInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
         }
 
-
-class LedgerForm(forms.ModelForm):
-    class Meta:
-        model = Ledger
-        fields = ('__all__')
-        exclude = ('date_posted',)
-        labels = {
-            'vehicle': 'Véhicule',
-            'debit': 'Décaissement',
-            'credit': 'Encaissement',
-            'details': 'Détails',
-            'profit': 'Gains net',
-            'start_date': 'Début',
-            'end_date': 'Fin',
-        }
-        widgets = {
-            'vehicle': forms.Select(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
-            'details': forms.TextInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
-            'debit': forms.NumberInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
-            'credit': forms.NumberInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
-            'profit': forms.NumberInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
-            'date': DateInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
-            'end_date': DateInput(attrs={'class': "mb-2 px-4 py-2 rounded-md bg-gray-200 w-full"}),
-        }
-
-
 class DividendForm(forms.ModelForm):
     class Meta:
         model = Dividend

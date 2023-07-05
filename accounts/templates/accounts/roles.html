@@ -1,0 +1,56 @@
+{% extends 'main.html' %} {% load static %} {% block content %}
+<!--------------------------------------- mini navbar --------------------------------------->
+
+<nav
+  class="mx-auto flex flex-col md:flex-row justify-between items-center gap-2 items-center text-xs w-full max-w-[1350px]"
+>
+  {% if user.rolobj.sec_level >= 1 %}
+  <a
+    href="{% url 'create_user' %}"
+    class="px-4 py-2 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
+    >Ajouter un utilisateur<i class="fa-solid fa-plus ml-4"></i
+  ></a>
+  {% endif %}
+  <!--------------------------------------- search form --------------------------------------->
+  <form
+    id="search_box"
+    class="w-[400px] max-w-xl flex flex-row justify-between"
+  >
+    <input
+      type="text"
+      name="query"
+      id="querier"
+      required
+      class="px-4 py-2 bg-white text-black w-full rounded-l-md outline-none"
+      placeholder="Recherchez..."
+    />
+    <button
+      class="group px-4 py-2 text-sm bg-black hover:bg-amber-300 text-white hover:text-black rounded-r-md transition duration-300 ease-in-out"
+      type="submit"
+    >
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+  </form>
+</nav>
+<!--------------------------------------- hero section --------------------------------------->
+
+<div class="my-4 bg-white p-6 rounded-md">
+  <h1 class="mb-2 text-black text-lg font-bold">Roles</h1>
+
+  <div class="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+    {% for e in users %}
+    <a href="{% url 'role' obj.id  %}">
+      <div
+        class="p-4 text-gray-500 bg-gray-100 h-50 rounded-md hover:shadow-md"
+      >
+        <h3 class="font-bold text-black text-md">
+          {{obj.name}}
+        </h3>
+        <p class="text-sm">{{obj.sec_level}}</p>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

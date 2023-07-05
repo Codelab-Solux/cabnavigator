@@ -44,12 +44,6 @@ urlpatterns = [
     path('payouts/<str:pk>/', payout, name='payout'),
     path('payouts/<str:pk>/edit', edit_payout, name='edit_payout'),
     path('payouts/<str:pk>/delete', delete_payout, name='delete_payout'),
-    # ledgers
-    path('ledgers/', ledgers, name='ledgers'),
-    path('ledgers/create', create_ledger, name='create_ledger'),
-    path('ledgers/<str:pk>/', ledger, name='ledger'),
-    path('ledgers/<str:pk>/edit', edit_ledger, name='edit_ledger'),
-    path('ledgers/<str:pk>/delete', delete_ledger, name='delete_ledger'),
     # dividends
     path('dividends/', dividends, name='dividends'),
     path('dividends/create', create_dividend, name='create_dividend'),

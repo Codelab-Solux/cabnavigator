@@ -143,3 +143,45 @@ def delete_user(req, pk):
             return HttpResponseRedirect(req.META.get('HTTP_REFERER'))
         user.delete()
         return HttpResponseRedirect(req.META.get('HTTP_REFERER'))
+
+#  roles -----------------------------------------------------------------------
+
+@login_required(login_url='login')
+def roles(req):
+    if not req.user.is_superuser:
+        return redirect(req.META.get('HTTP_REFERER', '/'))
+    
+    form = RoleForm()
+    if req.method == 'POST':
+        form = RoleForm(req.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(req, "um nouveau role vien d'être créé.")
+            return redirect('roles')
+
+    context = {
+        "roles_page": "active",
+        'title': 'roles',
+        'form': form,
+    }
+    return render(req, 'accounts/roles.html', context)
+
+@login_required(login_url='login')
+def create_role(req):
+    if not req.user.is_superuser:
+        return redirect(req.META.get('HTTP_REFERER', '/'))
+    
+    form = RoleForm()
+    if req.method == 'POST':
+        form = RoleForm(req.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(req, "um nouveau role vien d'être créé.")
+            return redirect('roles')
+
+    context = {
+        "create_role_page": "active",
+        'title': 'create role',
+        'form': form,
+    }
+    return render(req, 'accounts/role.html', context)

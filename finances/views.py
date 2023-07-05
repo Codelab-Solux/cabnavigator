@@ -527,110 +527,17 @@ def delete_payout(req, pk):
 
 # --------------------------------------------------------- bookkeeping CRUD ---------------------------------------------------------
 
-# -------------------------------- vehicle ledgers ------------------------------------
-
-
-@login_required(login_url='login')
-def ledgers(req):
-    user = req.user
-    query = req.GET.get('query') if req.GET.get('query') != None else ''
-    ledgers = Ledger.objects.filter(
-        Q(credit__icontains=query)
-        | Q(debit__icontains=query)
-        | Q(vehicle__make__icontains=query)
-        | Q(vehicle__model__icontains=query)
-        | Q(vehicle__plate_number__icontains=query)
-    ).order_by('date')
-    context = {
-        "ledgers_page": "active",
-        'title': 'vehicle ledgers',
-        'ledgers': ledgers,
-
-    }
-    return render(req, 'finances/accounting/ledgers.html', context)
-
-
-@login_required(login_url='login')
-def ledger(req, pk):
-    user = req.user
-    curr_ledger = Ledger.objects.get(id=pk)
-    rel_ledgers = Ledger.objects.filter(
-        vehicle=curr_ledger.vehicle).exclude(id=pk)
-    context = {
-        "ledger_page": "active",
-        'title': 'driver_ledger',
-        'curr_ledger': curr_ledger,
-        'rel_ledgers': rel_ledgers,
-
-    }
-    return render(req, 'finances/accounting/ledger.html', context)
-
-
-@login_required(login_url='login')
-def create_ledger(req):
-    user = req.user
-    if user.role.sec_level < 3:
-        return redirect(req.META.get('HTTP_REFERER', '/'))
-
-    form = LedgerForm()
-    if req.method == 'POST':
-        form = LedgerForm(req.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('ledgers')
-
-    context = {
-        "create_ledger_page": "active",
-        "title": 'create_ledgers',
-        "form": form,
-    }
-    return render(req, 'finances/accounting/ledger.html', context)
-
-
-@login_required(login_url='login')
-def edit_ledger(req, pk):
-    user = req.user
-    curr_ledger = Ledger.objects.get(id=pk)
-    if not curr_ledger and user.role.sec_level < 3:
-        return redirect(req.META.get('HTTP_REFERER', '/'))
-
-    form = LedgerForm(instance=curr_ledger)
-    if req.method == 'POST':
-        form = LedgerForm(req.POST, instance=curr_ledger)
-        if form.is_valid():
-            form.save()
-            return redirect('ledgers')
-
-    context = {
-        "edit_ledger_page": "active",
-        "title": 'edit_ledger',
-        "form": form,
-        "curr_ledger": curr_ledger}
-    return render(req, 'finances/accounting/ledger.html', context)
-
-
-@login_required(login_url='login')
-def delete_ledger(req, pk):
-    doc = Ledger.objects.get(id=pk)
-    if req.user.role.sec_level < 3:
-        return HttpResponseRedirect(req.META.get('HTTP_REFERER'))
-    doc.delete()
-    return HttpResponseRedirect(req.META.get('HTTP_REFERER'))
-
-
-# -------------------------------- balancesheet & audits ------------------------------------
-
+# -------------------------------- balancesheet ------------------------------------
 
 @login_required(login_url='login')
 def balancesheet(req):
     user = req.user
-    ledgers = Ledger.objects.all().count()
     payments = Payment.objects.all().count()
     payouts = Payout.objects.all().count()
     d_expenses = DriverExpense.objects.filter().count()
     v_expenses = VehicleExpense.objects.all().count()
     g_expenses = GlobalExpense.objects.all().count()
-
+    transactions = payments + payouts + d_expenses + v_expenses + g_expenses
     # --------------------------------------------------------credit / payments--------------------------------------------------------
     total_payment = Payment.objects.all().aggregate(Sum('amount'))[
         'amount__sum'] or 0
@@ -689,12 +596,12 @@ def balancesheet(req):
     context = {
         "balancesheet_page": "active",
         'title': 'company balancesheet',
-        'ledgers': ledgers,
         'payments': payments,
         'payouts': payouts,
         'd_expenses': d_expenses,
         'v_expenses': v_expenses,
         'g_expenses': g_expenses,
+        'transactions': transactions,
 
         # credit
         'total_payment': total_payment,
@@ -735,6 +642,7 @@ def balancesheet(req):
     return render(req, 'finances/accounting/balancesheet.html', context)
 
 
+# -------------------------------- audits ------------------------------------
 @login_required(login_url='login')
 def audit(req):
     user = req.user
