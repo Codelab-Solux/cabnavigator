@@ -9,11 +9,15 @@ html {
 }
 
 .db-table tbody tr:nth-of-type(even) {
-  background-color: #e0e7ff;
+  background-color: #e1f0f1;
+}
+
+.db-table tbody tr:nth-of-type(even):hover {
+  background-color: #fff;
 }
 
 .active {
-  background: #fcd34d;
+  background: #e2e2e2;
   color: black;
   padding: 2px;
   border-radius: 1rem;
@@ -33,4 +37,12 @@ html {
   border-radius: 0.5em;
   background-color: black;
   color: #fff;
+}
+
+/* accordion ---------------------------------------------------------------------------------------------------- */
+
+.panel {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
 }

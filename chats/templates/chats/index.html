@@ -4,50 +4,34 @@
 <!-- ---------------------------objs and contacts sidebar--------------------------------->
 <div>
   <h1 class="mb-2 text-black text-xl font-bold">Rejoindre une conversation</h1>
-  <form id="search_box" class="w-full max-w-md flex flex-row justify-between">
-    <input
-      type="text"
-      name="query"
-      id="querier"
-      class="px-4 py-2 bg-white text-black w-full rounded-l-md outline-none"
-      placeholder="Recherchez..."
-    />
-    <button
-      class="group px-4 py-2 text-sm bg-black hover:bg-amber-200 text-white hover:text-black rounded-r-md transition duration-300 ease-in-out"
-      type="submit"
-    >
-      <i class="fa-solid fa-magnifying-glass"></i>
-    </button>
-  </form>
+  {% include 'components/searchbar.html' %}
+  <!--  -->
+  {% if not contacts %}
 
-  <div class="mt-4 flex flex-row flex-wrap gap-4">
-    {% if not contacts %}
-
-    <!--------------------------------------- No data placeholder --------------------------------------->
-    {% include 'components/no_data.html' %}
-    <!--  -->
-    {% else %}
-    <!--  -->
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-      {% for obj in contacts %}
-      <a href="{% url 'chat_page' obj.id %}">
-        <div
-          class="contact-li p-6 border hover:border-black h-full flex flex-col items-center text-center gap-2 bg-white hover:shadow-md rounded-md"
-          chat-id="chat_{{obj.id}}"
-        >
-          <img
-            class="hidden lg:block w-20 h-20 rounded-full mx-auto object-cover"
-            src="{% static 'imgs/random.png' %}"
-            alt="Rounded avatar"
-          />
-          <p class="text-black font-bold">@{{obj.username}}</p>
-          <p>{{obj.email}}</p>
-        </div>
-      </a>
-      {% endfor %}
-    </div>
-    <!--  -->
-    {% endif %}
+  <!--------------------------------------- No data placeholder --------------------------------------->
+  {% include 'components/no_data.html' %}
+  <!--  -->
+  {% else %}
+  <!--  -->
+  <div class="mt-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-2">
+    {% for obj in contacts %}
+    <a href="{% url 'chat_page' obj.id %}">
+      <div
+        class="contact-li p-6 border hover:border-amber-400 h-full flex flex-col items-center text-center gap-2 bg-white hover:shadow-md rounded-md"
+        chat-id="chat_{{obj.id}}"
+      >
+        <img
+          class="hidden lg:block w-20 h-20 rounded-full mx-auto object-cover"
+          src="{% static 'imgs/random.png' %}"
+          alt="Rounded avatar"
+        />
+        <p class="text-black font-bold">@{{obj.username}}</p>
+        <p>{{obj.email}}</p>
+      </div>
+    </a>
+    {% endfor %}
   </div>
+  <!--  -->
+  {% endif %}
 </div>
 {% endblock %}

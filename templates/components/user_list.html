@@ -4,46 +4,34 @@
 <section
   class="hidden md:block contacts bg-black p-4 flex flex-col md:w-[200px] lg:w-[300px] xl:w-[400px] overflow-auto h-screen fixed right-0"
 >
-  <form id="search_box" class="w-full max-w-xl flex flex-row justify-between">
-    <input
-      type="text"
-      name="query"
-      id="querier"
-      required
-      class="px-4 py-2 bg-white text-black w-full rounded-l-md outline-none"
-      placeholder="Recherchez..."
-    />
-    <button
-      class="group px-4 py-2 text-sm bg-black hover:bg-amber-200 text-white hover:text-black rounded-r-md transition duration-300 ease-in-out"
-      type="submit"
-    >
-      <i class="fa-solid fa-magnifying-glass"></i>
-    </button>
-  </form>
+  {% include 'components/searchbar.html' %}
+
   <!-- ---------------------------tab navs--------------------------------->
 
-  <div class="customtab py-3 flex justify-between gap-2 w-full text-sm">
+  <div
+    class="customtab text-black mx-auto mt-2 mb-4 p-1 bg-black rounded-md flex justify-between gap-1 w-full text-xs"
+  >
     <button
       class="tablinks px-4 py-2 bg-white hover:bg-black hover:text-white rounded-md w-full"
       onclick="openTab(event, 'messages')"
       id="defaultOpen"
     >
-      <i class="fa-solid fa-comments lg:mr-2"></i>
-      <span class="hidden xl:inline"> Messages </span>
+      <i class="fa-solid fa-comments"></i>
+      <span class="hidden lg:inline lg:ml-2">Messages</span>
     </button>
     <button
       class="tablinks px-4 py-2 bg-white hover:bg-black hover:text-white rounded-md w-full"
       onclick="openTab(event, 'contacts')"
     >
-      <i class="fa-solid fa-address-book lg:mr-2"></i>
-      <span class="hidden xl:inline"> Contacts </span>
+      <i class="fa-solid fa-address-book"></i>
+      <span class="hidden lg:inline lg:ml-2">Contacts</span>
     </button>
     <!-- <button
-        class="tablinks px-4 py-2 bg-white hover:bg-black hover:text-white rounded-md"
+      class="tablinks px-4 py-2 bg-white hover:bg-black hover:text-white rounded-md w-full"
         onclick="openTab(event, 'groups')"
       >
         <i class="fa-solid fa-people-group"></i>
-        <span class="hidden xl:block"> Groupes </span>
+        <span class="hidden lg:inline lg:ml-2"> Groupes </span>
       </button> -->
   </div>
 
@@ -62,7 +50,7 @@
       {% for obj in contacts %}
       <a href="{% url 'chat_page' obj.id %}">
         <li
-          class="p-2 {% if user.id == i.id %} hidden {% else %} flex flex-row items-center gap-2 mb-2 bg-white sm:text-sm lg:text-md rounded-md cursor-pointer {% endif %}"
+          class="p-2 {% if user.id == obj.id %} hidden {% else %} flex flex-row items-center gap-2 mb-2 bg-white sm:text-sm lg:text-md rounded-md cursor-pointer {% endif %} hover:bg-gray-200 transition ease-in duration-200"
           chat-id="chat_{active_thread.id}"
         >
           {% if not obj.image %}
@@ -78,7 +66,7 @@
             alt="welcome image"
           />
           {% endif %}
-          <div class="w-full text-xs lg:text-base">
+          <div class="w-full lg:text-sm">
             <p class="text-black font-bold">
               {{obj.last_name}} {{obj.first_name}}
             </p>

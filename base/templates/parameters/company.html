@@ -1,0 +1,110 @@
+{% extends 'main.html' %} {% load static %} {% block content %}
+<!--------------------------------------- mini navbar --------------------------------------->
+<nav
+  class="mb-4 mx-auto flex items-center gap-2 items-center text-xs w-full max-w-[1350px]"
+>
+  <a
+    href="{{request.META.HTTP_REFERER}}"
+    class="px-4 py-3 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    ><i class="fa-solid fa-arrow-left"></i
+  ></a>
+  {% if curr_company and not form and user.role.sec_level >= 3 %}
+  <a
+    href="{% url 'edit_dcompany' curr_company.id %}"
+    class="px-4 py-3 bg-black text-white hover:bg-green-600 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    >Modifier<i class="fa-solid fa-pen-to-square ml-4"></i
+  ></a>
+  {% endif %}
+  <!--  -->
+  {% if curr_company and not form and user.role.sec_level >= 3 %}
+  <a
+    href="{% url 'delete_dcompany' curr_company.id %}"
+    class="px-4 py-3 bg-black text-white hover:bg-red-700 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    >Supprimer<i class="fa-solid fa-trash ml-4"></i
+  ></a>
+  {% endif %}
+</nav>
+
+<!--------------------------------------- forms layout --------------------------------------->
+
+{% if not form %}
+
+<section
+  class="p-8 bg-white lg:grid grid-cols-2 gap-4 justify-between rounded-md overflow-hidden"
+>
+  <div class="flex flex-col gap-4 w-full">
+    {% if not curr_company.image %}
+    <img
+      class="h-20 w-full rounded-md object-cover"
+      src="{% static 'imgs/companys.jpg' %}"
+      alt="vehicle image"
+    />
+    {% else %}
+    <img
+      class="h-20 w-full rounded-md object-cover"
+      src="{{curr_company.image.url}}"
+      alt="vehicle image"
+    />
+    {% endif %}
+    <!--  -->
+    <div class="flex flex-col justify-between">
+      <h4 class="text-black text-md font-bold">{{curr_company.name}}</h4>
+      <p class="pt-2 text-sm">{{curr_company.description}}</p>
+    </div>
+    <!--  -->
+  </div>
+</section>
+
+{% else %}
+<!--------------------------------------- company form -->
+<section
+  class="mb-4 p-4 lg:p-8 md:grid grid-cols-2 gap-4 lg:gap-8 bg-white w-full mx-auto rounded-md"
+>
+  <div>
+    {% if curr_company %}
+    <h3 class="mb-4 text-black text-2xl font-bold">
+      Modifier le profile de la compagnie
+    </h3>
+    {% else %}
+    <h3 class="mb-4 text-black text-2xl font-bold">
+      Nouveau profile de compagnie
+    </h3>
+    {% endif %}
+    <form
+      class="w-full flex flex-col justify-between gap-4"
+      method="POST"
+      action=""
+      enctype="multipart/form-data"
+    >
+      {% csrf_token %}
+      <!--  -->
+      <div class="flex flex-col md:grid grid-cols-2 gap-4">
+        {% for field in form %}
+        <div>
+          <h3 class="mb-1">{{field.label}}</h3>
+          {{field}}
+        </div>
+        {% endfor %}
+      </div>
+      <div class="my-4 flex gap-4 items-end">
+        <input
+          class="px-8 py-2 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md cursor-pointer"
+          type="submit"
+          value="Enregistrer"
+        />
+        <a
+          class="bg-gray-200 px-8 py-2 rounded-md hover:bg-red-700 hover:text-white"
+          href="{{request.META.HTTP_REFERER}}"
+        >
+          Annuler
+        </a>
+      </div>
+    </form>
+  </div>
+  <img
+    class="hidden md:inline h-full w-full object-cover"
+    src="{% static 'imgs/company.jpg' %}"
+    alt="company image"
+  />
+</section>
+{% endif %} {% endblock %}

@@ -130,7 +130,7 @@ def user_profile(req, pk):
         'profile': profile,
         'form': form,
     }
-    return render(req, 'accounts/profile.html', context)
+    return render(req, 'accounts/user.html', context)
 
 
 @login_required(login_url='login')
@@ -146,11 +146,12 @@ def delete_user(req, pk):
 
 #  roles -----------------------------------------------------------------------
 
+
 @login_required(login_url='login')
 def roles(req):
     if not req.user.is_superuser:
         return redirect(req.META.get('HTTP_REFERER', '/'))
-    
+
     form = RoleForm()
     if req.method == 'POST':
         form = RoleForm(req.POST)
@@ -166,11 +167,12 @@ def roles(req):
     }
     return render(req, 'accounts/roles.html', context)
 
+
 @login_required(login_url='login')
 def create_role(req):
     if not req.user.is_superuser:
         return redirect(req.META.get('HTTP_REFERER', '/'))
-    
+
     form = RoleForm()
     if req.method == 'POST':
         form = RoleForm(req.POST)

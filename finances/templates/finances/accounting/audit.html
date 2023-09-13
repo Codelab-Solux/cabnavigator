@@ -1,14 +1,19 @@
 {% extends 'main.html' %} {% load static %} {% block content %}
 <!--------------------------------------- hero section --------------------------------------->
 
-<div class="bg-black p-6 w-full h-60 rounded-md overflow-hidden">
+<div class="relative bg-black p-6 w-full h-60 rounded-md overflow-hidden">
   <h1 class="text-white text-3xl font-bold">Audit & Controle</h1>
 
   <p class="mt-4 text-gray-200">
-    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Assumenda unde
-    tempore, voluptas exercitationem dignissimos asperiores qui harum corrupti
-    consequuntur ratione.
+    Grâce à notre fonctionnalité d'audit avancée, vous pouvez prendre des
+    mesures proactives pour optimiser vos processus, renforcer la confiance de
+    vos partenaires et assurer la conformité aux réglementations.
   </p>
+  <a
+    href="{% url 'finances' %}"
+    class="text-white hover:text-amber-300 py-2 transition duration-300 ease-in-out absolute bottom-2 left-6"
+    ><i class="fa-solid fa-arrow-left"></i
+  ></a>
 </div>
 
 <!--------------------------------------- tab buttons --------------------------------------->
@@ -28,7 +33,7 @@
     onclick="openTab(event, 'v_expenses')"
   >
     <i class="fa-solid fa-car lg:mr-2"></i>
-    <span class="hidden lg:inline"> Dépenses des vehicules </span>
+    <span class="hidden lg:inline"> Dépenses des véhicules </span>
   </button>
   <button
     class="tablinks px-4 py-2 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
@@ -49,9 +54,8 @@
     onclick="openTab(event, 'payouts')"
   >
     <i class="fa-solid fa-money-check lg:mr-2"></i>
-    <span class="hidden lg:inline"> Paiements des conducteurs</span>
+    <span class="hidden lg:inline"> Rémunérations des conducteurs</span>
   </button>
-
 </nav>
 
 <!--------------------------------------- driver expenses --------------------------------------->

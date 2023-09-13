@@ -2,8 +2,13 @@
 <!--------------------------------------- mini navbar --------------------------------------->
 
 <nav
-  class="customtab mx-auto mb-4 p-1 bg-black rounded-md flex justify-between gap-1 w-full text-sm"
+  class="customtab mx-auto mb-4 p-1 bg-black rounded-md flex justify-between items-center gap-1 w-full text-sm"
 >
+  <a
+    href="{% url 'finances' %}"
+    class="text-white hover:text-amber-300 px-2 transition duration-300 ease-in-out"
+    ><i class="fa-solid fa-arrow-left"></i
+  ></a>
   <button
     class="tablinks py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
     onclick="openTab(event, 'payments')"
@@ -17,7 +22,7 @@
     onclick="openTab(event, 'payouts')"
   >
     <i class="fa-solid fa-user lg:mr-2"></i>
-    <span class="hidden lg:inline"> Décaissements des conducteurs </span>
+    <span class="hidden lg:inline"> Rémunérations des conducteurs </span>
   </button>
   <!--------------------------------------- search form --------------------------------------->
 </nav>
@@ -27,8 +32,8 @@
   {% if user.role.sec_level >= 1 %}
   <a
     href="{% url 'create_payment' %}"
-    class="px-4 py-2 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
-    >Ajouter un encaissement<i class="fa-solid fa-plus ml-4"></i
+    class="px-4 py-3 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
+    >Nouvel encaissement<i class="fa-solid fa-plus ml-4"></i
   ></a>
   {% endif %}
   <div class="w-full mx-auto my-8">
@@ -51,24 +56,24 @@
       <div
         class="relative flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
       >
-        {% if obj.is_valid %}
+        {% if obj.is_audited %}
         <span
           class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
         >
-          Valid
+          Audité
         </span>
         {% else %}
         <span
           class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
         >
-          Invalid
+          Non-audité
         </span>
         {% endif %}
         <a href="{% url 'payment' obj.id  %}">
           {% if not obj.image %}
           <img
             class="h-20 w-full object-cover"
-            src="{% static 'imgs/pos.jpg' %}"
+            src="{% static 'imgs/income.jpg' %}"
             alt="d_doc image"
           />
           {% else %}
@@ -100,8 +105,8 @@
   {% if user.role.sec_level >= 1 %}
   <a
     href="{% url 'create_payout' %}"
-    class="px-4 py-2 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
-    >Ajouter un décaissement<i class="fa-solid fa-plus ml-4"></i
+    class="px-4 py-3 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
+    >Nouvelle rémunérations<i class="fa-solid fa-plus ml-4"></i
   ></a>
   {% endif %}
   <div class="w-full mx-auto my-8">
@@ -122,24 +127,24 @@
       <div
         class="relative flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
       >
-        {% if obj.is_valid %}
+        {% if obj.is_audited %}
         <span
           class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
         >
-          Valid
+          Audité
         </span>
         {% else %}
         <span
           class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
         >
-          Invalid
+          Non-audité
         </span>
         {% endif %}
         <a href="{% url 'payout' obj.id  %}">
           {% if not obj.image %}
           <img
             class="h-20 w-full object-cover"
-            src="{% static 'imgs/sig.jpg' %}"
+            src="{% static 'imgs/pay.jpg' %}"
             alt="payouts image"
           />
           {% else %}

@@ -1,0 +1,142 @@
+{% extends 'main.html' %} {% load static %} {% block content %}
+<!--------------------------------------- mini navbar --------------------------------------->
+<nav
+  class="mb-4 mx-auto flex flex-wrap items-center gap-2 items-center text-xs w-full max-w-[1350px]"
+>
+  <a
+    href="{{request.META.HTTP_REFERER}}"
+    class="px-4 py-3 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    ><i class="fa-solid fa-arrow-left"></i
+  ></a>
+  {% if curr_tip and not form %}
+  <!--  -->
+  {% if user.role.sec_level >= 3 or user == curr_tip.vehicle.owner %}
+
+  <a
+    href="{% url 'edit_tip' curr_tip.id %}"
+    class="px-4 py-3 bg-black text-white hover:bg-green-600 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    >Modifier<i class="fa-solid fa-pen-to-square ml-4"></i
+  ></a>
+  {% endif %}
+  <!--  -->
+  {% if user.role.sec_level >= 3 %}
+  <a
+    href="{% url 'delete_tip' curr_tip.id %}"
+    id="delete_btn"
+    onclick="return confirm('Voulez vous continuer avec la suppression')"
+    class="px-4 py-3 bg-black text-white hover:bg-red-700 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    >Supprimer<i class="fa-solid fa-trash ml-4"></i
+  ></a>
+  {% endif %} {% endif %}
+</nav>
+
+<!--------------------------------------- forms layout --------------------------------------->
+
+{% if not form %}
+
+<section
+  class="p-4 lg:p-8 bg-white flex-col justify-between items-start gap-8 justify-between rounded-md overflow-hidden"
+>
+  <div class="mb-4 flex flex-col gap-4 w-full">
+    {% if curr_tip.video %}
+    <video
+      class="h-[600px] rounded-t-md object-cover hover:shadow-md rounded-md"
+      loop
+      poster="{% static 'imgs/tips.jpg' %}"
+      preload="metadata"
+      controls="controls"
+      autoplay
+    >
+      <source src="{{curr_tip.video.url}}" type="video/mp4" />
+    </video>
+    {% endif %}
+    <div class="flex flex-col justify-between">
+      <h4 class="text-black text-md font-bold">{{curr_tip.title}}</h4>
+      <p class="pt-2 text-sm">{{curr_tip.subtitle}}</p>
+      <p class="pt-2 text-sm">{{curr_tip.date_posted}}</p>
+      <!-- <p class="pt-2 text-sm">Date ajouté {{curr_tip.date_posted.date}}</p> -->
+    </div>
+    <!--  -->
+  </div>
+
+  <!--------------------------------------- Relative videos --------------------------------------->
+  {% if rel_tips %}
+  <div class="w-full mx-auto rounded-md">    
+    
+    <h3 class="my-4 text-black text-xl font-bold">Autres videos</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {% for obj in rel_tips %}
+      <a href="{% url 'tip' obj.id  %}">
+        <div class="flex flex-col bg-black hover:shadow-md rounded-md group">
+          {% if obj.video %}
+          <video
+            class="h-[300px] rounded-t-md object-cover"
+            poster="{% static 'imgs/tips.jpg' %}"
+            preload="metadata"
+          >
+            <source src="{{obj.video.url}}" type="video/mp4" />
+          </video>
+          {% endif %}
+          <div class="p-4 flex flex-col justify-between">
+            <h4 class="text-white text-lg font-bold">{{obj.title}}</h4>
+            <p class="py-2 text-gray-300 text-sm">
+              {{obj.subtitle|truncatechars:35}}
+            </p>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+  </div>
+  {% endif %}
+</section>
+<!--------------------------------------- related exepenses --------------------------------------->
+
+{% else %}
+<!--------------------------------------- tip form -->
+<section
+  class="p-4 lg:p-8 bg-white md:grid grid-cols-2 gap-4 lg:gap-8 w-full mx-auto rounded-md text-sm"
+>
+  <div>
+    {% if curr_tip %}
+    <h3 class="mb-4 text-black text-2xl font-bold">Modifier cet Astuce</h3>
+    {% else %}
+    <h3 class="mb-4 text-black text-2xl font-bold">Nouvel Astuce</h3>
+    {% endif %}
+    <form
+      class="w-full flex flex-col justify-between gap-6"
+      method="POST"
+      action=""
+      enctype="multipart/form-data"
+    >
+      {% csrf_token %}
+      <!--  -->
+      {% for field in form %}
+      <div>
+        <h3 class="mb-1">{{field.label}}</h3>
+        {{field}}
+      </div>
+      {% endfor %}
+
+      <div class="my-4 flex gap-4 lg:gap-8 items-end">
+        <input
+          class="px-8 py-2 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md cursor-pointer"
+          type="submit"
+          value="Enregistrer"
+        />
+        <a
+          class="bg-gray-200 px-8 py-2 rounded-md hover:bg-red-700 hover:text-white"
+          href="{{request.META.HTTP_REFERER}}"
+        >
+          Annuler
+        </a>
+      </div>
+    </form>
+  </div>
+  <img
+    class="hidden md:inline w-full rounded-md object-cover"
+    src="{% static 'imgs/tips.jpg' %}"
+    alt="vehicle image"
+  />
+</section>
+
+{% endif %} {% endblock %}

@@ -3,14 +3,7 @@
 <!--  -->
 {% if not threads %}
 <!--------------------------------------- No data placeholder --------------------------------------->
-<div
-  class="p-8 my-20 w-full text-gray-200 mx-auto rounded-md flex-col text-center"
->
-  <i class="fa-regular fa-folder-open text-5xl"></i>
-  <p class="mt-4">Aucune conversation disponible pour le moment</p>
-</div>
-
-{% else %}
+{% include 'components/no_data.html' %} {% else %}
 <!--  -->
 {% for thread in threads %}
 <!--  -->
@@ -21,15 +14,15 @@
   {% if obj.id == thread.receiver %}
   <a
     href="{% url 'chat_page' obj.id %}"
-    class="contact-li p-2 flex flex-row items-center gap-2 mb-2 {% if thread.id == active_thread.id %} active {% else %} bg-white {% endif %} sm:text-sm lg:text-md rounded-md cursor-pointer"
+    class="contact-li p-2 flex flex-row items-center gap-2 mb-2 {% if thread.id == active_thread.id %} active {% else %} bg-white {% endif %} sm:text-sm lg:text-md rounded-md cursor-pointer hover:bg-gray-200 transition ease-in duration-200"
   >
     <img
-      class="hidden lg:block w-10 h-10 rounded-full"
-      src="{% static 'imgs/rand.webp' %}"
+      class="h-5 w-5 lg:h-8 lg:w-8 rounded-full object-cover"
+      src="{% static 'imgs/random.png' %}"
       alt="Rounded avatar"
     />
     <div class="flex flex-col w-full">
-      <p class="text-black font-bold">@{{obj.first_name}}</p>
+      <p class="text-black font-bold">@{{obj.username}}</p>
       <div class="flex justify-between text-xs">
         <p>{{thread.message|truncatechars:40}}</p>
         <p class="hidden xl:inline">{{thread.timestamp}}</p>
@@ -47,15 +40,15 @@
   {% if obj.id == thread.sender %}
   <a
     href="{% url 'chat_page' obj.id %}"
-    class="contact-li p-2 flex flex-row items-center gap-2 mb-2 {% if thread.id == active_thread.id %} active {% else %} bg-white {% endif %} sm:text-sm lg:text-md rounded-md cursor-pointer"
+    class="contact-li p-2 flex flex-row items-center gap-2 mb-2 {% if thread.id == active_thread.id %} active {% else %} bg-white {% endif %} sm:text-sm lg:text-md rounded-md cursor-pointer hover:bg-gray-200 transition ease-in duration-200"
   >
     <img
-      class="hidden lg:block w-10 h-10 rounded-full"
-      src="{% static 'imgs/rand.webp' %}"
+      class="h-5 w-5 lg:h-8 lg:w-8 rounded-full object-cover"
+      src="{% static 'imgs/random.png' %}"
       alt="Rounded avatar"
     />
     <div class="flex flex-col w-full">
-      <p class="text-black font-bold">@{{obj.first_name}}</p>
+      <p class="text-black font-bold">@{{obj.username}}</p>
       <div class="flex justify-between text-xs">
         <p>{{thread.message|truncatechars:40}}</p>
         <p class="hidden xl:inline">{{thread.timestamp}}</p>

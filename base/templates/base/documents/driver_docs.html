@@ -2,47 +2,36 @@
 <!--------------------------------------- mini navbar --------------------------------------->
 
 <nav
-  class="mx-auto my-4 py-2 flex flex-col md:flex-row justify-between items-center gap-2 items-center text-xs w-full max-w-[1350px]"
+  class="mx-auto flex flex-col md:flex-row justify-between items-center gap-2 items-center text-xs w-full max-w-[1350px]"
 >
-  {% if user.role.sec_level >= 1 %}
-  <a
-    href="{% url 'create_ddoc' %}"
-    class="px-4 py-2 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
-    >Ajouter un document pour chauffeur<i class="fa-solid fa-plus ml-4"></i
-  ></a>
-  {% endif %}
+  <div class="flex items-center gap-2">
+    <a
+      href="{{request.META.HTTP_REFERER}}"
+      class="px-4 py-3 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+      ><i class="fa-solid fa-arrow-left"></i
+    ></a>
+    {% if user.role.sec_level >= 1 %}
+    <a
+      href="{% url 'create_ddoc' %}"
+      class="px-4 py-3 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
+      >Nouveau document<i class="fa-solid fa-plus ml-4"></i
+    ></a>
+    {% endif %}
+  </div>
   <!--------------------------------------- search form --------------------------------------->
 
-  <form
-    id="search_box"
-    class="w-[400px] max-w-xl flex flex-row justify-between"
-  >
-    <input
-      type="text"
-      name="query"
-      id="querier"
-      required
-      class="px-4 py-2 bg-white text-black w-full rounded-l-md outline-none"
-      placeholder="Recherchez..."
-    />
-    <button
-      class="group px-4 py-2 text-sm bg-black hover:bg-amber-300 text-white hover:text-black rounded-r-md transition duration-300 ease-in-out"
-      type="submit"
-    >
-      <i class="fa-solid fa-magnifying-glass"></i>
-    </button>
-  </form>
+  {% include 'components/searchbar.html' %}
 </nav>
 
 <!--------------------------------------- driver documents --------------------------------------->
-<section class="w-full mx-auto my-8">
+<section class="w-full mx-auto my-4">
   {% if not documents %}
 
   <!--------------------------------------- No data placeholder --------------------------------------->
   {% include 'components/no_data.html' %} {% else %}
   <!--------------------------------------- documents --------------------------------------->
   <div
-    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
   >
     {% for obj in documents %}
     <div
@@ -64,13 +53,13 @@
       <a href="{% url 'driver_doc' obj.id  %}">
         {% if not obj.image %}
         <img
-          class="h-40 w-full object-cover"
+          class="h-20 w-full object-cover"
           src="{% static 'imgs/docs.jpg' %}"
           alt="d_doc image"
         />
         {% else %}
         <img
-          class="h-40 w-full object-cover"
+          class="h-20 w-full object-cover"
           src="{{obj.image.url}}"
           alt="d_doc image"
         />
@@ -79,8 +68,8 @@
           <h4 class="text-black text-md font-bold">
             {{obj.driver.user.first_name}}
           </h4>
-          <p class="py-2 text-sm">{{obj.type.name}}</p>
-          <p class="py-2 text-sm">
+          <p class="pt-2 text-sm">{{obj.type.name}}</p>
+          <p class="pt-2 text-sm">
             {{obj.issue_date.date}} - {{obj.expiry_date.date}}
           </p>
         </div>

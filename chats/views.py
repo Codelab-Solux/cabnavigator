@@ -44,7 +44,7 @@ def chat_page(req, pk):
 
     threads = ChatMessage.objects.filter(
         Q(sender=user.id) | Q(receiver=user.id)
-    ).values().distinct('thread_name').order_by('thread_name', '-timestamp')
+    ).distinct('thread_name').order_by('thread_name', '-timestamp')
 
     other_user = CustomUser.objects.get(id=pk)
 
@@ -58,7 +58,7 @@ def chat_page(req, pk):
     # thread_other_user = CustomUser.objects.get()
 
     context = {
-        'chat_page': 'active',
+        'chats_page': 'active',
         'contacts': contacts,
         'other_user': other_user,
         'messages': messages,

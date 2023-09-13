@@ -1,24 +1,59 @@
 {% extends 'main.html' %} {% load static %} {% block content %}
 <!--------------------------------------- mini navbar --------------------------------------->
 <nav
-  class="mb-4 mx-auto flex items-center gap-2 items-center text-xs w-full max-w-[1350px]"
+  class="mb-4 mx-auto flex flex-wrap items-center gap-2 items-center text-xs w-full max-w-[1350px]"
 >
+  {% if not form %}
   <a
     href="{{request.META.HTTP_REFERER}}"
     class="px-4 py-3 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
     ><i class="fa-solid fa-arrow-left"></i
   ></a>
-  {% if curr_expense and not form %}
+  {% else %}
   <a
-    href="{% url 'edit_d_expense' curr_expense.id %}"
+    href="{{request.META.HTTP_REFERER}}"
+    class="px-4 py-3 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    ><i class="fa-solid fa-arrow-left"></i
+  ></a>
+  {% endif %}
+  <!--  -->
+  {% if curr_expense %}
+  <!--  -->
+  {% if user.role.sec_level >= 3 %}
+  <!--  -->
+  {% if not form %}
+  <a
+    href="{% url 'edit_g_expense' curr_expense.id %}"
     class="px-4 py-3 bg-black text-white hover:bg-green-600 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
     >Modifier<i class="fa-solid fa-pen-to-square ml-4"></i
   ></a>
+  {% endif %}
   <a
-    href="{% url 'delete_d_expense' curr_expense.id %}"
+    href="{% url 'delete_g_expense' curr_expense.id %}"
+    id="delete_btn"
+    onclick="return confirm('Voulez vous continuer avec la suppression')"
     class="px-4 py-3 bg-black text-white hover:bg-red-700 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
     >Supprimer<i class="fa-solid fa-trash ml-4"></i
   ></a>
+  <form action="{% url 'audit_g_expense' curr_expense.id %}" method="POST">
+    {% csrf_token %}
+    <!--  -->
+    {% if curr_expense.is_audited == False %}
+    <input
+      type="submit"
+      value="Auditer"
+      class="px-4 py-3 bg-black text-white hover:bg-green-600 rounded-md flex justify-between items-center transition duration-300 ease-in-out cursor-pointer"
+    />
+    {% else %}
+    <input
+      type="submit"
+      value="Ne pas auditer"
+      class="px-4 py-3 bg-black text-white hover:bg-red-700 rounded-md flex justify-between items-center transition duration-300 ease-in-out cursor-pointer"
+    />
+    {% endif %}
+  </form>
+  {% endif %}
+  <!--  -->
   {% endif %}
 </nav>
 
@@ -27,7 +62,7 @@
 {% if not form %}
 
 <section
-  class="p-8 bg-white lg:grid grid-cols-2 gap-4 justify-between rounded-md overflow-hidden"
+  class="p-8 bg-white lg:grid grid-cols-2 gap-8 justify-between rounded-md overflow-hidden"
 >
   <div class="flex flex-col gap-4 w-full">
     <div class="relative">
@@ -45,7 +80,7 @@
       />
       {% endif %}
       <!--  -->
-      {% if obj.is_audited %}
+      {% if curr_expense.is_audited %}
       <span
         class="absolute top-4 right-4 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
       >
@@ -78,7 +113,7 @@
     {% include 'components/no_data.html' %}
     <!--  -->
     {% else %}
-    <div class="flex flex-row flex-wrap gap-4">
+    <div class="grid grid-cols-2 gap-4">
       {% for obj in rel_expenses %}
       <div
         class="relative flex flex-col border border-2 hover:border-black bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
@@ -113,64 +148,102 @@
 
 {% else %}
 <!--------------------------------------- expense form -->
-<section class="my-4 p-4 lg:p-8 bg-white w-full mx-auto rounded-md text-sm">
-  <h3 class="mb-4 text-black text-2xl font-bold">
-    Formulaire de dépense de la compagnie
-  </h3>
-  <form
-    class="w-full flex flex-col justify-between gap-6"
-    method="POST"
-    action=""
-    enctype="multipart/form-data"
-  >
-    {% csrf_token %}
-    <!--  -->
-    <div
-      class="flex flex-col md:grid grid-cols-3 lg:grid-cols-4 flex-wrap gap-4"
+<section
+  class="p-4 lg:p-8 bg-white flex gap-4 lg:gap-8 w-full mx-auto rounded-md text-sm"
+>
+  <div class="w-full">
+    {% if curr_expense %}
+    <h3 class="mb-4 text-black text-2xl font-bold">Modifier cette dépense</h3>
+    {% else %}
+    <h3 class="mb-4 text-black text-2xl font-bold">Nouvelle dépense</h3>
+    {% endif %}
+    <form
+      class="w-full flex flex-col justify-between gap-6"
+      method="POST"
+      action=""
+      enctype="multipart/form-data"
     >
-      <div>
-        <h3 class="mb-1">{{form.title.label}}</h3>
-        {{form.title}}
+      {% csrf_token %}
+      <!--  -->
+      <div class="flex flex-col md:grid grid-cols-2 flex-wrap gap-4">
+        <div>
+          <h3 class="mb-1">{{form.title.label}}</h3>
+          {{form.title}}
+        </div>
+        <div>
+          <h3 class="mb-1">{{form.amount.label}}</h3>
+          {{form.amount}}
+        </div>
+        <div>
+          <h3 class="mb-1">{{form.date.label}}</h3>
+          {{form.date}}
+        </div>
+        <div>
+          <h3 class="mb-1">{{form.time.label}}</h3>
+          {{form.time}}
+        </div>
+        <div>
+          <h3 class="mb-1">{{form.receit.label}}</h3>
+          {{form.receit}}
+        </div>
       </div>
-      <div>
-        <h3 class="mb-1">{{form.amount.label}}</h3>
-        {{form.amount}}
+      <div class="my-4 flex gap-4 items-end">
+        <input
+          class="px-8 py-2 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md cursor-pointer"
+          type="submit"
+          value="Enregistrer"
+        />
+        <a
+          class="bg-gray-200 px-8 py-2 rounded-md hover:bg-red-700 hover:text-white"
+          href="{{request.META.HTTP_REFERER}}"
+        >
+          Annuler
+        </a>
       </div>
-      <div>
-        <h3 class="mb-1">{{form.date.label}}</h3>
-        {{form.date}}
-      </div>
-      <div>
-        <h3 class="mb-1">{{form.time.label}}</h3>
-        {{form.time}}
-      </div>
-      <div>
-        <h3 class="mb-1">{{form.is_audited.label}}</h3>
-        {{form.is_audited}}
-      </div>
-      <div>
-        <h3 class="mb-1">{{form.receit.label}}</h3>
-        {{form.receit}}
-      </div>
+    </form>
+  </div>
+  <div class="hidden md:inline rounded-md w-full max-w-[460px] overflow-hidden">
+    {% if not curr_expense %}
+    <img
+      class="h-full w-full object-cover"
+      src="{% static 'imgs/exp.jpg' %}"
+      alt="exp image"
+    />
+    {% endif %}
+    <!--  -->
+    {% if curr_expense %}
+    <!--  -->
+    {% if not curr_expense.image %}
+    <img
+      class="w-full object-cover"
+      src="{% static 'imgs/exp.jpg' %}"
+      alt="driver image"
+    />
+    {% else %}
+    <img
+      class="w-full object-cover"
+      src="{{curr_expense.image.url}}"
+      alt="driver image"
+    />
+    {% endif %}
+
+    <div class="p-4 h-full flex flex-col gap-1 w-full bg-black text-gray-300">
+      <h3 class="font-bold text-xl text-white">{{curr_expense.title}}</h3>
+      <p>
+        Montant
+        <tt class="text-red-500"> [--{{curr_expense.amount}} CFA--]</tt>
+      </p>
+      <p>
+        Date
+        <tt class="text-amber-300"> [--{{curr_expense.date}}--]</tt>
+      </p>
+      <p>
+        Heure
+        <tt class="text-green-500">[--{{curr_expense.time}}--]</tt>
+      </p>
     </div>
-    <div>
-      <h3 class="mb-1">{{form.details.label}}</h3>
-      {{form.details}}
-    </div>
-    <div class="my-4 flex gap-4 items-end">
-      <input
-        class="px-8 py-2 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md cursor-pointer"
-        type="submit"
-        value="Enregistrer"
-      />
-      <a
-        class="bg-gray-200 px-8 py-2 rounded-md hover:bg-red-700 hover:text-white"
-        href="{{request.META.HTTP_REFERER}}"
-      >
-        Annuler
-      </a>
-    </div>
-  </form>
+    {% endif %}
+  </div>
 </section>
 
 {% endif %} {% endblock %}

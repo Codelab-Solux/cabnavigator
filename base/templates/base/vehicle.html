@@ -1,41 +1,68 @@
 {% extends 'main.html' %} {% load static %} {% block content %}
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+
 <!--------------------------------------- mini navbar --------------------------------------->
 <nav
-  class="mb-4 mx-auto flex items-center gap-2 items-center text-xs w-full max-w-[1350px]"
+  class="mb-4 mx-auto flex flex-wrap items-center gap-2 items-center text-xs w-full max-w-[1350px]"
 >
   <a
     href="{{request.META.HTTP_REFERER}}"
     class="px-4 py-3 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
     ><i class="fa-solid fa-arrow-left"></i
   ></a>
-  {% if user == curr_vehicle.owner and not form %}
-  <a
-    href="{% url 'edit_vehicle' curr_vehicle.plate_number %}"
-    class="px-4 py-2 bg-black text-white hover:bg-amber-200 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
-    >Modifier<i class="fa-solid fa-pen-to-square ml-4"></i
-  ></a>
-  {% endif %} {% if curr_vehicle and not form and user.role.sec_level >= 3 %}
+  {% if curr_vehicle and not form %}
+  <!--  -->
+  {% if user.role.sec_level >= 3 or user == curr_vehicle.owner %}
   <a
     href="{% url 'edit_vehicle' curr_vehicle.plate_number %}"
     class="px-4 py-3 bg-black text-white hover:bg-green-600 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
     >Modifier<i class="fa-solid fa-pen-to-square ml-4"></i
   ></a>
+  <!--  -->
+  {% endif %}
+  <!--  -->
+  {% if user.role.sec_level >= 3 %}
   <a
     href="{% url 'delete_vehicle' curr_vehicle.plate_number %}"
+    id="delete_btn"
+    onclick="return confirm('Voulez vous continuer avec la suppression')"
     class="px-4 py-3 bg-black text-white hover:bg-red-700 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
     >Supprimer<i class="fa-solid fa-trash ml-4"></i
   ></a>
+  <form
+    action="{% url 'vehicle_activation' curr_vehicle.plate_number %}"
+    method="POST"
+  >
+    {% csrf_token %}
+    <!--  -->
+    {% if curr_vehicle.is_active == False %}
+    <input
+      type="submit"
+      value="Activer"
+      class="px-4 py-3 bg-black text-white hover:bg-green-600 rounded-md flex justify-between items-center transition duration-300 ease-in-out cursor-pointer"
+    />
+    {% else %}
+    <input
+      type="submit"
+      value="Désactiver"
+      class="px-4 py-3 bg-black text-white hover:bg-red-700 rounded-md flex justify-between items-center transition duration-300 ease-in-out cursor-pointer"
+    />
+    {% endif %}
+  </form>
+  {% endif %}
+  <!--  -->
   {% endif %}
 </nav>
 
 <!--------------------------------------- vehicle layout --------------------------------------->
 {% if not form %}
-<section class="my-4 flex flex-col justify-between items-start gap-8">
-  <div class="grid md:grid-cols-2 gap-8 w-full">
+<section class="mb-4 flex flex-col justify-between items-start gap-8">
+  <div class="grid md:grid-cols-2 gap-4 w-full">
     {% if not curr_vehicle.image %}
     <img
       class="h-80 border border-2 w-full rounded-md object-cover"
-      src="{% static 'imgs/corolla.jpg' %}"
+      src="{% static 'imgs/car.jpg' %}"
       alt="vehicle image"
     />
     {% else %}
@@ -46,19 +73,21 @@
     />
     {% endif %}
     <!--  -->
-    <div class="bg-black text-gray-300 text-sm p-8 rounded-md flex flex-col">
+    <div
+      class="h-80 bg-black text-gray-300 text-sm p-6 rounded-md flex flex-col"
+    >
       <h4 class="text-white text-xl font-bold flex items-center">
         <!-- <i class="fa-solid fa-car lg:mr-2"></i> -->
         {{curr_vehicle.make}} {{curr_vehicle.model}} {{curr_vehicle.year}}
         <img class="mx-2 h-4" src="{{curr_vehicle.country.flag}}" />
         ({{curr_vehicle.country}})
       </h4>
-      <p class="py-2">Etat : {{curr_vehicle.state}}</p>
-      <p class="py-2">Couleur : {{curr_vehicle.color}}</p>
-      <p class="py-2">Fournisseurs : {{curr_vehicle.supplier}}</p>
-      <p class="py-2">Transmission : {{curr_vehicle.transmission}}</p>
-      <p class="py-2">Immatriculation : {{curr_vehicle.plate_number|upper}}</p>
-      <p class="py-2">Numéro de série (VIN) : {{curr_vehicle.serial_number}}</p>
+      <p class="pt-2">Etat : {{curr_vehicle.state}}</p>
+      <p class="pt-2">Couleur : {{curr_vehicle.color}}</p>
+      <p class="pt-2">Fournisseurs : {{curr_vehicle.supplier}}</p>
+      <p class="pt-2">Transmission : {{curr_vehicle.transmission}}</p>
+      <p class="pt-2">Immatriculation : {{curr_vehicle.plate_number|upper}}</p>
+      <p class="pt-2">Numéro de série (VIN) : {{curr_vehicle.serial_number}}</p>
     </div>
     <!--  -->
     <!-- <div
@@ -89,7 +118,7 @@
 
 <!--------------------------------------- related stuff --------------------------------------->
 <div
-  class="customtab mx-auto mb-4 p-1 bg-black rounded-md flex justify-between gap-1 w-full text-sm"
+  class="mb-4 customtab mx-auto mb-4 p-1 bg-black rounded-md flex justify-between gap-1 w-full text-sm"
 >
   <button
     class="tablinks py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
@@ -115,22 +144,22 @@
   </button>
   <button
     class="tablinks py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
-    onclick="openTab(event, 'stats')"
-  >
-    <i class="fa-solid fa-chart-pie lg:mr-2"></i>
-    <span class="hidden xl:inline">Statistiques</span>
-  </button>
-  <button
-    class="tablinks py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
     onclick="openTab(event, 'incidents')"
   >
     <i class="fa-solid fa-burst lg:mr-2"></i>
     <span class="hidden xl:inline">Incidents</span>
   </button>
+  <button
+    class="tablinks py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+    onclick="openTab(event, 'stats')"
+  >
+    <i class="fa-solid fa-chart-pie lg:mr-2"></i>
+    <span class="hidden xl:inline">Statistiques</span>
+  </button>
 </div>
 <!--------------------------------------- related documents --------------------------------------->
-<section id="docs" class="tabcontent w-full bg-white p-6 mt-4 rounded-md">
-  {% if user.role.sec_level >= 1 %}
+<section id="docs" class="tabcontent w-full bg-white p-6 rounded-md">
+  {% if user.role.sec_level > 2 %}
   <a
     href="{% url 'create_vdoc' %}"
     class="px-4 py-2 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
@@ -140,16 +169,9 @@
   <div class="w-full mx-auto my-8">
     {% if not docs %}
     <!--------------------------------------- No data placeholder --------------------------------------->
-    <div
-      class="p-8 my-40 bg-gray-100 max-w-[400px] mx-auto rounded-md flex-col text-center"
-    >
-      <i class="fa-regular fa-folder-open text-7xl"></i>
-      <p class="mt-4">Aucune données disponible pour le moment</p>
-    </div>
-
-    {% else %}
+    {% include 'components/no_data.html' %} {% else %}
     <!--------------------------------------- v_docs --------------------------------------->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
       {% for obj in docs %}
       <div
         class="relative flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
@@ -158,22 +180,19 @@
         <span
           class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
         >
-          Valid
+          <i class="fa-solid fa-check text-white"></i>
         </span>
         {% else %}
         <span
           class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
         >
-          Invalid
+          <i class="fa-solid fa-question text-white"></i>
         </span>
         {% endif %}
         <a href="{% url 'vehicle_doc' obj.id  %}">
           <div class="p-4 flex flex-col justify-between">
             <h4 class="text-black text-md font-bold">{{obj.type.name}}</h4>
-            <p class="pt-2 text-sm">
-              {{obj.vehicle.make}} {{obj.vehicle.model}}
-              [-{{obj.vehicle.plate_number}}-]
-            </p>
+
             <p class="pt-2 text-sm">
               {{obj.issue_date.date}} - {{obj.expiry_date.date}}
             </p>
@@ -187,8 +206,8 @@
 </section>
 
 <!--------------------------------------- related payments --------------------------------------->
-<section id="payments" class="tabcontent w-full bg-white p-6 mt-4 rounded-md">
-  {% if user.role.sec_level >= 1 %}
+<section id="payments" class="tabcontent w-full bg-white p-6 rounded-md">
+  {% if user.role.sec_level > 2 %}
   <a
     href="{% url 'create_payment' %}"
     class="px-4 py-2 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
@@ -198,16 +217,9 @@
   <div class="w-full mx-auto my-8">
     {% if not payments %}
     <!--------------------------------------- No data placeholder --------------------------------------->
-    <div
-      class="p-8 my-40 bg-gray-100 max-w-[400px] mx-auto rounded-md flex-col text-center"
-    >
-      <i class="fa-regular fa-folder-open text-7xl"></i>
-      <p class="mt-4">Aucune données disponible pour le moment</p>
-    </div>
-
-    {% else %}
+    {% include 'components/no_data.html' %} {% else %}
     <!--------------------------------------- v_docs --------------------------------------->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
       {% for obj in payments %}
       <div
         class="relative flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
@@ -216,22 +228,19 @@
         <span
           class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
         >
-          Audité
+          <i class="fa-solid fa-check text-white"></i>
         </span>
         {% else %}
         <span
           class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
         >
-          Non-audité
+          <i class="fa-solid fa-question text-white"></i>
         </span>
         {% endif %}
         <a href="{% url 'payment' obj.id  %}">
           <div class="p-4 flex flex-col justify-between">
             <h4 class="text-black text-md font-bold">{{obj.amount}} CFA</h4>
-            <p class="pt-2 text-sm">
-              {{obj.vehicle.make}} {{obj.vehicle.model}}
-              [-{{obj.vehicle.plate_number}}-]
-            </p>
+
             <p class="pt-2 text-sm">
               {{obj.vehicle.last_name}} {{obj.vehicle.first_name}}
             </p>
@@ -246,8 +255,8 @@
 </section>
 
 <!--------------------------------------- related expenses --------------------------------------->
-<section id="expenses" class="tabcontent w-full bg-white p-6 mt-4 rounded-md">
-  {% if user.role.sec_level >= 1 %}
+<section id="expenses" class="tabcontent w-full bg-white p-6 rounded-md">
+  {% if user.role.sec_level > 2 %}
   <a
     href="{% url 'create_payment' %}"
     class="px-4 py-2 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
@@ -257,16 +266,9 @@
   <div class="w-full mx-auto my-8">
     {% if not expenses %}
     <!--------------------------------------- No data placeholder --------------------------------------->
-    <div
-      class="p-8 my-40 bg-gray-100 max-w-[400px] mx-auto rounded-md flex-col text-center"
-    >
-      <i class="fa-regular fa-folder-open text-7xl"></i>
-      <p class="mt-4">Aucune données disponible pour le moment</p>
-    </div>
-
-    {% else %}
+    {% include 'components/no_data.html' %} {% else %}
     <!--------------------------------------- v_docs --------------------------------------->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
       {% for obj in expenses %}
       <div
         class="relative flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
@@ -275,13 +277,13 @@
         <span
           class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
         >
-          Audité
+          <i class="fa-solid fa-check text-white"></i>
         </span>
         {% else %}
         <span
           class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
         >
-          Non-audité
+          <i class="fa-solid fa-question text-white"></i>
         </span>
         {% endif %}
         <a href="{% url 'v_expense' obj.id  %}">
@@ -289,10 +291,6 @@
             <h4 class="text-black text-md font-bold">
               {{obj.title}} à {{obj.amount}} CFA
             </h4>
-            <p class="pt-2 text-sm">
-              {{obj.vehicle.make}} {{obj.vehicle.model}}
-              [-{{obj.vehicle.plate_number}}-]
-            </p>
             <p class="pt-2 text-sm">
               {{obj.vehicle.last_name}} {{obj.vehicle.first_name}}
             </p>
@@ -306,36 +304,9 @@
   </div>
 </section>
 
-<!--------------------------------------- stats --------------------------------------->
-<section id="stats" class="tabcontent w-full bg-white p-6 rounded-md">
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-    <div class="p-6 flex flex-col justify-between border-2 rounded-md">
-      <h4 class="text-green-500 text-xl font-bold">{{total_revenu}} CFA</h4>
-      <p class="mt-2 text-sm">Revenu Brut</p>
-    </div>
-    <div class="p-6 flex flex-col justify-between border-2 rounded-md">
-      <h4 class="text-red-500 text-xl font-bold">{{total_expenses}} CFA</h4>
-      <p class="mt-2 text-sm">Dépenses</p>
-    </div>
-    <div class="p-6 flex flex-col justify-between border-2 rounded-md">
-      {% if total_net < 0 %}
-      <h4 class="text-red-500 text-xl font-bold">{{total_net}} CFA</h4>
-      {% else %}
-      <h4 class="text-green-500 text-xl font-bold">{{total_net}} CFA</h4>
-      {% endif %}
-      <p class="mt-2 text-sm">Revenu Net</p>
-    </div>
-    <img
-      class=" w-full rounded-md object-cover"
-      src="{% static 'imgs/pie.png' %}"
-      alt="vehicle image"
-    />
-  </div>
-</section>
-
 <!--------------------------------------- related incidents --------------------------------------->
-<section id="incidents" class="tabcontent w-full bg-white p-6 mt-4 rounded-md">
-  {% if user.role.sec_level >= 1 %}
+<section id="incidents" class="tabcontent w-full bg-white p-6 rounded-md">
+  {% if user.role.sec_level > 2 %}
   <a
     href="{% url 'create_incident' %}"
     class="px-4 py-2 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
@@ -345,16 +316,9 @@
   <div class="w-full mx-auto my-8">
     {% if not incidents %}
     <!--------------------------------------- No data placeholder --------------------------------------->
-    <div
-      class="p-8 my-40 bg-gray-100 max-w-[400px] mx-auto rounded-md flex-col text-center"
-    >
-      <i class="fa-regular fa-folder-open text-7xl"></i>
-      <p class="mt-4">Aucune données disponible pour le moment</p>
-    </div>
-
-    {% else %}
+    {% include 'components/no_data.html' %} {% else %}
     <!--------------------------------------- v_docs --------------------------------------->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
       {% for obj in incidents %}
       <div
         class="relative flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
@@ -363,13 +327,13 @@
         <span
           class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
         >
-          Résolu
+          <i class="fa-solid fa-check text-white"></i>
         </span>
         {% else %}
         <span
           class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
         >
-          Non-résolu
+          <i class="fa-solid fa-question text-white"></i>
         </span>
         {% endif %}
 
@@ -390,46 +354,225 @@
   </div>
 </section>
 
-{% else %}
-<section class="mt-4 p-4 lg:p-8 bg-white w-full mx-auto rounded-md text-sm">
-  <h3 class="mb-4 text-black text-2xl font-bold">
-    {% if not curr_vehicle %}
-    <!--  -->
-    Ajouter un nouveau véhicule
-    <!--  -->
-    {% else %} Modifier de mon véhicule
-    <!--  -->
-    {% endif %}
-  </h3>
-  <form
-    class="w-full flex flex-col justify-between gap-6"
-    method="POST"
-    action=""
-    enctype="multipart/form-data"
+<!--------------------------------------- stats --------------------------------------->
+<section id="stats" class="tabcontent w-full bg-black p-6 rounded-md">
+  <div
+    class="text-gray-300 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
   >
-    {% csrf_token %}
-    <!--  -->
-    <div class="flex flex-col md:flex-row flex-wrap gap-5">
-      {% for field in form %}
-      <div>
-        <h3 class="mb-1">{{field.label}}</h3>
-        {{field}}
-      </div>
-      {% endfor %}
+    <div class="p-4 flex flex-col justify-between">
+      <h4 class="text-green-500 text-xl font-bold">{{total_revenu}} CFA</h4>
+      <p class="mt-2 text-sm">Revenu Brut</p>
     </div>
-    <div class="my-4 flex gap-4 items-end">
-      <input
-        class="px-8 py-2 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md cursor-pointer"
-        type="submit"
-        value="Enregistrer"
-      />
-      <a
-        class="bg-gray-200 px-8 py-2 rounded-md hover:bg-red-700 hover:text-white"
-        href="{{request.META.HTTP_REFERER}}"
-      >
-        Annuler
-      </a>
+    <div class="p-4 flex flex-col justify-between">
+      <h4 class="text-red-500 text-xl font-bold">{{total_expenses}} CFA</h4>
+      <p class="mt-2 text-sm">Dépenses</p>
     </div>
-  </form>
+    <div class="p-4 flex flex-col justify-between">
+      {% if total_net < 0 %}
+      <h4 class="text-red-500 text-xl font-bold">{{total_net}} CFA</h4>
+      {% else %}
+      <h4 class="text-green-500 text-xl font-bold">{{total_net}} CFA</h4>
+      {% endif %}
+      <p class="mt-2 text-sm">Revenu Net</p>
+    </div>
+    <div class="h-40">
+      <canvas class="text-gray-200" id="exp_chart"></canvas>
+    </div>
+  </div>
 </section>
-{% endif %} {% endblock %}
+
+{% else %}
+<section
+  class="mb-4 p-4 lg:p-8 flex gap-4 lg:gap-8 bg-white w-full mx-auto rounded-md text-sm"
+>
+  <div class="w-full">
+    {% if curr_vehicle %}
+    <h3 class="mb-4 text-black text-2xl font-bold">Modifier ce véhicule</h3>
+    {% else %}
+    <h3 class="mb-4 text-black text-2xl font-bold">Nouveau véhicule</h3>
+    {% endif %}
+    <form
+      class="w-full flex flex-col justify-between gap-6"
+      method="POST"
+      action=""
+      enctype="multipart/form-data"
+    >
+      {% csrf_token %}
+      <!--  -->
+      <div
+        class="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4 text-gray-500"
+      >
+        {% if user.role.sec_level > 2 %}
+        <div>
+          <h3 class="mb-1 text-black">{{form.owner.label}}</h3>
+          {{form.owner}}
+        </div>
+        <!--  -->
+        <div>
+          <h3 class="mb-1 text-black">{{form.first_driver.label}}</h3>
+          {{form.first_driver}}
+        </div>
+        <div>
+          <h3 class="mb-1 text-black">{{form.second_driver.label}}</h3>
+          {{form.second_driver}}
+        </div>
+        <div>
+          <h3 class="mb-1 text-black">{{form.third_driver.label}}</h3>
+          {{form.third_driver}}
+        </div>
+        {% else %}
+        <div class="hidden">
+          <h3 class="mb-1 text-black">{{form.owner.label}}</h3>
+          {{form.owner}}
+        </div>
+        {% endif %}
+        <!--  -->
+        <div>
+          <h3 class="mb-1 text-black">{{form.supplier.label}}</h3>
+          {{form.supplier}}
+        </div>
+        <div>
+          <h3 class="mb-1 text-black">{{form.make.label}}</h3>
+          {{form.make}}
+        </div>
+        <div>
+          <h3 class="mb-1 text-black">{{form.model.label}}</h3>
+          {{form.model}}
+        </div>
+        <div>
+          <h3 class="mb-1 text-black">{{form.year.label}}</h3>
+          {{form.year}}
+        </div>
+        <!--  -->
+        <div>
+          <h3 class="mb-1 text-black">{{form.country.label}}</h3>
+          {{form.country}}
+        </div>
+        <div>
+          <h3 class="mb-1 text-black">{{form.plate_number.label}}</h3>
+          {{form.plate_number}}
+        </div>
+        <div>
+          <h3 class="mb-1 text-black">{{form.serial_number.label}}</h3>
+          {{form.serial_number}}
+        </div>
+        <!--  -->
+        <div>
+          <h3 class="mb-1 text-black">{{form.state.label}}</h3>
+          {{form.state}}
+        </div>
+        <div>
+          <h3 class="mb-1 text-black">{{form.transmission.label}}</h3>
+          {{form.transmission}}
+        </div>
+        <div>
+          <h3 class="mb-1 text-black">{{form.color.label}}</h3>
+          {{form.color}}
+        </div>
+        <!--  -->
+        <div>
+          <h3 class="mb-1 text-black">{{form.cost.label}}</h3>
+          {{form.cost}}
+        </div>
+        <div>
+          <h3 class="mb-1 text-black">{{form.commission.label}}</h3>
+          {{form.commission}}
+        </div>
+      </div>
+      <div>
+        <h3 class="mb-1 text-black">{{form.image.label}}</h3>
+        {{form.image}}
+      </div>
+      <div class="flex gap-4 items-end">
+        <input
+          class="px-8 py-2 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md cursor-pointer"
+          type="submit"
+          value="Enregistrer"
+        />
+        <a
+          class="bg-gray-200 px-8 py-2 rounded-md hover:bg-red-700 hover:text-white"
+          href="{{request.META.HTTP_REFERER}}"
+        >
+          Annuler
+        </a>
+      </div>
+    </form>
+  </div>
+  <div class="hidden md:inline rounded-md w-full max-w-[460px] overflow-hidden">
+    {% if not curr_vehicle %}
+    <img
+      class="h-full w-full object-cover"
+      src="{% static 'imgs/car.jpg' %}"
+      alt="car image"
+    />
+    {% endif %}
+    <!--  -->
+    {% if curr_vehicle %}
+    <!--  -->
+    {% if not curr_vehicle.image %}
+    <img
+      class="w-full object-cover"
+      src="{% static 'imgs/car.jpg' %}"
+      alt="driver image"
+    />
+    {% else %}
+    <img
+      class="w-full object-cover"
+      src="{{curr_vehicle.image.url}}"
+      alt="driver image"
+    />
+    {% endif %}
+
+    <div class="p-4 h-full flex flex-col gap-1 w-full bg-black text-gray-300">
+      <h3 class="font-bold text-xl text-white">
+        {{curr_vehicle.make}} {{curr_vehicle.model}} {{curr_vehicle.year}}
+      </h3>
+      <p>
+        Matricule
+        <tt class="text-red-500"> [--{{curr_vehicle.plate_number}}--]</tt>
+      </p>
+      <p>
+        Transmission
+        <tt class="text-amber-300"> [--{{curr_vehicle.transmission}}--]</tt>
+      </p>
+      <p>
+        Proprietaire
+        <tt class="text-green-500"
+          >[--{{curr_vehicle.owner.last_name}}
+          {{curr_vehicle.owner.first_name}}--]
+        </tt>
+      </p>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+{% endif %}
+
+<script>
+  var ctx = document.getElementById("exp_chart");
+  var exp_chart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: ["Recettes", "Commissions", "Dépenses"],
+      datasets: [
+        {
+          label: "Situation Actuelle",
+          data: [
+            "{{total_revenu}}",
+            "{{total_commission}}",
+            "{{total_expenses}}",
+          ],
+          backgroundColor: [
+            "rgb(22 163 74)",
+            "rgb(255, 205, 86)",
+            "rgb(239 68 68)",
+          ],
+          borderWidth: 0,
+        },
+      ],
+    },
+  });
+</script>
+
+{% endblock %}

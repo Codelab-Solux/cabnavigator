@@ -33,6 +33,8 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
+    'channels',
     # 'whitenoise.runserver_nostatic',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -46,6 +48,7 @@ INSTALLED_APPS = [
     'chats.apps.ChatsConfig',
     'dj_database_url',
     'django_countries',
+    'mathfilters',
 ]
 
 MIDDLEWARE = [
@@ -77,6 +80,7 @@ TEMPLATES = [
     },
 ]
 
+ASGI_APPLICATION = 'cabnavigator.asgi.application'
 WSGI_APPLICATION = 'cabnavigator.wsgi.application'
 
 
@@ -84,22 +88,22 @@ WSGI_APPLICATION = 'cabnavigator.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.parse('postgres://cabnavigator_vuwe_user:GLLxumsxYDuNqljw59f8unVk6CQiy33c@dpg-ciitv8t9aq01qqmjku3g-a.ohio-postgres.render.com/cabnavigator_vuwe')
+    # 'default': dj_database_url.parse('postgres://cabnavigator_vuwe_user:GLLxumsxYDuNqljw59f8unVk6CQiy33c@dpg-ciitv8t9aq01qqmjku3g-a.ohio-postgres.render.com/cabnavigator_vuwe')
     # 'default': dj_database_url.parse(env('DB_URL'))
 
-    # 'default': {
+    'default': {
 
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'NAME': 'cabnavigator',
-    #     'USER': 'postgres',
-    #     'PASSWORD': 'password',
-    #     'HOST': 'localhost',
-    #     'PORT': '5432',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'cabnavigator',
+        'USER': 'postgres',
+        'PASSWORD': 'password',
+        'HOST': 'localhost',
+        'PORT': '5432',
 
-    #     # 'ENGINE': 'django.db.backends.sqlite3',
-    #     # 'NAME': BASE_DIR / 'db.sqlite3',
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': BASE_DIR / 'db.sqlite3',
 
-    # }
+    }
 }
 
 
@@ -133,15 +137,15 @@ USE_I18N = True
 
 USE_TZ = True
 
+USE_THOUSAND_SEPARATOR = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static',]
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
-
 MEDIA_URL = '/uploads/'
 MEDIA_ROOT = BASE_DIR / 'uploads'
 
@@ -153,3 +157,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
 AUTH_USER_MODEL = "accounts.CustomUser"  # !!! very important !!!
+
+CHANNEL_LAYERS = {
+    "default": {
+        "CONFIG": {
+            "hosts": [('localhost', '6379')],
+        },
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+    },
+}
+
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels.layers.InMemoryChannelLayer"
+#     }
+# }

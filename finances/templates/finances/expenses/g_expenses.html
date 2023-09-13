@@ -4,58 +4,59 @@
 <nav
   class="mx-auto flex flex-col md:flex-row justify-between items-center gap-2 items-center text-xs w-full max-w-[1350px]"
 >
-  {% if user.role.sec_level >= 1 %}
-  <a
-    href="{% url 'create_g_expense' %}"
-    class="px-4 py-3 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
-    >Ajouter une dépenses<i class="fa-solid fa-plus ml-4"></i
-  ></a>
-  {% endif %}
+  <div class="flex gap-2 items-center">
+    <a
+      href="{{request.META.HTTP_REFERER}}"
+      class="px-4 py-3 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+      ><i class="fa-solid fa-arrow-left"></i
+    ></a>
+
+    {% if user.role.sec_level > 2 %}
+    <a
+      href="{% url 'create_g_expense' %}"
+      class="px-4 py-3 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
+      >Dépenses<i class="fa-solid fa-plus ml-4"></i
+    ></a>
+    <a
+      class="px-4 py-3 bg-black text-white text-xs hover:bg-green-600 rounded-md items-center transition duration-300 ease-in-out"
+      href="{% url 'g_expenses_csv' %}"
+    >
+      <i class="inline fa-solid fa-file-excel lg:mr-2"></i>
+      <span class="hidden lg:inline font-base"> Extraire (CSV) </span>
+    </a>
+    {% endif %}
+  </div>
   <!--------------------------------------- search form --------------------------------------->
 
-  <form id="search_box" class="w-full max-w-md flex flex-row justify-between">
-    <input
-      type="text"
-      name="query"
-      id="querier"
-      required
-      class="px-4 py-2 bg-white text-black w-full rounded-l-md outline-none"
-      placeholder="Recherchez..."
-    />
-    <button
-      class="group px-4 py-2 text-sm bg-black hover:bg-amber-300 text-white hover:text-black rounded-r-md transition duration-300 ease-in-out"
-      type="submit"
-    >
-      <i class="fa-solid fa-magnifying-glass"></i>
-    </button>
-  </form>
+  {% include 'components/searchbar.html' %}
 </nav>
 
 <!--------------------------------------- general Dépenses --------------------------------------->
 <section class="w-full mx-auto my-4">
-  {% if not g_expenses %}
+  {% if not expenses %}
 
   <!--------------------------------------- No data placeholder --------------------------------------->
   {% include 'components/no_data.html' %}
   <!--  -->
   {% else %}
-  <!--------------------------------------- g_expenses --------------------------------------->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-    {% for obj in g_expenses %}
+  <!--------------------------------------- expenses --------------------------------------->
+  <div
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+  >
+    {% for obj in expenses %}
     <div
       class="relative flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
     >
-      {% if obj.is_valid %}
+      {% if obj.is_audited %}
       <span
         class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
-      >
-        Valid
+        >Auditée
       </span>
       {% else %}
       <span
         class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
       >
-        Invalid
+        Non-auditée
       </span>
       {% endif %}
       <a href="{% url 'g_expense' obj.id  %}">
@@ -63,13 +64,13 @@
         <img
           class="h-20 w-full object-cover"
           src="{% static 'imgs/exp.jpg' %}"
-          alt="g_expenses image"
+          alt="expenses image"
         />
         {% else %}
         <img
           class="h-40 w-full object-cover"
           src="{{obj.image.url}}"
-          alt="g_expenses image"
+          alt="expenses image"
         />
         {% endif %}
         <div class="p-4 flex flex-col justify-between">

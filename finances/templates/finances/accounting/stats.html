@@ -1,0 +1,229 @@
+{% extends 'main.html' %} {% load static %} {% block content %}
+<!--------------------------------------- hero section --------------------------------------->
+
+<section class="w-full">
+  <div
+    class="relative bg-black w-full h-80 rounded-md grid md:grid-cols-2 gap-4 overflow-hidden"
+  >
+    <div class="p-6">
+      <h1 class="text-white text-3xl font-bold">Statistiques</h1>
+
+      <p class="mt-4 text-gray-200">
+        Analysez les données financières en profondeur, identifiez les
+        opportunités de croissance et maximisez vos bénéfices. Cab Navigator
+        vous offre le pouvoir de transformer votre entreprise en une réussite
+        financière florissante.
+      </p>
+      <a
+        href="{% url 'finances' %}"
+        class="text-white hover:text-amber-300 py-2 transition duration-300 ease-in-out absolute bottom-2 left-6"
+        ><i class="fa-solid fa-arrow-left"></i
+      ></a>
+    </div>
+    <img
+      class="h-80 w-full object-cover"
+      src="{% static 'imgs/dash.jpg' %}"
+      alt="vehicle image"
+    />
+  </div>
+</section>
+<!--------------------------------------- banlance links --------------------------------------->
+<section class="mt-6 p-6 bg-white flex flex-col gap-8 rounded-md min-h-screen">
+  <div class="md:grid grid-cols-2 gap-6">
+    <div>
+      <canvas id="overview_chart"></canvas>
+    </div>
+    <div>
+      <canvas id="transaction_sums_chart"></canvas>
+    </div>
+  </div>
+  <div class="md:grid grid-cols-2 gap-6">
+    <div>
+      <canvas id="exp_sum_chart"></canvas>
+    </div>
+    <div>
+      <canvas id="exp_count_chart"></canvas>
+    </div>
+  </div>
+  <!-- <canvas id="driver_chart"></canvas>
+  <canvas id="partner_chart"></canvas>
+  <canvas id="vehicle_chart"></canvas> -->
+</section>
+
+{% for abj in objs %} '{{ obj.amount}}' {% endfor %}
+<script>
+  window.onload = function () {
+    var ctx = document.getElementById("overview_chart");
+    var overview_chart = new Chart(ctx, {
+      type: "pie",
+      data: {
+        labels: ["Encaissements", "Décaissements"],
+        datasets: [
+          {
+            label: "Montant",
+            data: ["{{total_credit}}", "{{total_debit}}"],
+            backgroundColor: ["rgba(75, 192, 192, 1)", "rgba(255, 99, 132, 1)"],
+            borderWidth: 4,
+          },
+        ],
+      },
+    });
+
+    var ctx = document.getElementById("transaction_sums_chart");
+    var transaction_sums_chart = new Chart(ctx, {
+      type: "polarArea",
+      data: {
+        labels: [
+          "Encaissements",
+          "Dépenses Conducteurs",
+          "Dépenses Véhicules",
+          "Dépenses Globales",
+          "Paiement Conducteurs",
+        ],
+        datasets: [
+          {
+            label: "Transactions",
+            data: [
+              "{{total_credit}}",
+              "{{total_d_expenses}}",
+              "{{total_v_expenses}}",
+              "{{total_g_expenses}}",
+              "{{total_payout}}",
+            ],
+            backgroundColor: [
+              "rgba(75, 192, 192, 1)",
+              "rgb(255, 99, 132, 0.1)",
+              "rgb(255, 99, 132, 0.3)",
+              "rgb(255, 99, 132, 0.5)",
+              "rgb(255, 99, 132, 0.7)",
+            ],
+          },
+        ],
+      },
+    });
+
+    var ctx = document.getElementById("exp_count_chart");
+    var exp_count_chart = new Chart(ctx, {
+      type: "pie",
+      data: {
+        labels: ["Conducteurs", "Véhicules", "Globales"],
+        datasets: [
+          {
+            label: "Nombre de Dépenses",
+            data: ["{{d_exp_count}}", "{{v_exp_count}}", "{{g_exp_count}}"],
+            backgroundColor: [
+              "rgb(255, 99, 132)",
+                    'rgb(54, 162, 235)',
+
+              "rgb(255, 205, 86)",
+            ],
+            // borderColor: [
+            // "rgb(255, 99, 132)",
+            // "gray",
+            // "rgb(255, 205, 86)",
+            // ],
+            borderWidth: 4,
+          },
+        ],
+      },
+    });
+
+
+
+    var ctx = document.getElementById("exp_sum_chart");
+    var exp_sum_chart = new Chart(ctx, {
+      type: "doughnut",
+      data: {
+        labels: ["Conducteurs", "Véhicules", "Globales"],
+        datasets: [
+          {
+            label: "Dépenses Totales",
+            data: ["{{d_exp_sum}}", "{{v_exp_sum}}", "{{g_exp_sum}}"],
+            backgroundColor: [
+              "rgb(255, 99, 132)",
+                    'rgb(54, 162, 235)',
+              "rgb(255, 205, 86)",
+            ],
+            borderWidth: 4,
+            hoverOffset: 4,
+          },
+        ],
+      },
+    });
+
+    var ctx = document.getElementById("driver_chart");
+    var driver_chart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: [{% for obj in drivers %} '{{obj.first_name}}', {% endfor %}],
+      datasets: [
+        {
+          label: "Recettes",
+          data: [{% for obj in drivers %} '{{v_revenue}}', {% endfor %} ],
+          backgroundColor: [
+            "rgb(255, 205, 86)",
+          ],
+        },
+      ],
+    },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
+
+    var ctx = document.getElementById("partner_chart");
+    var partner_chart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: [{% for obj in partners %} '{{obj.first_name}}', {% endfor %}],
+      datasets: [
+        {
+          label: "Recettes",
+          data: [{% for obj in partners %} '{{v_revenue}}', {% endfor %} ],
+          backgroundColor: [
+      'rgb(54, 162, 235)',
+          ],
+          borderWidth: 1,
+        },
+      ],
+    },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
+
+    var ctx = document.getElementById("vehicle_chart");
+    var vehicle_chart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: [{% for obj in vehicles %} '[-{{obj.plate_number}}-]', {% endfor %}],
+      datasets: [
+        {
+          label: "Recettes",
+          data: [{% for obj in partners %} '{{v_revenue}}', {% endfor %} ],
+          backgroundColor: [
+            "rgba(75, 192, 192, 1)",
+          ],
+          borderWidth: 1,
+        },
+      ],
+    },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
+  };
+</script>
+{% endblock %}

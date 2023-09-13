@@ -1,82 +1,360 @@
 {% extends 'main.html' %} {% load static %} {% block content %}
 <!--------------------------------------- hero section --------------------------------------->
 <section class="w-full">
-  <div class="bg-black p-6 w-full h-80 rounded-md overflow-hidden">
-    <h1 class="text-white text-4xl font-bold">Cab navigator</h1>
-
-    <p class="mt-4 text-gray-200">
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Assumenda unde
-      tempore, voluptas exercitationem dignissimos asperiores qui harum corrupti
-      consequuntur ratione.
-    </p>
+  <div
+    class="bg-black w-full h-80 rounded-md grid md:grid-cols-2 gap-4 overflow-hidden"
+  >
+    <div class="p-6">
+      <h1 class="text-white text-4xl font-bold">Cab navigator</h1>
+      <p class="mt-4 text-gray-300">
+        Optimisez votre gestion de flotte de taxis avec Cab Navigator,
+        l'application révolutionnaire qui simplifie vos opérations. Suivez vos
+        véhicules en temps réel, planifiez les itinéraires les plus efficaces et
+        maximisez vos bénéfices en un rien de temps.
+      </p>
+    </div>
+    <img
+      class="h-80 w-full object-cover"
+      src="{% static 'imgs/cabs.jpg' %}"
+      alt="vehicle image"
+    />
   </div>
 </section>
 
 <!--------------------------------------- quasi links --------------------------------------->
+{% if user.role.sec_level == 1 %}
 <section class="mt-6 flex flex-col md:grid grid-cols-2 gap-6 lg:grid-cols-3">
   <a
-    href="{% url 'partners' %}"
-    class="p-8 w-full bg-white mx-auto flex flex-col justify-between items-center gap-4 rounded-md group"
+    href="{% url 'driver_profile' %}"
+    class="p-8 w-full bg-white flex flex-col items-center gap-4 rounded-md group"
   >
-    <i class="fa-solid fa-users text-xl group-hover:text-sky-600"></i>
-
-    <p>Parteners</p>
-    <span class="font-bold text-black text-4xl">{{partners}}</span>
+    <div class="flex items-center gap-2 w-full">
+      <i
+        class="fa-sharp fa-solid fa-address-card text-gray-300 text-2xl group-hover:text-cyan-500"
+      ></i>
+      <h3 class="font-bold text-black text-md">Mon Profile</h3>
+    </div>
+    <p>Gerer votre profile facilement à tout moment.</p>
   </a>
   <a
-    href="{% url 'drivers' %}"
-    class="p-8 w-full bg-white mx-auto flex flex-col justify-between items-center gap-4 rounded-md group"
+    href="{% url 'my_vehicle' %}"
+    class="p-8 w-full bg-white flex flex-col items-center gap-4 rounded-md group"
   >
-    <i class="fa-solid fa-users text-xl group-hover:text-green-600"></i>
-
-    <p>Conducteurs</p>
-    <span class="font-bold text-black text-4xl">{{drivers}}</span>
-  </a>
-  <a
-    href="{% url 'vehicles' %}"
-    class="p-8 w-full bg-white mx-auto flex flex-col justify-between items-center gap-4 rounded-md group"
-  >
-    <i class="fa-solid fa-taxi text-xl group-hover:text-blue-600"></i>
-
-    <p>Vehicules</p>
-    <span class="font-bold text-black text-4xl">{{vehicles}}</span>
-  </a>
-  <a
-    href="{% url 'partner_docs' %}"
-    class="p-8 w-full bg-white mx-auto flex flex-col justify-between items-center gap-4 rounded-md group"
-  >
-    <i class="fa-solid fa-user-tie text-xl group-hover:text-purple-600"></i>
-
-    <p>Documents des Partenaires</p>
-    <span class="font-bold text-black text-4xl">{{p_docs}}</span>
+    <div class="flex items-center gap-2 w-full">
+      <i
+        class="fa-sharp fa-solid fa-car text-gray-300 text-2xl group-hover:text-orange-500"
+      ></i>
+      <h3 class="font-bold text-black text-md">Mon Vehicule</h3>
+    </div>
+    <p>Gérez votre véhicule avec précision et efficacité.</p>
   </a>
   <a
     href="{% url 'driver_docs' %}"
-    class="p-8 w-full bg-white mx-auto flex flex-col justify-between items-center gap-4 rounded-md group"
+    class="p-8 w-full bg-white flex flex-col items-center gap-4 rounded-md group"
   >
-    <i class="fa-solid fa-user text-xl group-hover:text-pink-600"></i>
-
-    <p>Documents des Chauffeurs</p>
-    <span class="font-bold text-black text-4xl">{{d_docs}}</span>
-  </a>
-  <a
-    href="{% url 'vehicle_docs' %}"
-    class="p-8 w-full bg-white mx-auto flex flex-col justify-between items-center gap-4 rounded-md group"
-  >
-    <i class="fa-solid fa-taxi text-xl group-hover:text-yellow-400"></i>
-
-    <p>Documents des Vehicles</p>
-    <span class="font-bold text-black text-4xl">{{v_docs}}</span>
+    <div class="flex items-center gap-2 w-full">
+      <i
+        class="fa-sharp fa-solid fa-folder text-gray-300 text-2xl group-hover:text-lime-500"
+      ></i>
+      <h3 class="font-bold text-black text-md">Mes Documents</h3>
+    </div>
+    <p>
+      Centralisez tous vos documents essentiels pour une gestion administrative
+      simplifiée et conforme.
+    </p>
   </a>
   <a
     href="{% url 'incidents' %}"
-    class="p-8 w-full bg-white mx-auto flex flex-col justify-between items-center gap-4 rounded-md group"
+    class="p-8 w-full bg-white flex flex-col items-center gap-4 rounded-md group"
   >
-    <i class="fa-solid fa-burst text-xl group-hover:text-red-600"></i>
+    <div class="flex items-center gap-2 w-full">
+      <i
+        class="fa-sharp fa-solid fa-triangle-exclamation text-gray-300 text-2xl group-hover:text-red-500"
+      ></i>
+      <h3 class="font-bold text-black text-md">Incidents</h3>
+    </div>
+    <p>
+      Réagissez rapidement aux incidents grâce à un suivi précis, des rapports
+      détaillés et des mesures correctives efficaces.
+    </p>
+  </a>
+  <a
+    href="{% url 'finances' %}"
+    class="p-8 w-full bg-white flex flex-col items-center gap-4 rounded-md group"
+  >
+    <div class="flex items-center gap-2 w-full">
+      <i
+        class="fa-sharp fa-solid fa-coins text-gray-300 text-2xl group-hover:text-amber-500"
+      ></i>
 
-    <p>Incidents</p>
-    <span class="font-bold text-black text-4xl">{{incidents}}</span>
+      <h3 class="font-bold text-black text-md">Finances</h3>
+    </div>
+    <p>
+      Contrôlez vos dépenses, gérez les revenus et optimisez la rentabilité de
+      votre taxi avec notre module financier.
+    </p>
+  </a>
+  <a
+    href="{% url 'notifications' %}"
+    class="p-8 w-full bg-white flex flex-col items-center gap-4 rounded-md group"
+  >
+    <div class="flex items-center gap-2 w-full">
+      <i
+        class="fa-sharp fa-solid fa-bell text-gray-300 text-2xl group-hover:text-pink-500"
+      ></i>
+      <h3 class="font-bold text-black text-md">Notifications</h3>
+    </div>
+    <p>
+      Restez informé en temps réel avec nos notifications personnalisées, pour
+      ne manquer aucune mise à jour ou événement important.
+    </p>
   </a>
 </section>
+{% elif user.role.sec_level == 2 %}
+<section class="mt-6 flex flex-col md:grid grid-cols-2 gap-6 lg:grid-cols-3">
+  <a
+    href="{% url 'partner_profile' %}"
+    class="p-8 w-full bg-white flex flex-col items-center gap-4 rounded-md group"
+  >
+    <div class="flex items-center gap-2 w-full">
+      <i
+        class="fa-sharp fa-solid fa-address-card text-gray-300 text-2xl group-hover:text-cyan-500"
+      ></i>
+      <h3 class="font-bold text-black text-md">Mon Profile</h3>
+    </div>
+    <p>Gerer votre profile facilement à tout moment.</p>
+  </a>
+  <a
+    href="{% url 'vehicles' %}"
+    class="p-8 w-full bg-white flex flex-col items-center gap-4 rounded-md group"
+  >
+    <div class="flex items-center gap-2 w-full">
+      <i
+        class="fa-sharp fa-solid fa-car text-gray-300 text-2xl group-hover:text-indigo-500"
+      ></i>
+      <h3 class="font-bold text-black text-md">Mes Vehicules</h3>
+    </div>
+    <p>
+      Gérez votre flotte de véhicules avec précision et efficacité pour assurer
+      la disponibilité et la maintenance de vos taxis.
+    </p>
+  </a>
+  <a
+    href="{% url 'partner_docs' %}"
+    class="p-8 w-full bg-white flex flex-col items-center gap-4 rounded-md group"
+  >
+    <div class="flex items-center gap-2 w-full">
+      <i
+        class="fa-sharp fa-solid fa-folder text-gray-300 text-2xl group-hover:text-green-500"
+      ></i>
+      <h3 class="font-bold text-black text-md">Mes Documents</h3>
+    </div>
+    <p>
+      Centralisez tous les documents essentiels de vos chauffeurs pour une
+      gestion administrative simplifiée et conforme.
+    </p>
+  </a>
+  <a
+    href="{% url 'incidents' %}"
+    class="p-8 w-full bg-white flex flex-col items-center gap-4 rounded-md group"
+  >
+    <div class="flex items-center gap-2 w-full">
+      <i
+        class="fa-sharp fa-solid fa-triangle-exclamation text-gray-300 text-2xl group-hover:text-red-500"
+      ></i>
+      <h3 class="font-bold text-black text-md">Incidents</h3>
+    </div>
+    <p>
+      Réagissez rapidement aux incidents grâce à un suivi précis, des rapports
+      détaillés et des mesures correctives efficaces.
+    </p>
+  </a>
+  <a
+    href="{% url 'finances' %}"
+    class="p-8 w-full bg-white flex flex-col items-center gap-4 rounded-md group"
+  >
+    <div class="flex items-center gap-2 w-full">
+      <i
+        class="fa-sharp fa-solid fa-coins text-gray-300 text-2xl group-hover:text-amber-500"
+      ></i>
 
-{% endblock %}
+      <h3 class="font-bold text-black text-md">Finances</h3>
+    </div>
+    <p>
+      Contrôlez vos dépenses, gérez les revenus et optimisez la rentabilité de
+      votre flotte de taxi avec notre module financier.
+    </p>
+  </a>
+  <a
+    href="{% url 'notifications' %}"
+    class="p-8 w-full bg-white flex flex-col items-center gap-4 rounded-md group"
+  >
+    <div class="flex items-center gap-2 w-full">
+      <i
+        class="fa-sharp fa-solid fa-bell text-gray-300 text-2xl group-hover:text-pink-500"
+      ></i>
+      <h3 class="font-bold text-black text-md">Notifications</h3>
+    </div>
+    <p>
+      Restez informé en temps réel avec nos notifications personnalisées, pour
+      ne manquer aucune mise à jour ou événement important.
+    </p>
+  </a>
+</section>
+{% else %}
+<section class="mt-6 flex flex-col md:grid grid-cols-2 gap-6 lg:grid-cols-3">
+  <a
+    href="{% url 'partners' %}"
+    class="p-8 w-full bg-white flex flex-col items-center gap-4 rounded-md group"
+  >
+    <div class="flex items-center gap-2 w-full">
+      <i
+        class="fa-sharp fa-solid fa-user-tie text-gray-300 text-2xl group-hover:text-blue-500"
+      ></i>
+      <h3 class="font-bold text-black text-md">Partenaires</h3>
+    </div>
+    <p>
+      Collaborez efficacement avec vos partenaires de confiance pour une gestion
+      optimale de votre flotte de taxi.
+    </p>
+  </a>
+  <a
+    href="{% url 'drivers' %}"
+    class="p-8 w-full bg-white flex flex-col items-center gap-4 rounded-md group"
+  >
+    <div class="flex items-center gap-2 w-full">
+      <i
+        class="fa-sharp fa-solid fa-user text-gray-300 text-2xl group-hover:text-cyan-500"
+      ></i>
+      <h3 class="font-bold text-black text-md">Conducteurs</h3>
+    </div>
+    <p>
+      Optimisez la performance de vos conducteurs en suivant leurs activités et
+      en favorisant une communication fluide.
+    </p>
+  </a>
+  <a
+    href="{% url 'vehicles' %}"
+    class="p-8 w-full bg-white flex flex-col items-center gap-4 rounded-md group"
+  >
+    <div class="flex items-center gap-2 w-full">
+      <i
+        class="fa-sharp fa-solid fa-car text-gray-300 text-2xl group-hover:text-indigo-500"
+      ></i>
+      <h3 class="font-bold text-black text-md">Vehicules</h3>
+    </div>
+    <p>
+      Gérez votre flotte de véhicules avec précision et efficacité pour assurer
+      la disponibilité et la maintenance de vos taxis.
+    </p>
+  </a>
+  <!-- --------------------------------------------------------------------------------------- -->
+  <a
+    href="{% url 'partner_docs' %}"
+    class="p-8 w-full bg-white flex flex-col items-center gap-4 rounded-md group"
+  >
+    <div class="flex items-center gap-2 w-full">
+      <div class="flex">
+        <i
+          class="fa-sharp fa-solid fa-user-tie text-gray-300 text-2xl group-hover:text-green-500"
+        ></i>
+        <i
+          class="fa-sharp fa-solid fa-folder text-gray-300 text-md group-hover:text-green-500"
+        ></i>
+      </div>
+      <h3 class="font-bold text-black text-md">Documents des Partenaires</h3>
+    </div>
+    <p>
+      Simplifiez la gestion des documents et contrats avec vos partenaires pour
+      une collaboration sans tracas.
+    </p>
+  </a>
+  <a
+    href="{% url 'driver_docs' %}"
+    class="p-8 w-full bg-white flex flex-col items-center gap-4 rounded-md group"
+  >
+    <div class="flex items-center gap-2 w-full">
+      <div class="flex">
+        <i
+          class="fa-sharp fa-solid fa-user text-gray-300 text-2xl group-hover:text-lime-500"
+        ></i>
+        <i
+          class="fa-sharp fa-solid fa-folder text-gray-300 text-md group-hover:text-lime-500"
+        ></i>
+      </div>
+      <h3 class="font-bold text-black text-md">Documents des Conducteurs</h3>
+    </div>
+    <p>
+      Centralisez tous les documents essentiels de vos chauffeurs pour une
+      gestion administrative simplifiée et conforme.
+    </p>
+  </a>
+  <a
+    href="{% url 'vehicle_docs' %}"
+    class="p-8 w-full bg-white flex flex-col items-center gap-4 rounded-md group"
+  >
+    <div class="flex items-center gap-2 w-full">
+      <div class="flex">
+        <i
+          class="fa-sharp fa-solid fa-car text-gray-300 text-2xl group-hover:text-teal-500"
+        ></i>
+        <i
+          class="fa-sharp fa-solid fa-folder text-gray-300 text-md group-hover:text-teal-500"
+        ></i>
+      </div>
+      <h3 class="font-bold text-black text-md">Documents des Vehicles</h3>
+    </div>
+    <p>
+      Suivez et gérez facilement tous les documents liés à vos véhicules, tels
+      que l'assurance, l'enregistrement et l'entretien.
+    </p>
+  </a>
+  <!--  -->
+  <a
+    href="{% url 'incidents' %}"
+    class="p-8 w-full bg-white flex flex-col items-center gap-4 rounded-md group"
+  >
+    <div class="flex items-center gap-2 w-full">
+      <i
+        class="fa-sharp fa-solid fa-triangle-exclamation text-gray-300 text-2xl group-hover:text-red-500"
+      ></i>
+      <h3 class="font-bold text-black text-md">Incidents</h3>
+    </div>
+    <p>
+      Réagissez rapidement aux incidents grâce à un suivi précis, des rapports
+      détaillés et des mesures correctives efficaces.
+    </p>
+  </a>
+  <a
+    href="{% url 'finances' %}"
+    class="p-8 w-full bg-white flex flex-col items-center gap-4 rounded-md group"
+  >
+    <div class="flex items-center gap-2 w-full">
+      <i
+        class="fa-sharp fa-solid fa-coins text-gray-300 text-2xl group-hover:text-amber-500"
+      ></i>
+
+      <h3 class="font-bold text-black text-md">Finances</h3>
+    </div>
+    <p>
+      Contrôlez vos dépenses, gérez les revenus et optimisez la rentabilité de
+      votre flotte de taxi avec notre module financier.
+    </p>
+  </a>
+  <a
+    href="{% url 'notifications' %}"
+    class="p-8 w-full bg-white flex flex-col items-center gap-4 rounded-md group"
+  >
+    <div class="flex items-center gap-2 w-full">
+      <i
+        class="fa-sharp fa-solid fa-bell text-gray-300 text-2xl group-hover:text-pink-500"
+      ></i>
+      <h3 class="font-bold text-black text-md">Notifications</h3>
+    </div>
+    <p>
+      Restez informé en temps réel avec nos notifications personnalisées, pour
+      ne manquer aucune mise à jour ou événement important.
+    </p>
+  </a>
+</section>
+{% endif %} {% endblock %}

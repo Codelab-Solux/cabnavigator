@@ -4,6 +4,13 @@ function toggleDropdown(e) {
     ? ((e.name = "close"), dropdownMenu.classList.remove("hidden"))
     : ((e.name = "dropdownBtn"), dropdownMenu.classList.add("hidden"));
 }
+//  notifier button mechanism ----------------------------------------------
+function toggleNotifier(e) {
+  console.log("notify me");
+  e.name === "bellBtn"
+    ? ((e.name = "close"), notifications.classList.remove("hidden"))
+    : ((e.name = "bellBtn"), notifications.classList.add("hidden"));
+}
 
 //  navbbar mechanism ---------------------------------------------------
 function toggleMenu(e) {

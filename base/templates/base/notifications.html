@@ -1,0 +1,56 @@
+{% extends 'main.html' %} {% load static %} {% block content %}
+<!--  -->
+
+<!-- ---------------------------objs and notifications sidebar--------------------------------->
+<div class="mx-auto w-full h-full p-6 bg-white border border-2 rounded-md">
+  <div>
+    <h1 class="mb-2 text-black text-xl font-bold">
+      Mes notifications <i class="fa-regular fa-message-exclamation"></i>
+    </h1>
+    <span class="" id="count_badge"></span>
+
+    {% if not notifications %}
+    <!--------------------------------------- No data placeholder --------------------------------------->
+    {% include 'components/no_data.html' %}
+    <!--  -->
+    {% else %}
+    <div class="mt-4 flex flex-col md:grid grid-cols-3 gap-4">
+      {% for obj in notifications %}
+      <div
+        class="contact-li p-2 border hover:border-amber-300 h-full bg-white hover:shadow-md rounded-md"
+      >
+        <form action="{% url 'read_chat_notification' obj.id %}" method="POST">
+          {% csrf_token %}
+          <button
+            type="submit"
+            class="flex gap-2 w-full justify-between items-center"
+          >
+            <img
+              class="lg:block h-10 rounded-full mx-auto"
+              src="{% static 'imgs/random.png' %}"
+              alt="Rounded avatar"
+            />
+            <div class="flex flex-col items-start w-full">
+              <p class="text-blabg-black font-bold">
+                {% for user_obj in users %}
+                <!--  -->
+                {% if user_obj.id == obj.chat.sender %}
+                <!--  -->
+                <span class="text-black text-sm"> @{{user_obj.username}} </span>
+                <!--  -->
+                {% endif %}
+                <!--  -->
+                {% endfor %}
+              </p>
+              <p>{{obj.chat.message|truncatechars:20}}</p>
+            </div>
+          </button>
+        </form>
+      </div>
+      {% endfor %}
+      <!--  -->
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

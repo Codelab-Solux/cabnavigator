@@ -1,0 +1,223 @@
+{% extends 'main.html' %} {% load static %}
+<!--  -->
+{% load mathfilters %}
+<!--  -->
+{% block content %}
+<!--------------------------------------- mini navbar --------------------------------------->
+<nav
+  class="mb-4 mx-auto flex flex-wrap items-center gap-2 items-center text-xs w-full max-w-[1350px]"
+>
+  <a
+    href="{% url 'vaults' %}"
+    class="px-4 py-3 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    ><i class="fa-solid fa-arrow-left"></i
+  ></a>
+  {% if curr_vault and not form %}
+  <a
+    href="{% url 'edit_vault' curr_vault.id %}"
+    class="px-4 py-3 bg-black text-white hover:bg-green-600 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    >Modifier<i class="fa-solid fa-pen-to-square ml-4"></i
+  ></a>
+  <a
+    id="delete_btn"
+    onclick="return confirm('Voulez vous continuer avec la suppression')"
+    href="{% url 'delete_vault' curr_vault.id %}"
+    class="px-4 py-3 bg-black text-white hover:bg-red-700 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    >Supprimer<i class="fa-solid fa-trash ml-4"></i
+  ></a>
+  <a
+    href="{% url 'create_ledger' %}"
+    class="px-4 py-3 bg-black text-white hover:bg-green-600 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    >Nouvelle transaction<i class="fa-solid fa-plus ml-4"></i
+  ></a>
+  {% endif %}
+</nav>
+
+<!--------------------------------------- forms layout --------------------------------------->
+
+{% if not form %}
+
+<section
+  class="mt-4 p-8 bg-black flex flex-col gap-8 justify-between rounded-md overflow-hidden"
+>
+  <div class="grid md:grid-cols-2 gap-8 w-full text-gray-300">
+    <img
+      class="h-60 w-full rounded-md object-cover"
+      src="{% static 'imgs/vault.jpg' %}"
+      alt="vehicle image"
+    />
+    <!--  -->
+    <div class="p-4 flex flex-col justify-between">
+      <h4 class="text-white text-xl font-bold">
+        Caisse {{curr_vault.get_type_display}} {{curr_vault.name}}
+      </h4>
+      <p class="pt-2">
+        Encaissement :
+        <span class="font-bold text-green-500"> {{curr_vault.credit}} CFA</span>
+      </p>
+      <p class="pt-2">
+        Decaissement :
+        <span class="font-bold text-red-500"> {{curr_vault.debit}} CFA</span>
+      </p>
+      <p class="pt-2">
+        Solde :
+        <span class="font-bold text-amber-500"> {{vault_balance}} CFA</span>
+      </p>
+      <p class="pt-2 text-sm">{{curr_vault.date}}</p>
+      <p class="pt-2 text-sm">{{curr_vault.details}}</p>
+    </div>
+    <!--  -->
+  </div>
+</section>
+<!--------------------------------------- rel_ledgers --------------------------------------->
+<section class="w-full mx-auto my-8">
+  {% if not rel_ledgers %}
+  <!--------------------------------------- No data placeholder --------------------------------------->
+  {% include 'components/no_data.html' %}
+  <!--  -->
+  {% else %}
+
+  <div class="flex flex-col w-full">
+    <h2 class="mb-4 text-black font-bold text-xl">Transactions de la caisse</h2>
+    <div class="overflow-auto rounded-md text-sm bg-gray-50">
+      <table class="w-full text-left db-table">
+        <thead class="bg-black text-white">
+          <tr>
+            <th class="p-4 text-lg font-bold">Date</th>
+            <th class="p-4 text-lg font-bold">Libellé</th>
+            <th class="p-4 text-lg font-bold">Decaissement</th>
+            <th class="p-4 text-lg font-bold">Encaissement</th>
+            <th class="p-4 text-lg font-bold">Solde</th>
+            <th class="p-4 text-lg font-bold">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for obj in rel_ledgers %}
+          <a href="{% url 'ledger' obj.id  %}" class="cursor-pointer">
+            <tr
+              class="text-gray-500 hover:text-black hover:bg-white hover:shadow-xl transition-all duration-50"
+            >
+              <td class="p-3">{{obj.date}}</td>
+              <td class="p-3">{{obj.details|truncatechars:50}}</td>
+              <td class="p-3 text-red-600 text-md font-bold">
+                <i class="fa-solid fa-arrow-up mr-2"></i>{{obj.debit}} CFA
+              </td>
+              <td class="p-3 text-green-600 text-md font-bold">
+                <i class="fa-solid fa-arrow-down mr-2"></i>{{obj.credit}} CFA
+              </td>
+              <td class="p-3">{{obj.credit|sub:obj.debit }}</td>
+              <td class="p-3">
+                {% if obj.is_audited %}
+                <h4
+                  class="top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white text-center"
+                >
+                  Audité
+                </h4>
+                {% else %}
+                <h4
+                  class="top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white text-center"
+                >
+                  Non-audité
+                </h4>
+                {% endif %}
+              </td>
+            </tr>
+          </a>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% endif %}
+</section>
+
+{% else %}
+<!--------------------------------------- vault form -->
+<section
+  class="p-4 lg:p-8 bg-white flex gap-4 lg:gap-8 w-full mx-auto rounded-md text-sm"
+>
+  <div class="w-full">
+    {% if curr_vault %}
+    <h3 class="mb-4 text-black text-2xl font-bold">Modifier cette caisse</h3>
+    {% else %}
+    <h3 class="mb-4 text-black text-2xl font-bold">Nouvelle caisse</h3>
+    {% endif %}
+    <form
+      class="w-full flex flex-col justify-between gap-6"
+      method="POST"
+      action=""
+      enctype="multipart/form-data"
+    >
+      {% csrf_token %}
+      <!--  -->
+      <div
+        class="flex flex-col md:grid grid-cols-3 lg:grid-cols-2 flex-wrap gap-4"
+      >
+        {% for field in form %}
+        <div>
+          <h3 class="mb-1">{{field.label}}</h3>
+          {{field}}
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="my-4 flex gap-4 items-end">
+        <input
+          class="px-8 py-2 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md cursor-pointer"
+          type="submit"
+          value="Enregistrer"
+        />
+        <a
+          class="bg-gray-200 px-8 py-2 rounded-md hover:bg-red-700 hover:text-white"
+          href="{{request.META.HTTP_REFERER}}"
+        >
+          Annuler
+        </a>
+      </div>
+    </form>
+  </div>
+  <div class="rounded-md w-full max-w-[460px] overflow-hidden">
+    {% if not curr_vault %}
+    <img
+      class="h-full w-full object-cover"
+      src="{% static 'imgs/vault.jpg' %}"
+      alt="pos image"
+    />
+    {% else %}
+    <img
+      class="w-full object-cover"
+      src="{% static 'imgs/vault.jpg' %}"
+      alt="driver image"
+    />
+
+    <div class="p-4 h-full flex flex-col gap-1 w-full bg-black text-gray-300">
+      <h3 class="font-bold text-xl text-white">
+        Caisse {{curr_vault.get_type_display}}
+      </h3>
+      {% if curr_vault.type == 'cash' %}
+      <h3 class="text-white">{{curr_vault.name}}</h3>
+      {% elif curr_vault.type == 'mobile'%}
+      <h3 class="text-white">{{curr_vault.operator}}</h3>
+      <h3 class="text-white">{{curr_vault.phone_number}}</h3>
+      {% else %}
+      <h3 class="text-white">{{curr_vault.name}}</h3>
+      <h3 class="text-white">{{curr_vault.acc_number}}</h3>
+      {% endif %}
+      <p>
+        Solde
+        <tt class="text-red-500"> [--{{curr_vault.balance}} CFA--]</tt>
+      </p>
+      <p>
+        Débit
+        <tt class="text-amber-300"> [--{{curr_vault.debit}}--]</tt>
+      </p>
+      <p>
+        Crédit
+        <tt class="text-green-500">[--{{curr_vault.credit}}--]</tt>
+      </p>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+{% endif %} {% endblock %}

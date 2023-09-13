@@ -1,0 +1,70 @@
+{% extends 'main.html' %} {% load static %} {% block content %}
+<!--------------------------------------- mini navbar --------------------------------------->
+
+<nav
+  class="mx-auto flex flex-col md:flex-row justify-between items-center gap-2 items-center text-xs w-full max-w-[1350px]"
+>
+  <div class="flex gap-2 items-center">
+    <a
+      href="{{request.META.HTTP_REFERER}}"
+      class="px-4 py-3 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+      ><i class="fa-solid fa-arrow-left"></i
+    ></a>
+    {% if user.role.sec_level >= 3 %}
+    <a
+      href="{% url 'create_ledger' %}"
+      class="px-4 py-3 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
+      >Nouvelle transaction<i class="fa-solid fa-plus ml-4"></i
+    ></a>
+    {% endif %}
+  </div>
+  <!--------------------------------------- search form --------------------------------------->
+  {% include 'components/searchbar.html' %}
+  <!--  -->
+</nav>
+
+<!--------------------------------------- ledger --------------------------------------->
+<section class="w-full mx-auto my-8">
+  {% if not ledgers %}
+
+  <!--------------------------------------- No data placeholder --------------------------------------->
+  {% include 'components/no_data.html' %}
+  <!--  -->
+
+  {% else %}
+  <!--------------------------------------- ledgers --------------------------------------->
+  <div class="flex flex-col gap-4">
+    {% for obj in ledgers %}
+    <a href="{% url 'ledger' obj.id  %}">
+      <div
+        class="p-4 flex flex-col md:flex-row justify-between items-center bg-white rounded-md overflow-hidden"
+      >
+        <h4>{{obj.details|truncatechars:50}}</h4>
+        <h4 class="text-red-600 text-md font-bold">
+          <i class="fa-solid fa-arrow-up mr-2"></i>{{obj.debit}} CFA
+        </h4>
+        <h4 class="text-green-600 text-md font-bold">
+          <i class="fa-solid fa-arrow-down mr-2"></i>{{obj.credit}} CFA
+        </h4>
+        <p class="text-sm">{{obj.date}}</p>
+        {% if obj.is_audited %}
+        <h4
+          class="top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
+        >
+          Audité
+        </h4>
+        {% else %}
+        <h4
+          class="top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
+        >
+          Non-audité
+        </h4>
+        {% endif %}
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  {% endif %}
+</section>
+
+{% endblock %}

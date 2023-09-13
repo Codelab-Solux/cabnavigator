@@ -4,14 +4,22 @@
 <nav
   class="mx-auto flex flex-col md:flex-row justify-between items-center gap-2 items-center text-xs w-full max-w-[1350px]"
 >
+  <div class="flex gap-2 items-center">
+    <a
+      href="{{request.META.HTTP_REFERER}}"
+      class="px-4 py-3 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+      ><i class="fa-solid fa-arrow-left"></i
+    ></a>
+
+    {% if user.role.sec_level >= 3 %}
+    <a
+      href="{% url 'create_payment' %}"
+      class="px-4 py-3 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
+      >Nouvel encaissement<i class="fa-solid fa-plus ml-4"></i
+    ></a>
+    {% endif %}
+  </div>
   <!--------------------------------------- search form --------------------------------------->
-  {% if user.role.sec_level >= 1 %}
-  <a
-    href="{% url 'create_payment' %}"
-    class="px-4 py-2 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
-    >Faire un encaissement<i class="fa-solid fa-plus ml-4"></i
-  ></a>
-  {% endif %}
 
   <form
     id="search_box"
@@ -35,16 +43,12 @@
 </nav>
 
 <!--------------------------------------- vehicle payments --------------------------------------->
-<section class="w-full mx-auto my-8">
+<section class="w-full mx-auto my-4">
   {% if not payments %}
 
   <!--------------------------------------- No data placeholder --------------------------------------->
-  <div
-    class="p-8 my-40 bg-gray-100 max-w-[400px] mx-auto rounded-md flex-col text-center"
-  >
-    <i class="fa-regular fa-folder-open text-7xl"></i>
-    <p class="mt-4">Aucune données disponible pour le moment</p>
-  </div>
+  {% include 'components/no_data.html' %}
+  <!--  -->
 
   {% else %}
   <!--------------------------------------- payments --------------------------------------->
@@ -72,7 +76,7 @@
         {% if not obj.image %}
         <img
           class="h-20 w-full object-cover"
-          src="{% static 'imgs/exp.jpg' %}"
+          src="{% static 'imgs/income.jpg' %}"
           alt="d_doc image"
         />
         {% else %}

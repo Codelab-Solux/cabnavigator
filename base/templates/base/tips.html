@@ -1,0 +1,62 @@
+{% extends 'main.html' %} {% load static %} {% block content %}
+<!--------------------------------------- mini navbar --------------------------------------->
+
+<nav
+  class="mx-auto flex justify-between items-center gap-2 items-center text-xs w-full"
+>
+  <div class="flex items-center gap-2">
+    <a
+      href="{{request.META.HTTP_REFERER}}"
+      class="px-4 py-3 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+      ><i class="fa-solid fa-arrow-left"></i
+    ></a>
+    {% if user.role.sec_level >= 3 %}
+    <a
+      href="{% url 'create_tip' %}"
+      class="px-4 py-3 bg-black text-white hover:bg-amber-300 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+      ><span class="hidden md:inline">Nouvelle Video</span
+      ><i class="fa-solid fa-plus md:ml-4"></i
+    ></a>
+    {% endif %}
+  </div>
+  <!--  -->
+  {% include 'components/searchbar.html' %}
+</nav>
+
+<!--------------------------------------- tips --------------------------------------->
+<section id="tips" class="py-4 w-full text-left">
+  <div class="w-full mx-auto">
+    {% if not tips %}
+    <!--------------------------------------- No data placeholder --------------------------------------->
+    {% include 'components/no_data.html' %}
+    <!--  -->
+    {% else %}
+    <!--------------------------------------- tips --------------------------------------->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {% for obj in tips %}
+      <a href="{% url 'tip' obj.id  %}">
+        <div class="flex flex-col bg-white hover:shadow-md rounded-md group">
+          {% if obj.video %}
+          <video
+            class="h-[300px] rounded-t-md object-cover"
+            poster="{% static 'imgs/tips.jpg' %}"
+            preload="metadata"
+          >
+            <source src="{{obj.video.url}}" type="video/mp4" />
+          </video>
+          {% endif %}
+          <div class="p-4 flex flex-col justify-between">
+            <h4 class="text-black text-lg font-bold">{{obj.title}}</h4>
+            <p class="py-2 text-gray-600 text-sm">
+              {{obj.subtitle|truncatechars:35}}
+            </p>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+{% endblock %}

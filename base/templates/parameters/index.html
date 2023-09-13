@@ -1,47 +1,199 @@
 {% extends 'main.html' %} {% load static %} {% block content %}
 <!--------------------------------------- hero section --------------------------------------->
-<section class="w-full">
-  <div class="bg-black p-6 w-full h-80 rounded-md overflow-hidden">
-    <h1 class="text-white text-4xl font-bold">Parametres</h1>
+<!-- <section class="w-full">
+  <div
+    class="bg-black w-full h-80 rounded-md grid md:grid-cols-2 gap-4 overflow-hidden"
+  >
+    <div class="p-6">
+      <h1 class="text-white text-4xl font-bold">Parametres</h1>
 
-    <p class="mt-4 text-gray-200">
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Assumenda unde
-      tempore, voluptas exercitationem dignissimos asperiores qui harum corrupti
-      consequuntur ratione.
-    </p>
+      <p class="mt-4 text-gray-200">
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Assumenda unde
+        tempore, voluptas exercitationem dignissimos asperiores qui harum
+        corrupti consequuntur ratione.
+      </p>
+    </div>
+    <img
+      class="h-80 w-full rounded-md object-cover"
+      src="{% static 'imgs/company.jpg' %}"
+      alt="vehicle image"
+    />
   </div>
+</section> -->
+
+<!--------------------------------------- tab buttons --------------------------------------->
+<nav
+  class="customtab mx-auto mb-4 p-1 bg-black rounded-md flex justify-between gap-1 w-full text-sm"
+>
+  <button
+    class="tablinks py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+    onclick="openTab(event, 'company')"
+    id="defaultOpen"
+  >
+    <i class="fa-solid fa-building lg:mr-2"></i>
+    <span class="hidden lg:inline">Compagnie</span>
+  </button>
+  <button
+    class="tablinks py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+    onclick="openTab(event, 'documents')"
+  >
+    <i class="fa-solid fa-folder-open lg:mr-2"></i>
+    <span class="hidden lg:inline">Documents</span>
+  </button>
+  <button
+    class="tablinks py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+    onclick="openTab(event, 'incidents')"
+  >
+    <i class="fa-solid fa-burst lg:mr-2"></i>
+    <span class="hidden lg:inline">Incidents</span>
+  </button>
+  <button
+    class="tablinks py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+    onclick="openTab(event, 'roles')"
+  >
+    <i class="fa-solid fa-user-lock lg:mr-2"></i>
+    <span class="hidden lg:inline">Roles</span>
+  </button>
+</nav>
+<!--------------------------------------- company profile --------------------------------------->
+<section
+  id="company"
+  class="tabcontent w-full bg-white text-gray-800 rounded-md overflow-hidden"
+>
+  {% if not company and user.role.sec_level >= 4 and not company %}
+  <div class="flex justify-between items-center p-6">
+    <h3 class="font-bold text-black">Compagnie</h3>
+    <a
+      href="{% url 'create_company' %}"
+      class="px-4 py-3 text-black hover:bg-green-500 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+      ><span class="hidden md:inline">Creer une company</span
+      ><i class="fa-solid fa-plus md:ml-4"></i
+    ></a>
+  </div>
+  {% else %}
+
+  <div class="relative">
+    <img
+      class="md:inline h-80 w-full object-cover"
+      src="{% static 'imgs/office.jpg' %}"
+      alt="company banner"
+    />
+    <a
+      href="{% url 'edit_company' company.id %}"
+      class="absolute top-4 right-4 px-4 py-2 text-black bg-white hover:bg-green-500 text-black rounded-md transition duration-300 ease-in-out"
+      ><i class="fa-solid fa-pen text-lg"></i
+    ></a>
+    <div class="gap-4 p-6">
+      <div class="mb-2 flex gap-2 items-center">
+        <img
+          class="rounded-full w-20 h-20 object-cover"
+          src="{% static 'imgs/comp_logo.png' %}"
+          alt="company logo"
+        />
+        <div>
+          <h3 class="font-bold text-black text-2xl">
+            {{company.name}} {{company.legal_status}}
+          </h3>
+          <p>{{company.email}}</p>
+        </div>
+      </div>
+      <div class="flex flex-col gap-2">
+        <p>RCCM : {{company.reg_number}}</p>
+        <p>NIF : {{company.fiscal_id}}</p>
+        <p>Forme Juridique : {{company.legal_status}}</p>
+        <p>Capital social : {{company.social_capital}}</p>
+        <p>Adresse : {{company.address}}</p>
+        <p>Ville : {{company.city}}</p>
+        <p>Pays : {{company.country}}</p>
+        <p>Téléphone : {{company.phone}}</p>
+      </div>
+    </div>
+  </div>
+  {% endif %}
 </section>
 
 <!--------------------------------------- type of documents --------------------------------------->
-<section>
-  <h3 class="font-bold text-black text-xl">Types de documents</h3>
+<section
+  id="documents"
+  class="tabcontent w-full bg-black text-gray-300 p-6 rounded-md overflow-hidden"
+>
+  <div class="flex justify-between items-center">
+    <h3 class="font-bold text-white">Types de documents</h3>
+    {% if user.role.sec_level >= 3 %}
+    <a
+      href="{% url 'create_doc_type' %}"
+      class="px-4 py-3 text-white hover:bg-amber-300 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+      ><span class="hidden md:inline text-sm">Ajouter</span
+      ><i class="fa-solid fa-plus md:ml-4"></i
+    ></a>
+    {% endif %}
+  </div>
   <div class="md:grid grid-cols-2 gap-6 lg:grid-cols-4 xl:grid-cols-6">
     {% for obj in doc_types %}
     <a
-      href="{% url 'd_expenses' %}"
-      class="p-4 mt-4 w-full bg-white mx-auto flex items-center gap-4 rounded-md group"
+      href="{% url 'edit_doc_type' obj.id %}"
+      class="p-4 mt-4 w-full border-2 border-gray-700 hover:border-amber-300 mx-auto flex items-center gap-4 rounded-md group transition duration-300 ease-in-out"
     >
-      <i class="fa-solid fa-file text-xl group-hover:text-black"></i>
+      <i
+        class="fa-solid fa-file text-xl text-white group-hover:text-amber-300 transition duration-300 ease-in-out"
+      ></i>
       <p>{{obj.name}}</p>
     </a>
 
     {% endfor %}
   </div>
 </section>
-<section>
-  <h3 class="font-bold text-black text-xl">Types de roles</h3>
-  <div class="md:grid grid-cols-2 gap-6 lg:grid-cols-4 xl:grid-cols-5">
-    {% for obj in roles %}
+<!--------------------------------------- type of incidents --------------------------------------->
+<section
+  id="incidents"
+  class="tabcontent w-full bg-black text-gray-300 p-6 rounded-md overflow-hidden"
+>
+  <div class="flex justify-between items-center">
+    <h3 class="font-bold text-white">Types d'incidents</h3>
+    {% if user.role.sec_level >= 3 %}
     <a
-      href="{% url 'd_expenses' %}"
-      class="p-4 mt-4 w-full bg-white mx-auto flex items-center gap-4 rounded-md group"
+      href="{% url 'create_incident_type' %}"
+      class="px-4 py-3 text-white hover:bg-amber-300 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+      ><span class="hidden md:inline text-sm">Ajouter</span
+      ><i class="fa-solid fa-plus md:ml-4"></i
+    ></a>
+    {% endif %}
+  </div>
+  <div class="md:grid grid-cols-2 gap-6 lg:grid-cols-4 xl:grid-cols-6">
+    {% for obj in incid_types %}
+    <a
+      href="{% url 'edit_incident_type' obj.id %}"
+      class="p-4 mt-4 w-full border-2 border-gray-700 hover:border-amber-300 mx-auto flex items-center gap-4 rounded-md group transition duration-300 ease-in-out"
     >
-      <i class="fa-solid fa-user-lock text-xl group-hover:text-black"></i>
-      <div class="flex flex-col">
-        <p>{{obj.name}}</p>
-        <span class="font-bold text-lg text-black">{{obj.sec_level}}</span>
-      </div>
+      <i
+        class="fa-solid fa-burst text-xl text-white group-hover:text-amber-300 transition duration-300 ease-in-out"
+      ></i>
+      <p>{{obj.name}}</p>
     </a>
+
+    {% endfor %}
+  </div>
+</section>
+
+<!--------------------------------------- type of roles --------------------------------------->
+<section
+  id="roles"
+  class="tabcontent w-full bg-black text-gray-300 p-6 rounded-md overflow-hidden"
+>
+  <h3 class="font-bold text-red-500">Types de roles</h3>
+  <div class="md:grid grid-cols-2 gap-6 lg:grid-cols-4 xl:grid-cols-4">
+    {% for obj in roles %}
+    <div
+      class="p-4 mt-4 w-full border-2 border-gray-700 hover:border-red-500 mx-auto flex items-center gap-4 rounded-md group transition duration-300 ease-in-out"
+    >
+      <i class="fa-solid fa-user-lock text-xl group-hover:text-red-500"></i>
+      <div
+        class="flex flex-col group-hover:text-red-500 transition duration-300 ease-in-out"
+      >
+        <h3 class="text-xl font-bold">{{obj.name}}</h3>
+        <span class="font-bold text-lg">{{obj.sec_level}}</span>
+      </div>
+    </div>
 
     {% endfor %}
   </div>

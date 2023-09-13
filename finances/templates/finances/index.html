@@ -1,43 +1,36 @@
 {% extends 'main.html' %} {% load static %} {% block content %}
 <!--------------------------------------- hero section --------------------------------------->
 <section class="w-full">
-  <div class="bg-black p-6 w-full h-[300px] rounded-md overflow-hidden">
-    <h1 class="text-white text-xl font-bold">Finances</h1>
-
-    <p class="mt-4 text-gray-200">
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Assumenda unde
-      tempore, voluptas exercitationem dignissimos asperiores qui harum corrupti
-      consequuntur ratione.
-    </p>
+  <div
+    class="bg-black w-full h-80 rounded-md grid md:grid-cols-2 gap-4 overflow-hidden"
+  >
+    <div class="p-6">
+      <h1 class="text-white text-4xl font-bold">Finances</h1>
+      <p class="mt-4 text-gray-300">
+        Les fonctionnalités financières intégrées de Cab Navigator vous offrent
+        un contrôle total sur vos finances. Suivez de près les revenus générés
+        par votre flotte de taxis, gérez les paiements des chauffeurs et gardez
+        une trace précise de toutes les transactions.
+      </p>
+    </div>
+    <img
+      class="h-80 w-full object-cover"
+      src="{% static 'imgs/coins.jpg' %}"
+      alt="vehicle image"
+    />
   </div>
 </section>
-
-<!--------------------------------------- expenses links --------------------------------------->
-<section class="md:grid grid-cols-2 md:gap-6 md:grid-cols-3">
-  <a
-    href="{% url 'd_expenses' %}"
-    class="p-4 mt-4 w-full bg-white mx-auto flex items-center gap-4 rounded-md group"
-  >
-    <i class="fa-solid fa-user text-xl group-hover:text-pink-500"></i>
-    <div class="flex justify-between items-center w-full">
-      <div class="flex flex-col">
-        <p>Dépenses des chauffeurs</p>
-        <span class="font-bold text-lg text-black">{{d_expenses}}</span>
-      </div>
-      <span>
-        <i class="hidden group-hover:inline fa-solid fa-caret-right"></i>
-      </span>
-    </div>
-  </a>
+{% if user.role.sec_level == 1 %}
+<!--------------------------------------- finamce links --------------------------------------->
+<section class="mt-6 flex flex-col md:grid grid-cols-2 gap-6">
   <a
     href="{% url 'v_expenses' %}"
-    class="p-4 mt-4 w-full bg-white mx-auto flex items-center gap-4 rounded-md group"
+    class="px-6 py-10 w-full bg-black text-white mx-auto flex items-center gap-4 rounded-md group"
   >
-    <i class="fa-solid fa-taxi text-xl group-hover:text-violet-500"></i>
+    <i class="fa-solid fa-taxi text-xl group-hover:text-red-400"></i>
     <div class="flex justify-between items-center w-full">
       <div class="flex flex-col">
-        <p>Dépenses des véhicules</p>
-        <span class="font-bold text-lg text-black">{{v_expenses}}</span>
+        <p>Dépenses de mon véhicule</p>
       </div>
       <span>
         <i class="hidden group-hover:inline fa-solid fa-caret-right"></i>
@@ -45,34 +38,13 @@
     </div>
   </a>
   <a
-    href="{% url 'g_expenses' %}"
-    class="p-4 mt-4 w-full bg-white mx-auto flex items-center gap-4 rounded-md group"
+    href="{% url 'd_expenses' %}"
+    class="px-6 py-10 w-full bg-black text-white mx-auto flex items-center gap-4 rounded-md group"
   >
-    <i class="fa-solid fa-landmark text-xl group-hover:text-blue-500"></i>
+    <i class="fa-solid fa-user text-xl group-hover:text-sky-400"></i>
     <div class="flex justify-between items-center w-full">
       <div class="flex flex-col">
-        <p>Dépenses de la compagnie</p>
-        <span class="font-bold text-lg text-black">{{g_expenses}}</span>
-      </div>
-      <span>
-        <i class="hidden group-hover:inline fa-solid fa-caret-right"></i>
-      </span>
-    </div>
-  </a>
-</section>
-<!--------------------------------------- transactions links --------------------------------------->
-<section class="md:grid grid-cols-2 md:gap-6 md:grid-cols-3">
-  <a
-    href="{% url 'transactions' %}"
-    class="p-4 mt-4 w-full bg-white mx-auto flex items-center gap-4 rounded-md group"
-  >
-    <i
-      class="fa-solid fa-money-bill-transfer text-xl group-hover:text-yellow-500"
-    ></i>
-    <div class="flex justify-between items-center w-full">
-      <div class="flex flex-col">
-        <p>Transactions</p>
-        <span class="font-bold text-lg text-black">{{transactions}}</span>
+        <p>Dépenses personelles</p>
       </div>
       <span>
         <i class="hidden group-hover:inline fa-solid fa-caret-right"></i>
@@ -81,13 +53,12 @@
   </a>
   <a
     href="{% url 'payments' %}"
-    class="p-4 mt-4 w-full bg-white mx-auto flex items-center gap-4 rounded-md group"
+    class="px-6 py-10 w-full bg-black text-white mx-auto flex items-center gap-4 rounded-md group"
   >
-    <i class="fa-solid fa-coins text-xl group-hover:text-green-500"></i>
+    <i class="fa-solid fa-coins text-xl group-hover:text-yellow-400"></i>
     <div class="flex justify-between items-center w-full">
       <div class="flex flex-col">
-        <p>Encaissements</p>
-        <span class="font-bold text-lg text-black">{{payments}}</span>
+        <p>Recettes de mon véhicule</p>
       </div>
       <span>
         <i class="hidden group-hover:inline fa-solid fa-caret-right"></i>
@@ -96,13 +67,12 @@
   </a>
   <a
     href="{% url 'payouts' %}"
-    class="p-4 mt-4 w-full bg-white mx-auto flex items-center gap-4 rounded-md group"
+    class="px-6 py-10 w-full bg-black text-white mx-auto flex items-center gap-4 rounded-md group"
   >
-    <i class="fa-solid fa-coins text-xl group-hover:text-red-500"></i>
+    <i class="fa-solid fa-wallet text-xl group-hover:text-green-400"></i>
     <div class="flex justify-between items-center w-full">
       <div class="flex flex-col">
-        <p>Décaissements</p>
-        <span class="font-bold text-lg text-black">{{payouts}}</span>
+        <p>Rémunérations</p>
       </div>
       <span>
         <i class="hidden group-hover:inline fa-solid fa-caret-right"></i>
@@ -110,13 +80,177 @@
     </div>
   </a>
 </section>
-<!--------------------------------------- records links --------------------------------------->
-<section class="md:grid grid-cols-2 md:gap-6 md:grid-cols-3">
+{% elif user.role.sec_level == 2 %}
+<!--------------------------------------- finamce links --------------------------------------->
+<section class="mt-6 flex flex-col md:grid grid-cols-2 gap-6">
+  <a
+    href="{% url 'v_expenses' %}"
+    class="px-6 py-10 w-full bg-black text-white mx-auto flex items-center gap-4 rounded-md group"
+  >
+    <i class="fa-solid fa-taxi text-xl group-hover:text-red-400"></i>
+    <div class="flex justify-between items-center w-full">
+      <div class="flex flex-col">
+        <p>Dépenses des véhicules</p>
+      </div>
+      <span>
+        <i class="hidden group-hover:inline fa-solid fa-caret-right"></i>
+      </span>
+    </div>
+  </a>
+  <a
+    href="{% url 'payments' %}"
+    class="px-6 py-10 w-full bg-black text-white mx-auto flex items-center gap-4 rounded-md group"
+  >
+    <i class="fa-solid fa-coins text-xl group-hover:text-yellow-400"></i>
+    <div class="flex justify-between items-center w-full">
+      <div class="flex flex-col">
+        <p>Recettes des véhicules</p>
+      </div>
+      <span>
+        <i class="hidden group-hover:inline fa-solid fa-caret-right"></i>
+      </span>
+    </div>
+  </a>
+  <a
+    href="{% url 'revenues' %}"
+    class="px-6 py-10 w-full bg-black text-white mx-auto flex items-center gap-4 rounded-md group"
+  >
+    <i class="fa-solid fa-wallet text-xl group-hover:text-green-400"></i>
+    <div class="flex justify-between items-center w-full">
+      <div class="flex flex-col">
+        <p>Revenues</p>
+      </div>
+      <span>
+        <i class="hidden group-hover:inline fa-solid fa-caret-right"></i>
+      </span>
+    </div>
+  </a>
+  <a
+    href="{% url 'balancesheet' %}"
+    class="px-6 py-10 w-full bg-black text-white mx-auto flex items-center gap-4 rounded-md group"
+  >
+    <i
+      class="fa-solid fa-file-invoice-dollar text-xl group-hover:text-sky-400"
+    ></i>
+    <div class="flex justify-between items-center w-full">
+      <p>Situation Financiere</p>
+      <span>
+        <i class="hidden group-hover:inline fa-solid fa-caret-right"></i>
+      </span>
+    </div>
+  </a>
+</section>
+<!------------------------------------------------------------------------------ admin links ------------------------------------------------------------------------------>
+{% else %}
+<!--------------------------------------- expenses links --------------------------------------->
+<section class="mt-6 flex flex-col md:grid grid-cols-2 gap-6 lg:grid-cols-3">
+  <a
+    href="{% url 'd_expenses' %}"
+    class="px-6 py-10 w-full bg-black text-white mx-auto flex items-center gap-4 rounded-md group"
+  >
+    <i class="fa-solid fa-user text-xl group-hover:text-pink-400"></i>
+    <div class="flex justify-between items-center w-full">
+      <div class="flex flex-col">
+        <p>Dépenses des chauffeurs</p>
+      </div>
+      <span>
+        <i class="hidden group-hover:inline fa-solid fa-caret-right"></i>
+      </span>
+    </div>
+  </a>
+  <a
+    href="{% url 'v_expenses' %}"
+    class="px-6 py-10 w-full bg-black text-white mx-auto flex items-center gap-4 rounded-md group"
+  >
+    <i class="fa-solid fa-taxi text-xl group-hover:text-violet-400"></i>
+    <div class="flex justify-between items-center w-full">
+      <div class="flex flex-col">
+        <p>Dépenses des véhicules</p>
+      </div>
+      <span>
+        <i class="hidden group-hover:inline fa-solid fa-caret-right"></i>
+      </span>
+    </div>
+  </a>
+  <a
+    href="{% url 'g_expenses' %}"
+    class="px-6 py-10 w-full bg-black text-white mx-auto flex items-center gap-4 rounded-md group"
+  >
+    <i class="fa-solid fa-building text-xl group-hover:text-blue-400"></i>
+    <div class="flex justify-between items-center w-full">
+      <div class="flex flex-col">
+        <p>Dépenses de la compagnie</p>
+      </div>
+      <span>
+        <i class="hidden group-hover:inline fa-solid fa-caret-right"></i>
+      </span>
+    </div>
+  </a>
+  <!--------------------------------------- transactions links --------------------------------------->
+  <a
+    href="{% url 'transactions' %}"
+    class="px-6 py-10 w-full bg-black text-white mx-auto flex items-center gap-4 rounded-md group"
+  >
+    <i
+      class="fa-solid fa-money-bill-transfer text-xl group-hover:text-yellow-400"
+    ></i>
+    <div class="flex justify-between items-center w-full">
+      <div class="flex flex-col">
+        <p>Transactions</p>
+      </div>
+      <span>
+        <i class="hidden group-hover:inline fa-solid fa-caret-right"></i>
+      </span>
+    </div>
+  </a>
+  <a
+    href="{% url 'payments' %}"
+    class="px-6 py-10 w-full bg-black text-white mx-auto flex items-center gap-4 rounded-md group"
+  >
+    <i class="fa-solid fa-coins text-xl group-hover:text-green-400"></i>
+    <div class="flex justify-between items-center w-full">
+      <div class="flex flex-col">
+        <p>Recettes des véhicules</p>
+      </div>
+      <span>
+        <i class="hidden group-hover:inline fa-solid fa-caret-right"></i>
+      </span>
+    </div>
+  </a>
+  <a
+    href="{% url 'payouts' %}"
+    class="px-6 py-10 w-full bg-black text-white mx-auto flex items-center gap-4 rounded-md group"
+  >
+    <i class="fa-solid fa-coins text-xl group-hover:text-red-400"></i>
+    <div class="flex justify-between items-center w-full">
+      <div class="flex flex-col">
+        <p>Rémunérations</p>
+      </div>
+      <span>
+        <i class="hidden group-hover:inline fa-solid fa-caret-right"></i>
+      </span>
+    </div>
+  </a>
+  <a
+    href="{% url 'revenues' %}"
+    class="px-6 py-10 w-full bg-black text-white mx-auto flex items-center gap-4 rounded-md group"
+  >
+    <i class="fa-solid fa-wallet text-xl group-hover:text-green-400"></i>
+    <div class="flex justify-between items-center w-full">
+      <div class="flex flex-col">
+        <p>Revenues</p>
+      </div>
+      <span>
+        <i class="hidden group-hover:inline fa-solid fa-caret-right"></i>
+      </span>
+    </div>
+  </a>
+  <!--------------------------------------- records links --------------------------------------->
   <a
     href="{% url 'audit' %}"
-    class="p-4 mt-4 w-full bg-white mx-auto flex items-center gap-4 rounded-md group"
+    class="px-6 py-10 w-full bg-black text-white mx-auto flex items-center gap-4 rounded-md group"
   >
-    <i class="fa-solid fa-file-invoice text-xl group-hover:text-orange-500"></i>
+    <i class="fa-solid fa-file-invoice text-xl group-hover:text-orange-400"></i>
     <div class="flex justify-between items-center w-full">
       <p>Audit</p>
       <span>
@@ -126,10 +260,10 @@
   </a>
   <a
     href="{% url 'balancesheet' %}"
-    class="p-4 mt-4 w-full bg-white mx-auto flex items-center gap-4 rounded-md group"
+    class="px-6 py-10 w-full bg-black text-white mx-auto flex items-center gap-4 rounded-md group"
   >
     <i
-      class="fa-solid fa-file-invoice-dollar text-xl group-hover:text-sky-500"
+      class="fa-solid fa-file-invoice-dollar text-xl group-hover:text-sky-400"
     ></i>
     <div class="flex justify-between items-center w-full">
       <p>Situation Financiere</p>
@@ -138,11 +272,11 @@
       </span>
     </div>
   </a>
-    <a
-    href="{% url 'audit' %}"
-    class="p-4 mt-4 w-full bg-white mx-auto flex items-center gap-4 rounded-md group"
+  <a
+    href="{% url 'stats' %}"
+    class="px-6 py-10 w-full bg-black text-white mx-auto flex items-center gap-4 rounded-md group"
   >
-    <i class="fa-solid fa-chart-pie text-xl group-hover:text-lime-500"></i>
+    <i class="fa-solid fa-chart-pie text-xl group-hover:text-orange-400"></i>
     <div class="flex justify-between items-center w-full">
       <p>Statistiques</p>
       <span>
@@ -150,18 +284,59 @@
       </span>
     </div>
   </a>
+  <a
+    href="{% url 'audit' %}"
+    class="px-6 py-10 w-full bg-black text-white mx-auto flex items-center gap-4 rounded-md group"
+  >
+    <i class="fa-solid fa-file-lines text-xl group-hover:text-lime-400"></i>
+    <div class="flex justify-between items-center w-full">
+      <p>Bilan</p>
+      <span>
+        <i class="hidden group-hover:inline fa-solid fa-caret-right"></i>
+      </span>
+    </div>
+  </a>
+  <a
+    href="{% url 'audit' %}"
+    class="px-6 py-10 w-full bg-black text-white mx-auto flex items-center gap-4 rounded-md group"
+  >
+    <i class="fa-solid fa-piggy-bank text-xl group-hover:text-amber-300"></i>
+    <div class="flex justify-between items-center w-full">
+      <p>Commissions</p>
+      <span>
+        <i class="hidden group-hover:inline fa-solid fa-caret-right"></i>
+      </span>
+    </div>
+  </a>
 </section>
-<!-- <a
-  href="{% url 'dividends' %}"
-  class="p-4 mt-4 w-full bg-white mx-auto flex items-center gap-4 rounded-md group"
->
-  <i class="fa-solid fa-dollar text-xl group-hover:text-amber-500"></i>
-  <div class="flex justify-between items-center w-full">
-    <p>Revenus</p>
-    <span>
-      <i class="hidden group-hover:inline fa-solid fa-caret-right"></i>
-    </span>
-  </div>
-</a> -->
+<!--------------------------------------- records links --------------------------------------->
+<section class="mt-6 flex flex-col md:grid grid-cols-2 gap-6">
+  <a
+    href="{% url 'vaults' %}"
+    class="px-6 py-10 w-full bg-black text-white mx-auto flex items-center gap-4 rounded-md group"
+  >
+    <i class="fa-solid fa-vault text-2xl group-hover:text-amber-300"></i>
+    <div class="flex justify-between items-center w-full">
+      <p class="text-lg">Tresorerie</p>
+      <span>
+        <i class="hidden group-hover:inline fa-solid fa-caret-right"></i>
+      </span>
+    </div>
+  </a>
+  <a
+    href="{% url 'ledgers' %}"
+    class="px-6 py-10 w-full bg-black text-white mx-auto flex items-center gap-4 rounded-md group"
+  >
+    <i class="fa-solid fa-book text-2xl group-hover:text-amber-300"></i>
+    <div class="flex justify-between items-center w-full">
+      <p class="text-lg">Grand Livre</p>
+      <span>
+        <i class="hidden group-hover:inline fa-solid fa-caret-right"></i>
+      </span>
+    </div>
+  </a>
+</section>
 
+{% endif %}
+<!--  -->
 {% endblock %}

@@ -4,32 +4,56 @@
 <nav
   class="mx-auto flex justify-between items-center gap-2 items-center text-xs w-full"
 >
-  {% if user.role.sec_level >= 3 %}
-  <a
-    href="{% url 'create_partner' %}"
-    class="px-4 py-3 bg-black text-white hover:bg-amber-300 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
-    ><span class="hidden md:inline"> Ajouter un partenaire</span
-    ><i class="fa-solid fa-plus md:ml-4"></i
-  ></a>
-  {% endif %}
-
-  <form id="search_box" class="w-full max-w-md flex flex-row justify-between">
-    <input
-      type="text"
-      name="query"
-      id="querier"
-      required
-      class="px-4 py-2 bg-white text-black w-full rounded-l-md outline-none"
-      placeholder="Recherchez..."
-    />
-    <button
-      class="group px-4 py-2 text-sm bg-black hover:bg-amber-300 text-white hover:text-black rounded-r-md transition duration-300 ease-in-out"
-      type="submit"
-    >
-      <i class="fa-solid fa-magnifying-glass"></i>
-    </button>
-  </form>
+  <div class="flex items-center gap-2">
+    <a
+      href="{{request.META.HTTP_REFERER}}"
+      class="px-4 py-3 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+      ><i class="fa-solid fa-arrow-left"></i
+    ></a>
+    {% if user.role.sec_level >= 3 %}
+    <a
+      href="{% url 'create_partner' %}"
+      class="px-4 py-3 bg-black text-white hover:bg-amber-300 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+      ><span class="hidden md:inline">Nouveau partenaire</span
+      ><i class="fa-solid fa-plus md:ml-4"></i
+    ></a>
+  </div>
+  {% endif %} {% include 'components/searchbar.html' %}
 </nav>
+
+<!--------------------------------------- stats --------------------------------------->
+<section id="stats" class="mt-4 w-full bg-black p-6 rounded-md">
+  <div
+    class="text-gray-300 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+  >
+    <div class="p-6 flex flex-col justify-between">
+      <h4 class="text-sky-500 text-xl font-bold">{{partner_count}}</h4>
+      <p class="mt-2 text-sm">Tous les partenaires</p>
+    </div>
+    <div class="p-6 flex flex-col justify-between">
+      <h4 class="text-green-500 text-xl font-bold">{{activ_count}}</h4>
+      <p class="mt-2 text-sm">Partenaires Actifs</p>
+    </div>
+    <div class="p-6 flex flex-col justify-between">
+      <h4 class="text-red-500 text-xl font-bold">{{inactiv_count}}</h4>
+      <p class="mt-2 text-sm">Partenaires Inactifs</p>
+    </div>
+    <div class="p-6 flex flex-col justify-between">
+      <h4 class="text-amber-400 text-xl font-bold">
+        {{activity_percent|floatformat}}%
+      </h4>
+      <p class="mt-2 text-sm">Pourcentage d'Activité</p>
+    </div>
+    <!-- <div class="p-6 flex flex-col justify-between">
+      {% if total_net < 0 %}
+      <h4 class="text-red-500 text-xl font-bold">{{total_net}} CFA</h4>
+      {% else %}
+      <h4 class="text-green-500 text-xl font-bold">{{total_net}} CFA</h4>
+      {% endif %}
+      <p class="mt-2 text-sm">Revenu Net Total</p>
+    </div> -->
+  </div>
+</section>
 
 <!--------------------------------------- partners --------------------------------------->
 <section id="partners" class="py-4 w-full text-left">
@@ -37,17 +61,13 @@
     {% if not partners %}
 
     <!--------------------------------------- No data placeholder --------------------------------------->
-    <div
-      class="p-8 my-40 bg-gray-100 max-w-[400px] mx-auto rounded-md flex-col text-center"
-    >
-      <i class="fa-regular fa-folder-open text-7xl"></i>
-      <p class="mt-4">Aucune données disponible pour le moment</p>
-    </div>
+    {% include 'components/no_data.html' %}
+    <!--  -->
 
     {% else %}
     <!--------------------------------------- partners --------------------------------------->
     <div
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
     >
       {% for obj in partners %}
       <div
@@ -55,32 +75,32 @@
       >
         {% if obj.is_active %}
         <span
-          class="absolute top-2 right-2 px-2 py-1 rounded-md bg-emerald-500 text-xs text-white"
+          class="absolute bottom-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
         >
           Actif
         </span>
         {% else %}
         <span
-          class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
+          class="absolute bottom-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
         >
           Inactif
         </span>
         {% endif %}
-        <a href="{% url 'partner' obj.id  %}">
+        <a href="{% url 'partner' obj.id  %}" class="flex">
           {% if not obj.image %}
           <img
-            class="h-20 w-full object-cover"
+            class="h-full w-[120px] object-cover"
             src="{% static 'imgs/partner.jpg' %}"
             alt="partner image"
           />
           {% else %}
           <img
-            class="h-20 w-full object-cover"
+            class="h-full w-[120px] object-cover"
             src="{{obj.image.url}}"
             alt="partner image"
           />
           {% endif %}
-          <div class="p-4 flex flex-col justify-between">
+          <div class="p-4 flex flex-col justify-between w-80">
             <h4 class="text-black text-md font-bold">
               {{obj.civility}} {{obj.user.last_name}} {{obj.user.first_name}}
             </h4>

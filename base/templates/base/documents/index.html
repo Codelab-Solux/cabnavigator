@@ -32,14 +32,21 @@
 
 <!--------------------------------------- driver documents --------------------------------------->
 <section id="d_docs" class="tabcontent w-full">
-  {% if user.role.sec_level >= 1 %}
-  <a
-    href="{% url 'create_ddoc' %}"
-    class="px-4 py-2 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
-    >Ajouter un document<i class="fa-solid fa-plus ml-4"></i
-  ></a>
-  {% endif %}
-  <div class="w-full mx-auto my-8">
+  <div class="flex items-center justify-between">
+    {% if user.role.sec_level != 2 %}
+    <a
+      href="{% url 'create_ddoc' %}"
+      class="px-4 py-3 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
+      >Nouveau document<i class="fa-solid fa-plus ml-4"></i
+    ></a>
+    {% endif %}
+    <a
+      href="{% url 'driver_docs' %}"
+      class="px-4 py-3 text-black font-bold text-xs hover:bg-white rounded-md items-center transition duration-300 ease-in-out"
+      >Voir<i class="fa-solid fa-plus ml-4"></i
+    ></a>
+  </div>
+  <div class="w-full mx-auto my-4">
     {% if not d_docs %}
 
     <!--------------------------------------- No data placeholder --------------------------------------->
@@ -53,7 +60,7 @@
     {% else %}
     <!--------------------------------------- d_docs --------------------------------------->
     <div
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
     >
       {% for obj in d_docs %}
       <div
@@ -105,14 +112,21 @@
 
 <!--------------------------------------- vehicle documents --------------------------------------->
 <section id="v_docs" class="tabcontent w-full">
-  {% if user.role.sec_level >= 1 %}
-  <a
-    href="{% url 'create_vdoc' %}"
-    class="px-4 py-2 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
-    >Ajouter un document<i class="fa-solid fa-plus ml-4"></i
-  ></a>
-  {% endif %}
-  <div class="w-full mx-auto my-8">
+  <div class="flex items-center justify-between">
+    {% if user.role.sec_level >= 1 %}
+    <a
+      href="{% url 'create_vdoc' %}"
+      class="px-4 py-3 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
+      >Nouveau document<i class="fa-solid fa-plus ml-4"></i
+    ></a>
+    {% endif %}
+    <a
+      href="{% url 'vehicle_docs' %}"
+      class="px-4 py-3 text-black font-bold text-xs hover:bg-white rounded-md items-center transition duration-300 ease-in-out"
+      >Voir<i class="fa-solid fa-plus ml-4"></i
+    ></a>
+  </div>
+  <div class="w-full mx-auto my-4">
     {% if not v_docs %}
 
     <!--------------------------------------- No data placeholder --------------------------------------->
@@ -147,7 +161,7 @@
           {% if not obj.image %}
           <img
             class="h-20 w-full object-cover"
-            src="{% static 'imgs/sig.jpg' %}"
+            src="{% static 'imgs/docs.jpg' %}"
             alt="v_docs image"
           />
           {% else %}
@@ -177,14 +191,21 @@
 
 <!--------------------------------------- partner documents --------------------------------------->
 <section id="p_docs" class="tabcontent w-full">
-  {% if user.role.sec_level >= 1 %}
-  <a
-    href="{% url 'create_pdoc' %}"
-    class="px-4 py-2 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
-    >Ajouter un document<i class="fa-solid fa-plus ml-4"></i
-  ></a>
-  {% endif %}
-  <div class="w-full mx-auto my-8">
+  <div class="flex items-center justify-between">
+    {% if user.role.sec_level > 2 %}
+    <a
+      href="{% url 'create_pdoc' %}"
+      class="px-4 py-3 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
+      >Nouveau document<i class="fa-solid fa-plus ml-4"></i
+    ></a>
+    {% endif %}
+    <a
+      href="{% url 'partner_docs' %}"
+      class="px-4 py-3 text-black font-bold text-xs hover:bg-white rounded-md items-center transition duration-300 ease-in-out"
+      >Voir<i class="fa-solid fa-plus ml-4"></i
+    ></a>
+  </div>
+  <div class="w-full mx-auto my-4">
     {% if not d_docs %}
 
     <!--------------------------------------- No data placeholder --------------------------------------->
@@ -198,7 +219,7 @@
     {% else %}
     <!--------------------------------------- d_docs --------------------------------------->
     <div
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
     >
       {% for obj in p_docs %}
       <div
@@ -221,7 +242,7 @@
           {% if not obj.image %}
           <img
             class="h-20 w-full object-cover"
-            src="{% static 'imgs/contract.jpg' %}"
+            src="{% static 'imgs/docs.jpg' %}"
             alt="documents image"
           />
           {% else %}

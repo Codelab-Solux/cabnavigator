@@ -1,24 +1,59 @@
 {% extends 'main.html' %} {% load static %} {% block content %}
 <!--------------------------------------- mini navbar --------------------------------------->
 <nav
-  class="mx-auto flex items-center gap-2 items-center text-xs w-full max-w-[1350px]"
->
+  class="mb-4 mx-auto flex flex-wrap items-center gap-2 items-center text-xs w-full max-w-[1350px]"
+>  
+  {% if not form %}
   <a
-    href="{{request.META.HTTP_REFERER}}"
-    class="px-4 py-2 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    href="{% url 'payouts' %}"
+    class="px-4 py-3 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
     ><i class="fa-solid fa-arrow-left"></i
   ></a>
-  {% if curr_payout and not form %}
+  {% else %}
+  <a
+    href="{{request.META.HTTP_REFERER}}"
+    class="px-4 py-3 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    ><i class="fa-solid fa-arrow-left"></i
+  ></a>
+  {% endif %}
+  <!--  -->
+  {% if curr_payout %}
+  <!--  -->
+  {% if not form %}
   <a
     href="{% url 'edit_payout' curr_payout.id %}"
-    class="px-4 py-2 bg-black text-white hover:bg-amber-300 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
-    >Modifier ce décaissement<i class="fa-solid fa-pen-to-square ml-4"></i
+    class="px-4 py-3 bg-black text-white hover:bg-green-600 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    >Modifier<i class="fa-solid fa-pen-to-square ml-4"></i
   ></a>
+  {% endif %}
+  <!--  -->
+  {% if user.role.sec_level >= 3 %}
   <a
     href="{% url 'delete_payout' curr_payout.id %}"
-    class="px-4 py-2 bg-red-700 text-white hover:bg-red-500 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
-    >Supprimer ce décaissement<i class="fa-solid fa-trash ml-4"></i
+    id="delete_btn"
+    onclick="return confirm('Voulez vous continuer avec la suppression')"
+    class="px-4 py-3 bg-black text-white hover:bg-red-700 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    >Supprimer<i class="fa-solid fa-trash ml-4"></i
   ></a>
+  <form action="{% url 'audit_payout' curr_payout.id %}" method="POST">
+    {% csrf_token %}
+    <!--  -->
+    {% if curr_payout.is_audited == False %}
+    <input
+      type="submit"
+      value="Auditer"
+      class="px-4 py-3 bg-black text-white hover:bg-green-600 rounded-md flex justify-between items-center transition duration-300 ease-in-out cursor-pointer"
+    />
+    {% else %}
+    <input
+      type="submit"
+      value="Ne pas auditer"
+      class="px-4 py-3 bg-black text-white hover:bg-red-700 rounded-md flex justify-between items-center transition duration-300 ease-in-out cursor-pointer"
+    />
+    {% endif %}
+  </form>
+  {% endif %}
+  <!--  -->
   {% endif %}
 </nav>
 
@@ -27,18 +62,18 @@
 {% if not form %}
 
 <section
-  class="my-4 p-8 bg-white lg:grid grid-cols-2 gap-8 justify-between rounded-md overflow-hidden"
+  class="p-8 bg-white lg:grid grid-cols-2 gap-8 justify-between rounded-md overflow-hidden"
 >
   <div class="flex flex-col gap-4 w-full">
     {% if not curr_payout.image %}
     <img
-      class="h-40 w-full rounded-md object-cover"
-      src="{% static 'imgs/pos.jpg' %}"
+      class="h-80 w-full rounded-md object-cover"
+      src="{% static 'imgs/pay.jpg' %}"
       alt="vehicle image"
     />
     {% else %}
     <img
-      class="h-40 w-full rounded-md object-cover"
+      class="h-80 w-full rounded-md object-cover"
       src="{{curr_payout.image.url}}"
       alt="vehicle image"
     />
@@ -68,36 +103,39 @@
 
   <div class="w-full mx-auto rounded-md">
     <h3 class="mb-4 text-black text-lg font-bold">
-      Autre depenses connexes
+      Remunérations connexes
     </h3>
     <div class="flex flex-row flex-wrap gap-4">
       {% for obj in rel_payouts %}
-      <div
-        class="relative w-[220px] flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
-      >
-          {% if obj.is_audited %}
-          <span
-            class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
-          >
-            Audité
-          </span>
-          {% else %}
-          <span
-            class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
-          >
-            Non-audité
-          </span>
-          {% endif %}
-          <div class="p-4 flex flex-col justify-between">
-            <h4 class="text-black text-md font-bold">
-              {{obj.amount}} CFA
-            </h4>
-            <tt class="mt-2 text-sm font-bold">
-              {{obj.driver.last_name}} {{obj.driver.first_name}}
-            </tt>
-            <p class="mt-2 text-sm">{{curr_payout.get_type_display}} du {{curr_payout.date_paid.date}}</p>
-          </div>
-        </a>
+      <a href="{% url 'payout' obj.id  %}">
+        <div
+          class="relative w-[220px] flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
+        >
+            {% if obj.is_audited %}
+            <span
+              class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
+            >
+              Audité
+            </span>
+            {% else %}
+            <span
+              class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
+            >
+              Non-audité
+            </span>
+            {% endif %}
+            <div class="p-4 flex flex-col justify-between">
+              <h4 class="text-black text-md font-bold">
+                {{obj.amount}} CFA
+              </h4>
+              <tt class="mt-2 text-sm font-bold">
+                {{obj.driver.last_name}} {{obj.driver.first_name}}
+              </tt>
+              <p class="mt-2 text-sm">{{curr_payout.get_type_display}} du {{curr_payout.date_paid.date}}</p>
+            </div>
+        </div>
+      </a>
+        
       </div>
       {% endfor %}
     </div>
@@ -108,39 +146,87 @@
 
 {% else %}
 <!--------------------------------------- payout form -->
-<section class="mb-4 p-4 lg:p-8 bg-white w-full mx-auto rounded-md text-sm">
-  <h3 class="mb-4 text-black text-2xl font-bold">
-    Formulaire de décaissement des conducteurs
-  </h3>
-  <form
-    class="w-full flex flex-col justify-between gap-6"
-    method="POST"
-    action=""
-    enctype="multipart/form-data"
-  >
-    {% csrf_token %}
-    <!--  -->
-    <div class="flex flex-col md:flex-row flex-wrap gap-5">
-      {% for field in form %}
-      <div>
-        <h3 class="mb-1">{{field.label}}</h3>
-        {{field}}
+<section
+  class="p-4 lg:p-8 bg-white flex gap-4 lg:gap-8 w-full mx-auto rounded-md text-sm"
+>
+  <div>
+    {% if curr_payout %}
+    <h3 class="mb-4 text-black text-2xl font-bold">Modifier cette rémunération</h3>
+    {% else %}
+    <h3 class="mb-4 text-black text-2xl font-bold">Nouvelle rémunération</h3>
+    {% endif %}
+    <form
+      class="w-full flex flex-col justify-between gap-6"
+      method="POST"
+      action=""
+      enctype="multipart/form-data"
+    >
+      {% csrf_token %}
+      <!--  -->
+      <div  class="flex flex-col md:grid grid-cols-3 lg:grid-cols-2 flex-wrap gap-4">
+        {% for field in form %}
+        <div>
+          <h3 class="mb-1">{{field.label}}</h3>
+          {{field}}
+        </div>
+        {% endfor %}
       </div>
-      {% endfor %}
+      <div class="flex gap-4 items-end">
+        <input
+          class="px-8 py-2 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md cursor-pointer"
+          type="submit"
+          value="Enregistrer"
+        />
+        <a
+          class="bg-gray-200 px-8 py-2 rounded-md hover:bg-red-700 hover:text-white"
+          href="{{request.META.HTTP_REFERER}}"
+        >
+          Annuler
+        </a>
+      </div>
+    </form>
+  </div>
+  <div class="rounded-md w-full max-w-[460px] overflow-hidden">
+    {% if not curr_payout %}
+    <img
+      class="h-full w-full object-cover"
+      src="{% static 'imgs/pay.jpg' %}"
+      alt="exp image"
+    />
+    {% endif %}
+    <!--  -->
+    {% if curr_payout %}
+    <!--  -->
+    {% if not curr_payout.image %}
+    <img
+      class="w-full object-cover"
+      src="{% static 'imgs/pay.jpg' %}"
+      alt="driver image"
+    />
+    {% else %}
+    <img
+      class="w-full object-cover"
+      src="{{curr_payout.image.url}}"
+      alt="driver image"
+    />
+    {% endif %}
+
+    <div class="p-4 h-full flex flex-col gap-1 w-full bg-black text-gray-300">
+      <h3 class="font-bold text-xl text-white">{{curr_payout.get_type_display}}</h3>
+      <p>
+        Montant
+        <tt class="text-red-500"> [--{{curr_payout.amount}} CFA--]</tt>
+      </p>
+      <p>
+        Jours travaillés
+        <tt class="text-amber-300"> [--{{curr_payout.days_worked}}--]</tt>
+      </p>
+      <p>
+        Période travaillée
+        <tt class="text-green-500">[--{{curr_payout.start_date}} - {{curr_payout.end_date}}--]</tt>
+      </p>
     </div>
-    <div class="my-4 flex gap-4 items-end">
-      <input
-        class="px-8 py-2 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md cursor-pointer"
-        type="submit"
-        value="Enregistrer"
-      />
-      <a
-        class="bg-gray-200 px-8 py-2 rounded-md hover:bg-red-700 hover:text-white"
-        href="{{request.META.HTTP_REFERER}}"
-      >
-        Annuler
-      </a>
-    </div>
-  </form>
+    {% endif %}
+  </div>
 </section>
 {% endif %} {% endblock %}

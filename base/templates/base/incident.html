@@ -1,7 +1,7 @@
 {% extends 'main.html' %} {% load static %} {% block content %}
 <!--------------------------------------- mini navbar --------------------------------------->
 <nav
-  class="mb-4 mx-auto flex items-center gap-2 items-center text-xs w-full max-w-[1350px]"
+  class="mb-4 mx-auto flex flex-wrap items-center gap-2 items-center text-xs w-full max-w-[1350px]"
 >
   <a
     href="{{request.META.HTTP_REFERER}}"
@@ -9,20 +9,38 @@
     ><i class="fa-solid fa-arrow-left"></i
   ></a>
   {% if curr_incident and not form %}
-
+  <!--  -->
+  {% if user.role.sec_level >= 3 %}
   <a
     href="{% url 'edit_incident' curr_incident.id %}"
-    class="px-4 py-3 bg-black text-white hover:bg-amber-300 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    class="px-4 py-3 bg-black text-white hover:bg-green-600 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
     >Modifier<i class="fa-solid fa-pen-to-square ml-4"></i
   ></a>
-  {% endif %} {% if curr_incident and not form and user.role.sec_level >= 3 %}
   <a
     href="{% url 'delete_incident' curr_incident.id %}"
-    class="px-4 py-3 bg-red-700 text-white hover:bg-red-900 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    id="delete_btn"
+    onclick="return confirm('Voulez vous continuer avec la suppression')"
+    class="px-4 py-3 bg-black text-white hover:bg-red-700 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
     >Supprimer<i class="fa-solid fa-trash ml-4"></i
   ></a>
-
-  {% endif %}
+  <form action="{% url 'incident_resolution' curr_incident.id %}" method="POST">
+    {% csrf_token %}
+    <!--  -->
+    {% if curr_incident.is_solved == False %}
+    <input
+      type="submit"
+      value="Résoudre"
+      class="px-4 py-3 bg-black text-white hover:bg-green-600 rounded-md flex justify-between items-center transition duration-300 ease-in-out cursor-pointer"
+    />
+    {% else %}
+    <input
+      type="submit"
+      value="Ne pas résoudre"
+      class="px-4 py-3 bg-black text-white hover:bg-red-700 rounded-md flex justify-between items-center transition duration-300 ease-in-out cursor-pointer"
+    />
+    {% endif %}
+  </form>
+  {% endif %} {% endif %}
 </nav>
 
 <!--------------------------------------- forms layout --------------------------------------->
@@ -48,17 +66,17 @@
       />
       {% endif %}
       <!--  -->
-      {% if obj.is_audited %}
+      {% if curr_incident.is_solved %}
       <span
         class="absolute top-4 right-4 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
       >
-        Audité
+        Résolu
       </span>
       {% else %}
       <span
         class="absolute top-4 right-4 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
       >
-        Non-audité
+        Non-résolu
       </span>
       {% endif %}
     </div>
@@ -69,7 +87,7 @@
         {{curr_incident.driver.first_name}}
       </p>
       <p class="pt-2 text-sm">Journee du {{curr_incident.date}}</p>
-      <p class="pt-2 text-sm">Date ajouté {{curr_incident.date_posted.date}}</p>
+      <!-- <p class="pt-2 text-sm">Date ajouté {{curr_incident.date_posted.date}}</p> -->
     </div>
     <!--  -->
   </div>
@@ -78,27 +96,27 @@
 
   <div class="w-full mx-auto rounded-md">
     <h3 class="mb-4 text-black text-lg font-bold">Incidents connexes</h3>
-    {% if not rel_expenses %}
+    {% if not rel_incidents %}
     <!--------------------------------------- No data placeholder --------------------------------------->
     {% include 'components/no_data.html' %}
     <!--  -->
     {% else %}
-    <div class="flex flex-row flex-wrap gap-4">
-      {% for obj in rel_expenses %}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {% for obj in rel_incidents %}
       <div
         class="relative flex flex-col border border-2 hover:border-black bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
       >
-        {% if obj.is_audited %}
+        {% if obj.is_solved %}
         <span
           class="absolute bottom-4 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
         >
-          Audité
+          Résolu
         </span>
         {% else %}
         <span
           class="absolute bottom-4 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
         >
-          Non-audité
+          Non-résolu
         </span>
         {% endif %}
         <a href="{% url 'incident' obj.id  %}">
@@ -121,72 +139,92 @@
 </section>
 
 {% else %}
-<!--------------------------------------- driver expense form -->
+<!--------------------------------------- incident form -->
 <section
-  id="d_form"
-  class="p-4 lg:p-8 bg-white w-full mx-auto rounded-md text-sm"
+  class="p-4 lg:p-8 bg-white md:grid grid-cols-2 gap-4 lg:gap-8 w-full mx-auto rounded-md text-sm"
 >
-  <h3 class="mb-4 text-black text-2xl font-bold">
-    Formulaire de dépense des conducteurs
-  </h3>
-  <form
-    class="w-full flex flex-col justify-between gap-6"
-    method="POST"
-    action=""
-    enctype="multipart/form-data"
-  >
-    {% csrf_token %}
-    <!--  -->
-    <div
-      class="flex flex-col md:grid grid-cols-3 lg:grid-cols-4 flex-wrap gap-4"
+  <div class="w-full">
+    {% if curr_incident %}
+    <h3 class="mb-4 text-black text-2xl font-bold">Modifier cet incident</h3>
+    {% else %}
+    <h3 class="mb-4 text-black text-2xl font-bold">Nouvel incident</h3>
+    {% endif %}
+    <form
+      class="w-full flex flex-col justify-between gap-6"
+      method="POST"
+      action=""
+      enctype="multipart/form-data"
     >
-      <div>
-        <h3 class="mb-1">{{form.driver.label}}</h3>
-        {{form.driver}}
+      {% csrf_token %}
+      <!--  -->
+      <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+        {% if user.role.sec_level > 2 %}
+        <div>
+          <h3 class="mb-1">{{form.driver.label}}</h3>
+          {{form.driver}}
+        </div>
+        {% endif %}
+        <div>
+          <h3 class="mb-1">{{form.vehicle.label}}</h3>
+          {{form.vehicle}}
+        </div>
+        <div>
+          <h3 class="mb-1">{{form.title.label}}</h3>
+          {{form.title}}
+        </div>
+        <div>
+          <h3 class="mb-1">{{form.type.label}}</h3>
+          {{form.type}}
+        </div>
+        <div>
+          <h3 class="mb-1">{{form.repairability.label}}</h3>
+          {{form.repairability}}
+        </div>
+        <div>
+          <h3 class="mb-1">{{form.mobility.label}}</h3>
+          {{form.mobility}}
+        </div>
+        <div>
+          <h3 class="mb-1">{{form.date.label}}</h3>
+          {{form.date}}
+        </div>
+        <div>
+          <h3 class="mb-1">{{form.time.label}}</h3>
+          {{form.time}}
+        </div>
+        <div>
+          <h3 class="mb-1">{{form.place.label}}</h3>
+          {{form.place}}
+        </div>
+        <div>
+          <h3 class="mb-1">{{form.image.label}}</h3>
+          {{form.image}}
+        </div>
       </div>
       <div>
-        <h3 class="mb-1">{{form.title.label}}</h3>
-        {{form.title}}
+        <h3 class="mb-1">{{form.description.label}}</h3>
+        {{form.description}}
       </div>
-      <div>
-        <h3 class="mb-1">{{form.amount.label}}</h3>
-        {{form.amount}}
+      <div class="my-4 flex gap-4 lg:gap-8 items-end">
+        <input
+          class="px-8 py-2 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md cursor-pointer"
+          type="submit"
+          value="Enregistrer"
+        />
+        <a
+          class="bg-gray-200 px-8 py-2 rounded-md hover:bg-red-700 hover:text-white"
+          href="{{request.META.HTTP_REFERER}}"
+        >
+          Annuler
+        </a>
       </div>
-      <div>
-        <h3 class="mb-1">{{form.date.label}}</h3>
-        {{form.date}}
-      </div>
-      <div>
-        <h3 class="mb-1">{{form.time.label}}</h3>
-        {{form.time}}
-      </div>
-      <div>
-        <h3 class="mb-1">{{form.is_audited.label}}</h3>
-        {{form.is_audited}}
-      </div>
-      <div>
-        <h3 class="mb-1">{{form.receit.label}}</h3>
-        {{form.receit}}
-      </div>
-    </div>
-    <div>
-      <h3 class="mb-1">{{form.details.label}}</h3>
-      {{form.details}}
-    </div>
-    <div class="my-4 flex gap-4 items-end">
-      <input
-        class="px-8 py-2 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md cursor-pointer"
-        type="submit"
-        value="Enregistrer"
-      />
-      <a
-        class="bg-gray-200 px-8 py-2 rounded-md hover:bg-red-700 hover:text-white"
-        href="{{request.META.HTTP_REFERER}}"
-      >
-        Annuler
-      </a>
-    </div>
-  </form>
+    </form>
+  </div>
+  <img
+    class="hidden md:inline w-full rounded-md object-cover"
+    src="{% static 'imgs/crash.jpg' %}"
+    alt="vehicle image"
+  />
 </section>
 
 {% endif %} {% endblock %}

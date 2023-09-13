@@ -1,0 +1,230 @@
+{% extends 'main.html' %} {% load static %} {% block content %}
+<!--------------------------------------- mini navbar --------------------------------------->
+<nav
+  class="mx-auto flex items-center gap-2 items-center text-xs w-full max-w-[1350px]"
+>
+  <a
+    href="{{request.META.HTTP_REFERER}}"
+    class="px-4 py-3 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+    ><i class="fa-solid fa-arrow-left"></i
+  ></a>
+  {% if curr_revenue and not form %}
+  <div class="flex gap-2">
+    <a
+      href="{% url 'edit_revenue' curr_revenue.id %}"
+      class="px-4 py-3 bg-black text-white hover:bg-green-600 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+      >Modifier<i class="fa-solid fa-pen-to-square ml-4"></i
+    ></a>
+    <!--  -->
+    {% if user.role.sec_level >= 3 %}
+    <a
+      href="{% url 'delete_revenue' curr_revenue.id %}"
+      id="delete_btn"
+      onclick="return confirm('Voulez vous continuer avec la suppression')"
+      class="px-4 py-3 bg-black text-white hover:bg-red-700 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+      >Supprimer<i class="fa-solid fa-trash ml-4"></i
+    ></a>
+    <form action="{% url 'audit_revenue' curr_revenue.id %}" method="POST">
+      {% csrf_token %}
+      <!--  -->
+      {% if curr_revenue.is_audited == False %}
+      <input
+        type="submit"
+        value="Auditer"
+        class="px-4 py-3 bg-black text-white hover:bg-green-600 rounded-md flex justify-between items-center transition duration-300 ease-in-out cursor-pointer"
+      />
+      {% else %}
+      <input
+        type="submit"
+        value="Ne pas auditer"
+        class="px-4 py-3 bg-black text-white hover:bg-red-700 rounded-md flex justify-between items-center transition duration-300 ease-in-out cursor-pointer"
+      />
+      {% endif %}
+    </form>
+    {% endif %}
+    <!--  -->
+  </div>
+  {% endif %}
+</nav>
+
+<!--------------------------------------- forms layout --------------------------------------->
+
+{% if not form %}
+
+<section
+  class="my-4 p-8 bg-white flex flex-col gap-8 justify-between rounded-md overflow-hidden"
+>
+  <div class="grid md:grid-cols-2 gap-8 w-full">
+    <!--  -->
+    <div class="p-4 flex flex-col justify-between">
+      <!-- {% if curr_revenue.is_audited %}
+      <span class="p-2 rounded-md border-2 border-green-600"> Audité </span>
+      {% else %}
+      <span class="p-2 rounded-md border-2 border-red-600"> Non-audité </span>
+      {% endif %} -->
+      <h4 class="text-black text-xl font-bold">
+        {{curr_revenue.vehicle.make}} {{curr_revenue.vehicle.model}}
+        -{{curr_revenue.vehicle.plate_number}}-
+      </h4>
+      <p class="pt-2">
+        Brut :
+        <span class="font-bold text-sky-500">
+          {{curr_revenue.gross_income}} CFA</span
+        >
+      </p>
+      <p class="pt-2">
+        Net :
+        <span class="font-bold text-green-500">
+          {{curr_revenue.net_income}} CFA</span
+        >
+      </p>
+      <p class="pt-2 text-sm">{{curr_revenue.month}}</p>
+      <p class="pt-2 text-sm">{{curr_revenue.comment}}</p>
+    </div>
+    <!--  -->
+  </div>
+
+  {% if rel_revenues %}
+  <!--------------------------------------- related depenses --------------------------------------->
+
+  <div class="p-4 w-full mx-auto rounded-md">
+    <h3 class="mb-4 text-gray-700 text-xl font-black">
+      Autre depenses connexes
+    </h3>
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+    >
+      {% for obj in rel_revenues %}
+      <div
+        class="relative flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
+      >
+        {% if obj.is_audited %}
+        <span
+          class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
+        >
+          <i class="fa-solid fa-check text-white"></i>
+        </span>
+        {% else %}
+        <span
+          class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
+        >
+          <i class="fa-solid fa-question text-white"></i>
+        </span>
+        {% endif %}
+        <a href="{% url 'revenue' obj.id  %}">
+          <div class="p-4 flex flex-col justify-between">
+            <p>
+              {{curr_revenue.vehicle.make}} {{curr_revenue.vehicle.model}}
+
+              <tt class="mt-2 text-sm font-bold"
+                >[-{{obj.vehicle.plate_number}}-]</tt
+              >
+            </p>
+            <h4 class="text-sky-600 text-sm font-bold">
+              {{obj.gross_income}} CFA
+            </h4>
+            <h4 class="text-green-600 text-sm font-bold">
+              {{obj.net_income}} CFA <i class="fa-solid fa-arrow-down"></i>
+            </h4>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% endif %}
+</section>
+
+{% else %}
+<!--------------------------------------- revenue form -->
+<section class="my-4 p-4 lg:p-8 bg-white w-full mx-auto rounded-md text-sm">
+  {% if curr_revenue %}
+  <h3 class="mb-4 text-black text-2xl font-bold">Modifier ce revenu</h3>
+  {% else %}
+  <h3 class="mb-4 text-black text-2xl font-bold">Nouveau revenu</h3>
+  {% endif %}
+  <form
+    class="w-full flex flex-col justify-between gap-6"
+    method="POST"
+    action=""
+    enctype="multipart/form-data"
+  >
+    {% csrf_token %}
+    <!--  -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {% if curr_revenue %}
+      <div class="hidden">
+        <h3>{{form.partner.label}}</h3>
+        {{form.partner}}
+      </div>
+      {% else %}
+      <div>
+        <h3 class="mb-1">{{form.partner.label}}</h3>
+        {{form.partner}}
+      </div>
+      {% endif %}
+      <div>
+        <h3 class="mb-1">{{form.vehicle.label}}</h3>
+        {{form.vehicle}}
+      </div>
+      <div>
+        <h3 class="mb-1">{{form.vault.label}}</h3>
+        {{form.vault}}
+      </div>
+      <div>
+        <h3 class="mb-1">{{form.days_worked.label}}</h3>
+        {{form.days_worked}}
+      </div>
+      <div>
+        <h3 class="mb-1">{{form.gross_income.label}}</h3>
+        {{form.gross_income}}
+      </div>
+      <div>
+        <h3 class="mb-1">{{form.net_income.label}}</h3>
+        {{form.net_income}}
+      </div>
+      <div class="flex gap-4">
+        <div class="w-full">
+          <h3 class="mb-1">Mois</h3>
+          <input
+            class="mb-2 px-4 py-2 rounded-md border-2 border-gray-200 focus:border-black w-full"
+            type="month"
+            step="1"
+            value='{% now "M" %}'
+          />
+        </div>
+        <div class="w-full">
+          <h3 class="mb-1">Year</h3>
+          <input
+            class="mb-2 px-4 py-2 rounded-md border-2 border-gray-200 focus:border-black w-full"
+            type="number"
+            min="1900"
+            max="2099"
+            step="1"
+            value='{% now "Y" %}'
+          />
+        </div>
+      </div>
+    </div>
+    <div>
+      <h3 class="mb-1">{{form.comment.label}}</h3>
+      {{form.comment}}
+    </div>
+    <div class="my-4 flex gap-4 items-end">
+      <input
+        class="px-8 py-2 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md cursor-pointer"
+        type="submit"
+        value="Enregistrer"
+      />
+      <a
+        class="bg-gray-200 px-8 py-2 rounded-md hover:bg-red-700 hover:text-white"
+        href="{{request.META.HTTP_REFERER}}"
+      >
+        Annuler
+      </a>
+    </div>
+  </form>
+</section>
+
+{% endif %} {% endblock %}

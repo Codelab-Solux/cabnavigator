@@ -1,72 +1,94 @@
 {% extends 'main.html' %} {% load static %} {% block content %}
 <!--------------------------------------- mini navbar --------------------------------------->
 <nav
-  class="mb-4 mx-auto flex items-center gap-2 items-center text-xs w-full max-w-[1350px]"
+  class="mb-4 mx-auto flex flex-wrap items-center gap-2 items-center text-xs w-full max-w-[1350px]"
 >
   <a
     href="{{request.META.HTTP_REFERER}}"
     class="px-4 py-3 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
     ><i class="fa-solid fa-arrow-left"></i
   ></a>
-  {% if user == curr_partner.user and not form %}
+  {% if curr_partner and not form %}
+  <!--  -->
+  {% if user == curr_partner.user or user.role.sec_level >= 3 %}
   <a
     href="{% url 'edit_partner' curr_partner.id %}"
     class="px-4 py-3 bg-black text-white hover:bg-green-600 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
     >Modifier<i class="fa-solid fa-pen-to-square ml-4"></i
   ></a>
-  {% elif user.role.sec_level >= 3 and not form %}
-  <a
-    href="{% url 'edit_partner' curr_partner.id %}"
-    class="px-4 py-3 bg-black text-white hover:bg-green-600 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
-    >Modifier<i class="fa-solid fa-pen-to-square ml-4"></i
-  ></a>
+  {% endif %}
+  <!--  -->
+  {% if user.role.sec_level >= 3 %}
   <a
     href="{% url 'delete_partner' curr_partner.id %}"
+    id="delete_btn"
+    onclick="return confirm('Voulez vous continuer avec la suppression')"
     class="px-4 py-3 bg-black text-white hover:bg-red-700 rounded-md flex justify-between items-center transition duration-300 ease-in-out"
     >Supprimer<i class="fa-solid fa-trash ml-4"></i
   ></a>
+  <form action="{% url 'partner_activation' curr_partner.id %}" method="POST">
+    {% csrf_token %}
+    <!--  -->
+    {% if curr_partner.is_active == False %}
+    <input
+      type="submit"
+      value="Activer"
+      class="px-4 py-3 bg-black text-white hover:bg-green-600 rounded-md flex justify-between items-center transition duration-300 ease-in-out cursor-pointer"
+    />
+    {% else %}
+    <input
+      type="submit"
+      value="Désactiver"
+      class="px-4 py-3 bg-black text-white hover:bg-red-700 rounded-md flex justify-between items-center transition duration-300 ease-in-out cursor-pointer"
+    />
+    {% endif %}
+  </form>
+  {% endif %}
+  <!--  -->
   {% endif %}
 </nav>
 
 {% if not form %}
 <!--------------------------------------- partner layout --------------------------------------->
 <section class="mb-4 flex flex-col justify-between items-start gap-4">
-  <div class="grid md:grid-cols-2 gap-4 w-full">
+  <div class="md:flex gap-4 w-full">
     {% if not curr_partner.image %}
     <img
-      class="h-[320px] w-full rounded-md object-cover"
+      class="mb-4 h-[320px] w-full md:w-[320px] rounded-md object-cover"
       src="{% static 'imgs/partner.jpg' %}"
       alt="partner image"
     />
     {% else %}
     <img
-      class="h-[320px] w-full rounded-md object-cover"
+      class="mb-4 h-[320px] w-full md:w-[320px] rounded-md object-cover"
       src="{{curr_partner.image.url}}"
       alt="partner image"
     />
     {% endif %}
     <!--  -->
     <div
-      class="h-[320px] bg-black text-gray-300 text-sm p-8 rounded-md flex flex-col gap-2 overflow-hidden"
+      class="h-[320px] w-full bg-black text-gray-300 text-sm p-6 rounded-md flex flex-col gap-2 overflow-hidden"
     >
       <h4 class="text-white text-xl font-bold flex items-center">
-        {{curr_partner.civility}} {{curr_partner.user.last_name}}
-        {{curr_partner.user.first_name}}
+        {{curr_partner.civility}} {{curr_partner.last_name}}
+        {{curr_partner.first_name}}
         <img class="mx-2 h-4" src="{{curr_partner.nationality.flag}}" />
         ({{curr_partner.nationality}})
       </h4>
-      <p class="pt-2">{{curr_partner.city}} | {{curr_partner.contract}}</p>
+      <p class="pt-2">
+        {{curr_partner.city}} | Commission : {{curr_partner.commission}} %
+      </p>
       <div class="flex items-center gap-4">
         <a
-          href="tel:{{curr_partner.tel}}"
+          href="tel:{{curr_partner.phone}}"
           target="_blank"
-          class="px-4 py-2 rounded-md bg-white hover:bg-amber-400 text-black"
+          class="px-4 py-2 rounded-md bg-white hover:bg-green-300 text-black"
         >
           <i class="fa-solid fa-phone mr-2"></i>{{curr_partner.phone}}
         </a>
         <a
           href="{% url 'chat_page' curr_partner.user.id %}"
-          class="px-4 py-2 rounded-md bg-white hover:bg-amber-400 text-black"
+          class="px-4 py-2 rounded-md bg-white hover:bg-amber-300 text-black"
         >
           <i class="fa-solid fa-comments mr-2"></i> Contacter
         </a>
@@ -105,6 +127,13 @@
   </button>
   <button
     class="tablinks py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+    onclick="openTab(event, 'revenues')"
+  >
+    <i class="fa-solid fa-circle-dollar-to-slot lg:mr-2"></i>
+    <span class="hidden xl:inline">Revenues</span>
+  </button>
+  <button
+    class="tablinks py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
     onclick="openTab(event, 'stats')"
   >
     <i class="fa-solid fa-chart-pie lg:mr-2"></i>
@@ -140,13 +169,13 @@
         <span
           class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
         >
-          Valid
+          <i class="fa-solid fa-check text-white"></i>
         </span>
         {% else %}
         <span
           class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
         >
-          Invalid
+          <i class="fa-solid fa-question text-white"></i>
         </span>
         {% endif %}
         <a href="{% url 'partner_doc' obj.id  %}">
@@ -169,7 +198,7 @@
 <section id="vehicles" class="tabcontent w-full bg-white p-6 rounded-md">
   {% if user.role.sec_level >= 1 %}
   <a
-    href="{% url 'create_payment' %}"
+    href="{% url 'create_vehicle' %}"
     class="px-4 py-3 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
     >Ajouter un véhicule<i class="fa-solid fa-plus ml-4"></i
   ></a>
@@ -191,13 +220,13 @@
         <span
           class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
         >
-          Actif
+          <i class="fa-solid fa-check text-white"></i>
         </span>
         {% else %}
         <span
           class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
         >
-          Inactif
+          <i class="fa-solid fa-question text-white"></i>
         </span>
         {% endif %}
 
@@ -233,7 +262,7 @@
 
     {% else %}
     <!--------------------------------------- payments --------------------------------------->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
       {% for obj in payments %}
       <div
         class="relative flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
@@ -242,13 +271,13 @@
         <span
           class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
         >
-          Audité
+          <i class="fa-solid fa-check text-white"></i>
         </span>
         {% else %}
         <span
           class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
         >
-          Non-audité
+          <i class="fa-solid fa-question text-white"></i>
         </span>
         {% endif %}
         <a href="{% url 'payment' obj.id   %}">
@@ -268,27 +297,83 @@
     {% endif %}
   </div>
 </section>
+<!--------------------------------------- related revenues --------------------------------------->
+<section id="revenues" class="tabcontent w-full bg-white p-6 rounded-md">
+  {% if user.role.sec_level >= 3 %}
+  <a
+    href="{% url 'create_revenue' %}"
+    class="px-4 py-3 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
+    >Ajouter une recette<i class="fa-solid fa-plus ml-4"></i
+  ></a>
+  {% endif %}
+  <div class="w-full mx-auto my-8">
+    {% if not revenues %}
+    <!--------------------------------------- No data placeholder --------------------------------------->
+    {% include 'components/no_data.html' %}
+    <!--  -->
+
+    {% else %}
+    <!--------------------------------------- revenues --------------------------------------->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+      {% for obj in revenues %}
+      <div
+        class="relative flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
+      >
+        {% if obj.is_audited %}
+        <span
+          class="absolute top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
+        >
+          <i class="fa-solid fa-check text-white"></i>
+        </span>
+        {% else %}
+        <span
+          class="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
+        >
+          <i class="fa-solid fa-question text-white"></i>
+        </span>
+        {% endif %}
+        <a href="{% url 'payment' obj.id   %}">
+          <div class="p-6 flex flex-col justify-between">
+            <h4 class="text-black text-md font-bold">
+              Net : {{obj.net_income}} CFA
+            </h4>
+            <h4 class="text-black text-sm">Brut : {{obj.gross_income}} CFA</h4>
+            <tt class="mt-2 text-sm font-bold"> {{obj.month}} {{obj.year}} </tt>
+            <!-- <p class="mt-2 text-sm">De {{obj.startdate}} à {{obj.enddate}}</p> -->
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
 
 <!--------------------------------------- stats --------------------------------------->
-<section id="stats" class="tabcontent w-full bg-white p-6 rounded-md">
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-    <div class="p-6 flex flex-col justify-between border-2 rounded-md">
+<section id="stats" class="tabcontent w-full bg-black p-6 rounded-md">
+  <div
+    class="text-gray-300 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+  >
+    <div class="p-6 flex flex-col justify-between">
       <h4 class="text-green-500 text-xl font-bold">{{total_revenu}} CFA</h4>
       <p class="mt-2 text-sm">Revenu Brut</p>
     </div>
-    <div class="p-6 flex flex-col justify-between border-2 rounded-md">
+    <div class="p-6 flex flex-col justify-between">
       <h4 class="text-red-500 text-xl font-bold">{{total_expenses}} CFA</h4>
       <p class="mt-2 text-sm">Dépenses</p>
     </div>
-    <div class="p-6 flex flex-col justify-between border-2 rounded-md">
+    <div class="p-6 flex flex-col justify-between">
       <h4 class="text-amber-400 text-xl font-bold">
-        {{curr_partner.contract.commission}}%
-        <span class="text-sm text-black font-light">de {{net_revenu}} ≈</span>
-         <tt>{{commission}}</tt>
+        {{curr_partner.commission}}%
+        <span class="text-sm text-white font-light"
+          >de {{net_revenu}} <br />
+          ≈</span
+        >
+        <tt>{{commission}}</tt>
       </h4>
       <p class="mt-2 text-sm">Commissions</p>
     </div>
-    <div class="p-6 flex flex-col justify-between border-2 rounded-md">
+    <div class="p-6 flex flex-col justify-between">
       {% if total_net < 0 %}
       <h4 class="text-red-500 text-xl font-bold">{{total_net}} CFA</h4>
       {% else %}
@@ -301,50 +386,143 @@
 
 {% else %}
 
-<section class="mb-4 p-4 lg:p-8 bg-white w-full mx-auto rounded-md text-sm">
-  <h3 class="mb-4 text-black text-2xl font-bold">
-    {% if not curr_partner %} Ajouter un nouveau conducteur
-    <!--  -->
-    {% elif user == curr_partner.user %}
-    <!--  -->
-    Modifier mon profile de conducteur
-    <!--  -->
+<section
+  class="mb-4 p-4 lg:p-8 flex gap-4 lg:gap-8 bg-white w-full mx-auto rounded-md text-sm"
+>
+  <div class="w-full">
+    {% if curr_partner %}
+    <h3 class="mb-4 text-black text-2xl font-bold">Modifier ce partenaire</h3>
     {% else %}
-    <!--  -->
-    Modifier le profile de ce conducteur
-    <!--  -->
+    <h3 class="mb-4 text-black text-2xl font-bold">Nouveau partenaire</h3>
     {% endif %}
-  </h3>
-  <form
-    class="w-full flex flex-col justify-between gap-6"
-    method="POST"
-    action=""
-    enctype="multipart/form-data"
-  >
-    {% csrf_token %}
-    <!--  -->
-    <div class="flex flex-col md:flex-row flex-wrap gap-5">
-      {% for field in form %}
-      <div>
-        <h3 class="mb-1">{{field.label}}</h3>
-        {{field}}
+    <form
+      class="w-full flex flex-col justify-between gap-6"
+      method="POST"
+      action=""
+      enctype="multipart/form-data"
+    >
+      {% csrf_token %}
+      <!--  -->
+      <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+        {% if curr_partner %}
+        <div class="hidden">
+          <h3>{{form.user.label}}</h3>
+          {{form.user}}
+        </div>
+        <div class="hidden">
+          <h3>{{form.is_active.label}}</h3>
+          {{form.is_active}}
+        </div>
+        {% else %}
+        <div>
+          <h3 class="mb-1">{{form.user.label}}</h3>
+          {{form.user}}
+        </div>
+        {% endif %}
+        <div>
+          <h3 class="mb-1">{{form.civility.label}}</h3>
+          {{form.civility}}
+        </div>
+        <div>
+          <h3 class="mb-1">{{form.martital_status.label}}</h3>
+          {{form.martital_status}}
+        </div>
+        <div>
+          <h3 class="mb-1">{{form.last_name.label}}</h3>
+          {{form.last_name}}
+        </div>
+        <div>
+          <h3 class="mb-1">{{form.first_name.label}}</h3>
+          {{form.first_name}}
+        </div>
+        <!--  -->
+        <div>
+          <h3 class="mb-1">{{form.nationality.label}}</h3>
+          {{form.nationality}}
+        </div>
+        <div>
+          <h3 class="mb-1">{{form.date_of_birth.label}}</h3>
+          {{form.date_of_birth}}
+        </div>
+        <div>
+          <h3 class="mb-1">{{form.place_of_birth.label}}</h3>
+          {{form.place_of_birth}}
+        </div>
+        <div>
+          <h3 class="mb-1">{{form.city.label}}</h3>
+          {{form.city}}
+        </div>
+        <!--  -->
+        <div>
+          <h3 class="mb-1">{{form.address.label}}</h3>
+          {{form.address}}
+        </div>
+        <div>
+          <h3 class="mb-1">{{form.commission.label}}</h3>
+          {{form.commission}}
+        </div>
+        <div>
+          <h3 class="mb-1">{{form.phone.label}}</h3>
+          {{form.phone}}
+        </div>
+        <div>
+          <h3 class="mb-1">{{form.image.label}}</h3>
+          {{form.image}}
+        </div>
       </div>
-      {% endfor %}
+      <div>
+        <h3 class="mb-1">{{form.bio.label}}</h3>
+        {{form.bio}}
+      </div>
+      <div class="flex gap-4 items-end">
+        <input
+          class="px-8 py-2 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md cursor-pointer"
+          type="submit"
+          value="Enregistrer"
+        />
+        <a
+          class="bg-gray-200 px-8 py-2 rounded-md hover:bg-red-700 hover:text-white"
+          href="{{request.META.HTTP_REFERER}}"
+        >
+          Annuler
+        </a>
+      </div>
+    </form>
+  </div>
+  <div class="hidden md:inline rounded-md w-full max-w-[460px] overflow-hidden">
+    {% if not curr_partner %}
+    <img
+      class="h-full w-full object-cover"
+      src="{% static 'imgs/partner.jpg' %}"
+      alt="driver image"
+    />
+    {% endif %}
+    <!--  -->
+    {% if curr_partner %}
+    <!--  -->
+    {% if not curr_partner.image %}
+    <img
+      class="w-full object-cover"
+      src="{% static 'imgs/partner.jpg' %}"
+      alt="driver image"
+    />
+    {% else %}
+    <img
+      class="w-full object-cover"
+      src="{{curr_partner.image.url}}"
+      alt="driver image"
+    />
+    {% endif %}
+
+    <div class="p-4 h-full flex flex-col gap-1 w-full bg-black text-gray-300">
+      <h3 class="font-bold text-xl text-white">
+        {{curr_partner.last_name}} {{curr_partner.first_name}}
+      </h3>
+      <p>@{{curr_partner.user.username}}</p>
+      <p>{{curr_partner.user.email}}</p>
     </div>
-    <div class="my-4 flex gap-4 items-end">
-      <input
-        class="px-8 py-2 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md cursor-pointer"
-        type="submit"
-        value="Enregistrer"
-      />
-      <a
-        class="bg-gray-200 px-8 py-2 rounded-md hover:bg-red-700 hover:text-white"
-        href="{{request.META.HTTP_REFERER}}"
-      >
-        Annuler
-      </a>
-    </div>
-  </form>
+    {% endif %}
+  </div>
 </section>
 
 {% endif %} {% endblock %}

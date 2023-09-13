@@ -4,54 +4,112 @@
 <nav
   class="mx-auto flex justify-between items-center gap-2 items-center text-xs w-full"
 >
-  {% if user.role.sec_level >= 3 %}
-  <a
-    href="{% url 'create_vehicle' %}"
-    class="px-4 py-3 bg-black text-white hover:bg-amber-300 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
-    ><span class="hidden md:inline"> Ajouter un Véhicule</span
-    ><i class="fa-solid fa-plus md:ml-4"></i
-  ></a>
-  {% endif %}
+  <div class="flex items-center gap-2">
+    <a
+      href="{{request.META.HTTP_REFERER}}"
+      class="px-4 py-3 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+      ><i class="fa-solid fa-arrow-left"></i
+    ></a>
+    {% if user.role.sec_level > 1 %}
+    <a
+      href="{% url 'create_vehicle' %}"
+      class="px-4 py-3 bg-black text-white hover:bg-amber-300 hover:text-black rounded-md flex justify-between items-center transition duTauxn-300 ease-in-out"
+      ><span class="hidden md:inline">Nouveau véhicule</span
+      ><i class="fa-solid fa-plus md:ml-4"></i
+    ></a>
+    {% endif %}
+    <!--  -->
+    {% if user.role.sec_level == 2 %}
+    <a
+      href="{% url 'v_expenses' %}"
+      class="px-4 py-3 bg-black text-white hover:bg-amber-300 hover:text-black rounded-md flex justify-between items-center transition duTauxn-300 ease-in-out"
+      ><span class="hidden md:inline"> Dépenses de mes véhicules</span
+      ><i class="fa-solid fa-money-bill-transfer md:ml-4"></i
+    ></a>
+    {% endif %}
+  </div>
 
-  <form id="search_box" class="w-full max-w-md flex flex-row justify-between">
-    <input
-      type="text"
-      name="query"
-      id="querier"
-      required
-      class="px-4 py-2 bg-white text-black w-full rounded-l-md outline-none"
-      placeholder="Recherchez..."
-    />
-    <button
-      class="group px-4 py-2 text-sm bg-black hover:bg-amber-300 text-white hover:text-black rounded-r-md transition duration-300 ease-in-out"
-      type="submit"
-    >
-      <i class="fa-solid fa-magnifying-glass"></i>
-    </button>
-  </form>
+  {% include 'components/searchbar.html' %}
 </nav>
-
+<!--------------------------------------- stats --------------------------------------->
+<section id="stats" class="mt-4 w-full bg-black p-6 rounded-md">
+  {% if user.role.sec_level == 2 %}
+  <div
+    class="text-gray-300 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+  >
+    <div class="p-6 flex flex-col justify-between brounded-md">
+      <h4 class="text-sky-500 text-xl font-bold">{{vehicle_count}}</h4>
+      <p class="mt-2 text-sm">Véhicules</p>
+    </div>
+    <div class="p-6 flex flex-col justify-between brounded-md">
+      <h4 class="text-green-500 text-xl font-bold">{{activ_count}}</h4>
+      <p class="mt-2 text-sm">Actifs</p>
+    </div>
+    <div class="p-6 flex flex-col justify-between brounded-md">
+      <h4 class="text-red-500 text-xl font-bold">{{inactiv_count}}</h4>
+      <p class="mt-2 text-sm">Inactifs</p>
+    </div>
+    <div class="p-6 flex flex-col justify-between brounded-md">
+      <h4 class="text-amber-400 text-xl font-bold">
+        {{activity_percent|floatformat}}%
+      </h4>
+      <p class="mt-2 text-sm">Activité</p>
+    </div>
+  </div>
+  {% elif user.role.sec_level > 2 %}
+  <div
+    class="text-gray-300 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+  >
+    <div class="p-6 flex flex-col justify-between items-start">
+      <h4 class="text-sky-500 text-xl font-bold">{{vehicle_count}}</h4>
+      <span> Véhicules </span>
+      <div class="h-40">
+        <canvas class="text-gray-200" id="ownership_chart"></canvas>
+      </div>
+    </div>
+    <div class="p-6 flex flex-col justify-between items-start">
+      <h4 class="text-green-500 text-xl font-bold">{{activ_count}}</h4>
+      <span> Actifs </span>
+      <div class="h-40">
+        <canvas class="text-gray-200" id="activ_chart"></canvas>
+      </div>
+    </div>
+    <div class="p-6 flex flex-col justify-between items-start">
+      <h4 class="text-red-500 text-xl font-bold">{{inactiv_count}}</h4>
+      <span> Inactifs </span>
+      <div class="h-40">
+        <canvas class="text-gray-200" id="inactiv_chart"></canvas>
+      </div>
+    </div>
+    <div class="p-6 flex flex-col justify-between items-start">
+      <h4 class="text-amber-400 text-xl font-bold">
+        {{activity_percent|floatformat}}%
+      </h4>
+      <span> Activité </span>
+      <div class="h-40">
+        <canvas class="text-gray-200" id="ownership_chart"></canvas>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</section>
 <!--------------------------------------- vehicles --------------------------------------->
 <section id="vehicles" class="py-4 w-full text-left">
   <div class="w-full mx-auto">
     {% if not vehicles %}
 
     <!--------------------------------------- No data placeholder --------------------------------------->
-    <div
-      class="p-8 my-40 bg-gray-100 max-w-[400px] mx-auto rounded-md flex-col text-center"
-    >
-      <i class="fa-regular fa-folder-open text-7xl"></i>
-      <p class="mt-4">Aucune données disponible pour le moment</p>
-    </div>
+    {% include 'components/no_data.html' %}
+    <!--  -->
 
     {% else %}
     <!--------------------------------------- vehicles --------------------------------------->
     <div
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
     >
       {% for obj in vehicles %}
       <div
-        class="relative flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
+        class="relative flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duTauxn-300 ease-in-out overflow-hidden"
       >
         {% if obj.is_active %}
         <span
@@ -71,7 +129,7 @@
           {% if not obj.image %}
           <img
             class="h-20 w-full object-cover"
-            src="{% static 'imgs/taxi.jpg' %}"
+            src="{% static 'imgs/car.jpg' %}"
             alt="vehicle image"
           />
           {% else %}
@@ -95,4 +153,53 @@
   </div>
 </section>
 
+<script>
+  var ctx = document.getElementById("ownership_chart");
+  var ownership_chart = new Chart(ctx, {
+    type: "pie",
+    data: {
+      labels: ["Compagnie", "Partenaires"],
+      datasets: [
+        {
+          label: "Vehicules",
+          data: ["{{company_vehicles}}", "{{owned_vehicles}}"],
+          backgroundColor: ["#0ea5e9", "#22d3ee"],
+          borderWidth: 4,
+        },
+      ],
+    },
+  });
+
+  var ctx = document.getElementById("activ_chart");
+  var activ_chart = new Chart(ctx, {
+    type: "pie",
+    data: {
+      labels: ["Compagnie", "Partenaires"],
+      datasets: [
+        {
+          label: "Vehicules",
+          data: ["{{comp_activ_count}}", "{{owned_activ_count}}"],
+          backgroundColor: ["#059669", "#84cc16"],
+          borderWidth: 4,
+        },
+      ],
+    },
+  });
+
+  var ctx = document.getElementById("inactiv_chart");
+  var inactiv_chart = new Chart(ctx, {
+    type: "pie",
+    data: {
+      labels: ["Compagnie", "Partenaires"],
+      datasets: [
+        {
+          label: "Vehicules",
+          data: ["{{comp_inactiv_count}}", "{{owned_inactiv_count}}"],
+          backgroundColor: ["#ef4444", "#fb7185"],
+          borderWidth: 4,
+        },
+      ],
+    },
+  });
+</script>
 {% endblock %}

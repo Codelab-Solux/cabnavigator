@@ -1,0 +1,125 @@
+{% extends 'main.html' %} {% load static %} {% block content %}
+<!--------------------------------------- mini navbar --------------------------------------->
+
+<nav
+  class="mx-auto flex flex-col md:flex-row justify-between items-center gap-2 items-center text-xs w-full max-w-[1350px]"
+>
+  <div class="flex gap-2 items-center">
+    <a
+      href="{{request.META.HTTP_REFERER}}"
+      class="px-4 py-3 bg-black text-white hover:bg-yellow-400 hover:text-black rounded-md flex justify-between items-center transition duration-300 ease-in-out"
+      ><i class="fa-solid fa-arrow-left"></i
+    ></a>
+
+    {% if user.role.sec_level >= 3 %}
+    <a
+      href="{% url 'create_revenue' %}"
+      class="px-4 py-3 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
+      >Nouveau revenu<i class="fa-solid fa-plus ml-4"></i
+    ></a>
+    {% endif %}
+  </div>
+
+  <!--------------------------------------- search form --------------------------------------->
+  {% include 'components/searchbar.html' %}
+  <!--  -->
+</nav>
+
+<!--------------------------------------- vehicle revenues --------------------------------------->
+<section class="w-full mx-auto my-8">
+  {% if not revenues %}
+
+  <!--------------------------------------- No data placeholder --------------------------------------->
+  <div
+    class="p-8 my-40 bg-gray-100 max-w-[400px] mx-auto rounded-md flex-col text-center"
+  >
+    <i class="fa-regular fa-folder-open text-7xl"></i>
+    <p class="mt-4">Aucune données disponible pour le moment</p>
+  </div>
+
+  {% else %}
+  <!--------------------------------------- revenues --------------------------------------->
+  <div class="flex flex-col gap-4">
+    <div class="flex flex-col w-full">
+      <h2 class="mb-4 text-black font-bold text-xl">Revenus</h2>
+      <div class="overflow-auto rounded-md text-sm bg-gray-50">
+        <table class="w-full text-left db-table">
+          <thead class="bg-black text-white">
+            <tr>
+              <th class="p-4 text-lg font-bold">Date</th>
+              <th class="p-4 text-lg font-bold">Vehicule</th>
+              <th class="p-4 text-lg font-bold">Jours ouvrés</th>
+              <th class="p-4 text-lg font-bold">Gain Brut</th>
+              <th class="p-4 text-lg font-bold">Gain Net</th>
+              <th class="p-4 text-lg font-bold">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for obj in revenues %}
+            <a href="{% url 'ledger' obj.id  %}" class="cursor-pointer">
+              <tr
+                class="text-gray-500 hover:text-black hover:bg-white hover:shadow-xl transition-all duration-50"
+              >
+                <td class="p-3">{{obj.date_paid}}</td>
+                <td class="p-3">
+                  {{obj.vehicle.make}} {{obj.vehicle.model}}
+                  <tt>[-{{obj.vehicle.plate_number}}-]</tt>
+                </td>
+                <td class="p-3">{{obj.days_worked}}</td>
+                <td class="p-3">{{obj.gross_income}} CFA</td>
+                <td class="p-3 text-black font-bold">{{obj.net_income}} CFA</td>
+                <td class="p-3">
+                  {% if obj.is_audited %}
+                  <h4
+                    class="top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white text-center"
+                  >
+                    Audité
+                  </h4>
+                  {% else %}
+                  <h4
+                    class="top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white text-center"
+                  >
+                    Non-audité
+                  </h4>
+                  {% endif %}
+                </td>
+              </tr>
+            </a>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% for obj in revenues %}
+    <!-- <a href="{% url 'revenue' obj.id  %}">
+      <div
+        class="p-4 flex flex-col md:flex-row justify-between items-center bg-white rounded-md overflow-hidden"
+      >
+        <p class="text-sm">{{obj.date_paid}}</p>
+        <h4>{{obj.vehicle.make}} {{obj.vehicle.model}}</h4>
+        <tt class="mt-2 text-sm font-bold">-{{obj.vehicle.plate_number}}-</tt>
+        <h4 class="">{{obj.days_worked}} jrs</h4>
+        <h4 class="">{{obj.gross_income}} CFA</h4>
+        <h4 class="font-bold text-black">{{obj.net_income}} CFA</h4>
+        <p class="text-sm">{{obj.comment|truncatechars:50}}</p>
+        {% if obj.is_audited %}
+        <h4
+          class="top-2 right-2 px-2 py-1 rounded-md bg-green-600 text-xs text-white"
+        >
+          Audité
+        </h4>
+        {% else %}
+        <h4
+          class="top-2 right-2 px-2 py-1 rounded-md bg-red-600 text-xs text-white"
+        >
+          Non-audité
+        </h4>
+        {% endif %}
+      </div>
+    </a> -->
+    {% endfor %}
+  </div>
+  {% endif %}
+</section>
+
+{% endblock %}

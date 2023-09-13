@@ -1,0 +1,175 @@
+{% extends 'main.html' %} {% load static %} {% block content %}
+
+<!--------------------------------------- tab buttons --------------------------------------->
+<nav
+  class="customtab mx-auto mb-6 p-1 bg-black rounded-md flex justify-between gap-1 w-full text-sm"
+>
+  <button
+    class="tablinks py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+    onclick="openTab(event, 'cash_vault')"
+    id="defaultOpen"
+  >
+    <i class="fa-solid fa-vault lg:mr-2"></i>
+    <span class="hidden lg:inline">Caisses Phisiques</span>
+  </button>
+  <button
+    class="tablinks py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+    onclick="openTab(event, 'mobile_vault')"
+  >
+    <i class="fa-solid fa-mobile lg:mr-2"></i>
+    <span class="hidden lg:inline">Caisses Mobiles </span>
+  </button>
+  <button
+    class="tablinks py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+    onclick="openTab(event, 'bank_vault')"
+  >
+    <i class="fa-solid fa-bank lg:mr-2"></i>
+    <span class="hidden lg:inline">Banques </span>
+  </button>
+</nav>
+
+<!--------------------------------------- cash vaults --------------------------------------->
+<section id="cash_vault" class="tabcontent w-full">
+  {% if user.role.sec_level >= 3 %}
+  <a
+    href="{% url 'create_vault' %}"
+    class="mb-6 px-4 py-3 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
+    >Nouvelle caisse<i class="fa-solid fa-plus ml-4"></i
+  ></a>
+  {% endif %}
+
+  <div class="w-full mx-auto my-6">
+    {% if not cash_vaults %}
+
+    <!--------------------------------------- No data placeholder --------------------------------------->
+    {% include 'components/no_data.html' %} {% else %}
+    <!--------------------------------------- cash_vaults --------------------------------------->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {% for obj in cash_vaults %}
+      <div
+        class="flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
+      >
+        <a href="{% url 'vault' obj.id  %}">
+          {% if not obj.image %}
+          <img
+            class="h-20 w-full object-cover"
+            src="{% static 'imgs/vault.jpg' %}"
+            alt="d_doc image"
+          />
+          {% else %}
+          <img
+            class="h-20 w-full object-cover"
+            src="{{obj.image.url}}"
+            alt="d_doc image"
+          />
+          {% endif %}
+          <div class="p-4 flex flex-col justify-between">
+            <h4 class="text-black text-md font-bold">{{obj.name}}</h4>
+            <tt class="mt-2 text-sm font-bold"> {{obj.balance}} CFA </tt>
+            <p class="mt-2 text-sm">{{obj.debit}} - {{obj.credit}}</p>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+<!--------------------------------------- mobile vaults --------------------------------------->
+<section id="mobile_vault" class="tabcontent w-full">
+  {% if user.role.sec_level >= 3 %}
+  <a
+    href="{% url 'create_vault' %}"
+    class="px-4 py-3 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
+    >Nouvelle caisse<i class="fa-solid fa-plus ml-4"></i
+  ></a>
+  {% endif %}
+
+  <div class="w-full mx-auto my-6">
+    {% if not mobile_vaults %}
+
+    <!--------------------------------------- No data placeholder --------------------------------------->
+    {% include 'components/no_data.html' %} {% else %}
+    <!--------------------------------------- cash_vaults --------------------------------------->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {% for obj in mobile_vaults %}
+      <div
+        class="flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
+      >
+        <a href="{% url 'vault' obj.id  %}">
+          {% if not obj.image %}
+          <img
+            class="h-20 w-full object-cover"
+            src="{% static 'imgs/vault.jpg' %}"
+            alt="d_doc image"
+          />
+          {% else %}
+          <img
+            class="h-20 w-full object-cover"
+            src="{{obj.image.url}}"
+            alt="d_doc image"
+          />
+          {% endif %}
+          <div class="p-4 flex flex-col justify-between">
+            <h4 class="text-black text-md font-bold">
+              {{obj.operator}} [--{{obj.phone_number}}--]
+            </h4>
+            <tt class="mt-2 text-sm font-bold"> {{obj.balance}} CFA </tt>
+            <p class="mt-2 text-sm">{{obj.debit}} - {{obj.credit}}</p>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+<!--------------------------------------- bank vaults --------------------------------------->
+<section id="bank_vault" class="tabcontent w-full">
+  {% if user.role.sec_level >= 3 %}
+  <a
+    href="{% url 'create_vault' %}"
+    class="px-4 py-3 bg-black text-white text-xs hover:bg-amber-300 hover:text-black rounded-md items-center transition duration-300 ease-in-out"
+    >Nouvelle caisse<i class="fa-solid fa-plus ml-4"></i
+  ></a>
+  {% endif %}
+
+  <div class="w-full mx-auto my-6">
+    {% if not bank_vaults %}
+
+    <!--------------------------------------- No data placeholder --------------------------------------->
+    {% include 'components/no_data.html' %} {% else %}
+    <!--------------------------------------- cash_vaults --------------------------------------->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {% for obj in bank_vaults %}
+      <div
+        class="flex flex-col border border-2 hover:border-gray-800 bg-white rounded-md transition duration-300 ease-in-out overflow-hidden"
+      >
+        <a href="{% url 'vault' obj.id  %}">
+          {% if not obj.image %}
+          <img
+            class="h-20 w-full object-cover"
+            src="{% static 'imgs/vault.jpg' %}"
+            alt="d_doc image"
+          />
+          {% else %}
+          <img
+            class="h-20 w-full object-cover"
+            src="{{obj.image.url}}"
+            alt="d_doc image"
+          />
+          {% endif %}
+          <div class="p-4 flex flex-col justify-between">
+            <h4 class="text-black text-md font-bold">{{obj.name}}</h4>
+            <tt class="mt-2 text-sm font-bold"> {{obj.balance}} CFA </tt>
+            <p class="mt-2 text-sm">{{obj.debit}} - {{obj.credit}}</p>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+{% endblock %}
