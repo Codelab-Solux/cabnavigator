@@ -2,7 +2,6 @@ from django.db import models
 from django.urls import reverse
 from accounts.models import CustomUser
 from django_countries.fields import CountryField
-
 from chats.models import ChatMessage
 
 
@@ -131,8 +130,8 @@ class PartnerDocument(models.Model):
 
 class Driver(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    # vehicle = models.ForeignKey(
-    #     'Vehicle', on_delete=models.SET_NULL, null=True, blank=True)
+    vehicle = models.ForeignKey(
+        'Vehicle', on_delete=models.SET_NULL, null=True, blank=True)
     civility = models.CharField(max_length=50, default='', choices=civ_titles)
     martital_status = models.CharField(
         max_length=50, default='', choices=marital_statuses)
@@ -230,8 +229,7 @@ class Vehicle(models.Model):
 
 
 class VehicleDocument(models.Model):
-    vehicle = models.ForeignKey(
-        Vehicle, on_delete=models.SET_NULL, null=True, blank=True)
+    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
     type = models.ForeignKey(DocumentType, on_delete=models.CASCADE)
     issue_date = models.DateTimeField(blank=True,)
     expiry_date = models.DateTimeField(blank=True, null=True)
@@ -265,7 +263,7 @@ class Incident(models.Model):
         IncidentType, on_delete=models.SET_NULL, null=True, blank=True)
     author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
     driver = models.ForeignKey(Driver, on_delete=models.CASCADE, null=True)
-    vehicle = models.ForeignKey(Vehicle, on_delete=models.SET_NULL, null=True)
+    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
     repairability = models.CharField(max_length=50, blank=True,
                                      null=True, choices=repair_levels, default='')
     mobility = models.CharField(max_length=50, blank=True,

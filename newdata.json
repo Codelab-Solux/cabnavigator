@@ -1,0 +1,1372 @@
+[
+  {
+    "model": "sessions.session",
+    "pk": "0uipdysyxnq2zmuml6rspmk5jccffkwl",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qBatv:xraq-MX-YKUM36vE-XxIO1vGXXddDZYk8iR4u17id7Q",
+      "expire_date": "2023-07-04T12:56:03.404Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "1h9e0i85jzgipieneba847t7neqndljs",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qEwjE:JWjWSOObYPbO9OhxcESVsyzazWle_2meiajJ2KBr7Es",
+      "expire_date": "2023-07-13T18:50:52.708Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "1iokhbupg3chenuglty9jfhkuyj6zl24",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1q8rjB:FEXE5mb24oxCrrxjevkPO4ClaVWVRvL0XrU0RXdjaSk",
+      "expire_date": "2023-06-27T00:17:41.573Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "20u6cdykkn6mg0dufwvp3l81q9lfsbpq",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qPQvF:EwiHgv1FUgFAI8PXmYJ6g_bBnwJ8ROwDMWAVUR3TxJk",
+      "expire_date": "2023-08-11T17:06:37.830Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "2dafkif4rgfeejsd2jj9wuw9o3b5j0yd",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qLBX2:BXBGMr0YI9libMtsMO9xYePoLO3JXUvXW2bcEUVgxMQ",
+      "expire_date": "2023-07-30T23:52:04.844Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "2jvk31nj1xp26epv5wi4gcetc7twesd3",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qUAUw:ehTtBBpqsFhJkXWf-6_KYiCLFviUWAxCqX12Qi0dPg8",
+      "expire_date": "2023-08-24T18:35:02.465Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "3ak5ute6ujo9mpiwachh5uu7pyxqmvjg",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qMCJP:iCSKAgckUXHbj4Ptlocu7uoIIFT4tJ9-eigiF4L2Pvo",
+      "expire_date": "2023-08-02T18:54:11.542Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "3d2elwoj6gh08ypn0wc5z8utgor6wk8u",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1q9960:hcN7PYprjIFt_x_OXhXEzc8AWi1ilamN7OMfOxffl20",
+      "expire_date": "2023-06-27T18:50:24.966Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "4ptxv2coj08mg2g2xqzvzrzdm5sn81lr",
+    "fields": {
+      "session_data": ".eJxVjEEOgjAQRe_StWnaKeNQl-45Axk6HUENTSisjHdXEha6_e-9_zI9b-vYbzUv_STmYsCcfreB0yPPO5A7z7diU5nXZRrsrtiDVtsVyc_r4f4djFzHb31W8D4KRqbGgxOIqKzJoR8kCEEgdW0EjU3OQo68J8SspC1C4iaY9wfLnDdP:1q5PTz:LjUQfUB0k8d5SCYYmwcB4eKjiWdZx_hhDJTVfCIFhFo",
+      "expire_date": "2023-06-17T11:31:43.311Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "5jcucn97l441tzpg9osf0eg41gz7nbzl",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qIdY2:fvPvAKRaskNOu7OGSrX2jJl6Flj0f8drOcRYxDBmlDA",
+      "expire_date": "2023-07-23T23:10:34.240Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "5lhyrq4cqcykk78gzwfkejbtjugtaz6v",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qO07A:8m9_02reBl0O_8wZ2_fmZGak-d6M8x4dxggIF7jLQ0A",
+      "expire_date": "2023-08-07T18:17:00.929Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "6j21tbutodeqx1qs97u9x2hzwd0xwq03",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAUBf-FtSG8BOrSfb-BwH1I1dCktCvjv2uTLnR7Zua8RMrbWtPWaUkTiouw4vS7lQwPajvAe263WcLc1mUqclfkQbscZ6Tn9XD_Dmru9VsHr-HM3lrFkQuDy8q5CIqGAMyMxgSMoF0svhAMWDCEGIwBRLJKa_H-APugOJ4:1qQaD8:d7IaAndf7qMwg_asUOG5_mXIV0WAoqjZhMLPKO4Lig0",
+      "expire_date": "2023-08-14T21:13:50.519Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "8it2gxcfht4b9m1mxrgtm9udicble2dm",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qP9Ts:erYdNLlD_ddRQio3qMvKYh4imNKhN0Uj9yPbGJ12PZU",
+      "expire_date": "2023-08-10T22:29:12.412Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "8uhipdfunfwiwdr9hf4bynkp0vzzswb3",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1rFdJS:Km4px2bnXFjD9A4WZktJ3-SrIb_92Qj-zhc_5TUSpco",
+      "expire_date": "2024-01-02T16:51:22.303Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "9jjolsez58zdr1z5o0t51fbbpfj1pfr5",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qQQPL:5qn0hk0cew8v4w8c00b9YcTbc8Jg0Ya_IFmqOmha8sg",
+      "expire_date": "2023-08-14T10:45:47.940Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "advximqymahon1v8w184tl7px3qot65d",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qG5jB:YWFq6XZt1mI1gNBs6bSQO8tJQRU4V17_50PafcU3IfM",
+      "expire_date": "2023-07-16T22:39:33.671Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "ah75pbe4oyw2ky0bdb5njycjlatz9xo0",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAUBf-FtSG8BOrSfb-BwH1I1dCktCvjv2uTLnR7Zua8RMrbWtPWaUkTiouw4vS7lQwPajvAe263WcLc1mUqclfkQbscZ6Tn9XD_Dmru9VsHr-HM3lrFkQuDy8q5CIqGAMyMxgSMoF0svhAMWDCEGIwBRLJKa_H-APugOJ4:1qVWfT:AyqrSJ7mSo6rQjGo4hMrLpaatoZUd20MuiLnHbdkH64",
+      "expire_date": "2023-08-28T12:27:31.930Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "bpdd7osiin9av14jpbgqxam41qiduagm",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1q53cx:Pa7PfUUngtWQMcCpiy2Y-zU2cYLWxqRYJTRd7BhgWtE",
+      "expire_date": "2023-06-16T12:11:31.550Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "c3pwjxkkqvm0jmfykjk7a3q7ybyxrc9l",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1q8riM:GaicizxYcu4ifb3Sl-VSa7-UgpcN80E7Jlh0C5vpvUE",
+      "expire_date": "2023-06-27T00:16:50.911Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "dbx33p9ov6of0xjnaud59nyrqk0l4fhu",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qMZzh:3RpQ8gkmMaKR2bWq5aoZzCcw8wPcfscEZJPAxnJHa0A",
+      "expire_date": "2023-08-03T20:11:25.339Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "eehpwbhueruktr7tkcy50ig2u7fk9txl",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qVqG6:18b2o5YjuSs_sKrf5aRWwqiG0QvlHM651IfYD7ZDkwo",
+      "expire_date": "2023-08-29T09:22:38.424Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "elma07qzpyp2zhfnbophqk7oaluvy0uy",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qTJrd:pVfqKr-bxPCcElW-KJbJLoX2STO3uxt5HRVAWf5EktU",
+      "expire_date": "2023-08-22T10:22:57.110Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "fmfg27tle5du5xkgt1u9549a91sy2xol",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qFf8C:QICIBNWnyc6Q32lraAgMwY7OfDqtZwC71W1i9SE5pHo",
+      "expire_date": "2023-07-15T18:15:36.746Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "gtoks4nl0th1hhnchir9ch7j5x2wup63",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qBKiR:bdwUvDWICPZ8DwNQjsND23LvWd8skA4bh4G7MnOqr0o",
+      "expire_date": "2023-07-03T19:39:07.464Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "gvsgaatk0b9q1kaltqn2vdlrqs1t2s7n",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qQabk:u3tT1ddE8PBixJgGALcIMcm8GfnFFEFpw9feqmminPA",
+      "expire_date": "2023-08-14T21:39:16.360Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "gvymau1rpmqwwx88afdwdbl5929g4fpu",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qTgv9:6pvn-w1idBd8znno1p6NbeKWgfk_AwOhwgAcy-2O-2w",
+      "expire_date": "2023-08-23T11:00:07.962Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "h7axq5iirre2ax1ciibck4590yxotxdq",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qKPcs:zXaNfpev2PqpicdqmjSegBdTEOi2vVSJXXjrYgbuN30",
+      "expire_date": "2023-07-28T20:42:54.250Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "helzrbzue8l54wxz7ir4blssrftt2boa",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qM6bN:vv2D4LOVSEzuKyXK_FoqXB4UsRVvY17Z3MUx0XWEmUw",
+      "expire_date": "2023-08-02T12:48:21.643Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "i6mz8tsifchihomqy4r4ywcpg2dm623s",
+    "fields": {
+      "session_data": ".eJxVjEEOgjAQRe_StWnaKeNQl-45Axk6HUENTSisjHdXEha6_e-9_zI9b-vYbzUv_STmYsCcfreB0yPPO5A7z7diU5nXZRrsrtiDVtsVyc_r4f4djFzHb31W8D4KRqbGgxOIqKzJoR8kCEEgdW0EjU3OQo68J8SspC1C4iaY9wfLnDdP:1qVfyv:wPkqtr81bsX0VyX52c6pmm2yU_nZM-dllDgN6VwrXQI",
+      "expire_date": "2023-08-28T22:24:13.651Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "kxe01n15c2wve6ts46wz3bweefymi6k2",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qQBI8:ddiW6YrhLuYChHteAOon-gA9xDL8n30ofOwuygDadIY",
+      "expire_date": "2023-08-13T18:37:20.593Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "kz1zotnr88brnqtcldwx4d0h48gm1l2f",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qDXHo:p5X-u886RZjIjp0eJxsqbQbYEBmNk-aJ52ruZqcT7HQ",
+      "expire_date": "2023-07-09T21:28:44.318Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "l0xfv5wicb4q4zyinayade5kfbri5ns4",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1q4pc8:C4N-pVpulpsxmji_fBPQ4dygiRdPZn6P_JUBZSu_v6k",
+      "expire_date": "2023-06-15T21:13:44.345Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "l1vbz6ybcb6tpnm750p6i56zd8nmyey2",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qEpOP:Kp7JpQ93Q4RKclNWukd77erU4XnzGDLEkd7YDHmjVbA",
+      "expire_date": "2023-07-13T11:00:53.432Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "l48vo9r1xhia52ovfl6i0t84nlyp4vuo",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qDgpL:O9pOUodbdzrHCNZeAVLaINyBNAP5ObR0ACImCmdazTE",
+      "expire_date": "2023-07-10T07:39:59.927Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "lq35t40i2pkgx839gcy28js5r6jdhalw",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1q92Bd:y-2KBbAw0TjWLVrNd-3f--WWj2fyEjtFp_w2RbQZXUE",
+      "expire_date": "2023-06-27T11:27:45.324Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "lv5chi4fp0hbp5wqtwiwlr6k9e40754c",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAUBf-FtSG8BOrSfb-BwH1I1dCktCvjv2uTLnR7Zua8RMrbWtPWaUkTiouw4vS7lQwPajvAe263WcLc1mUqclfkQbscZ6Tn9XD_Dmru9VsHr-HM3lrFkQuDy8q5CIqGAMyMxgSMoF0svhAMWDCEGIwBRLJKa_H-APugOJ4:1qQVx5:NLVe_fR2T96IS05fxKzC9rBySr40zecuKN97nFXnP-k",
+      "expire_date": "2023-08-14T16:40:59.508Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "maod0oc4t211olpcw43hgrfy0ta7n30w",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qBKji:kr4GrRVMe3RXGns9ANsANtGIyD2dBX2HrDr7Vx0oiE8",
+      "expire_date": "2023-07-03T19:40:26.471Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "mpzo1nja8k5wa50k2clj8thu9t3pxiru",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qDuuU:cbsbHUHnadNlUcYfWLmmNKxAym4YBP5nS2oxw22yl38",
+      "expire_date": "2023-07-10T22:42:14.360Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "n2clmki9b2r9mavk66ou9ddp2boj6q3a",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qDXFK:MCRdliI6Qpy0FzwGWQT_WZee7U48pXV-UB2v8JdYufM",
+      "expire_date": "2023-07-09T21:26:10.598Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "n3o6r4lqy7ixlpw2ndhwliuxl1nkeurw",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qVJLO:5JNLVH0gGRAANyiFP3vGuwl2oKQZw9akQCeXA1GFlSE",
+      "expire_date": "2023-08-27T22:13:54.279Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "nhlpyaot4pe4yr4br242b0k52twe5njc",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAUBf-FtSG8BOrSfb-BwH1I1dCktCvjv2uTLnR7Zua8RMrbWtPWaUkTiouw4vS7lQwPajvAe263WcLc1mUqclfkQbscZ6Tn9XD_Dmru9VsHr-HM3lrFkQuDy8q5CIqGAMyMxgSMoF0svhAMWDCEGIwBRLJKa_H-APugOJ4:1qThDF:zLitiO65UecLZbw2HufjR_ffsepyvUsod-sP6ovdinc",
+      "expire_date": "2023-08-23T11:18:49.485Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "o2x7ug9rnzzo0cvhbwi39un4gj0cu9pn",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qGHJb:E1MwVRNKHBKfsFae_hjt0j-EcOoaKTtE2rPOyn_eCBc",
+      "expire_date": "2023-07-17T11:01:55.491Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "oakrh46yt24w8v6nh6kj2dgt6huvpzip",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qPg8K:81ly6Q8vuxdfasuLso7zqjCz0Cefngl19LFlxlBDTf8",
+      "expire_date": "2023-08-12T09:21:08.594Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "pb3267au342ptoe2of1zzwsnnb1bow7a",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qQWdT:0j5Xaf5QUhqq3SX-8uYYdaSUNxLKWRjLl7S_3ZrgSWU",
+      "expire_date": "2023-08-14T17:24:47.189Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "pj2dthoua915mlibnkut7pe99iveio1e",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qBarc:gX38so1bjqme9jQEYkZTCqfRMCmhlfZS9NR7kytrUWw",
+      "expire_date": "2023-07-04T12:53:40.928Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "py2nsszbgnreazpg4xrdpoeojb3owqoj",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qUE62:_5S3vqGKM6mqMfPDgxGAM6sMdkrp-K8VrjKqpeswjGw",
+      "expire_date": "2023-08-24T22:25:34.551Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "rk460o191w6fue5do9q941yi4ckg4rea",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qId8f:686tJz-ZyNOh_WHlLR1Cn0V51U-joHBA8ZxmGeMCbq4",
+      "expire_date": "2023-07-23T22:44:21.916Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "t6ghwc37ixnttmu2o3u674h8yam2dqv6",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qVV5g:Od86Sc0JZUhldOtkioMePAzEI1yHaAIN3D6tOEG6RYo",
+      "expire_date": "2023-08-28T10:46:28.811Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "tuafq5hiq71vdkgtmd53cmr7i4iuor53",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qPAR8:CGPHUyTWYKFzvXlb5aoizdUavGoD0iyvdEfwstz2Gys",
+      "expire_date": "2023-08-10T23:30:26.538Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "tw2mhfmaat3iqo3706wgm220smlh32q8",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qP8j1:8mtNkqvhPftbq43wE_IzQFEYRISapfHAoDY-ZYYacPQ",
+      "expire_date": "2023-08-10T21:40:47.465Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "ufjvb1nsxcs49tj8relb7waenw1lo3o6",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qTJp2:wrEbN9EmSxJQy8wroAg2VvJaORJtYvNaVfvXF1hybLc",
+      "expire_date": "2023-08-22T10:20:16.325Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "vdx1kydr4lof1n3g8g23ylf72h27wfhk",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qIpAw:tUiM6J6O7BoR3fWcXUQr4j7wC1tazog7lDp4WuREWCA",
+      "expire_date": "2023-07-24T11:35:30.583Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "vgl8k7i6zifjtvcqts4fkw78dubjrwtp",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1q99O7:Gyx0_ZR2Tfc6C8-D7lyB0P2JjXkq2FC9Sx7otIuwQrk",
+      "expire_date": "2023-06-27T19:09:07.322Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "w5jwlshnra06ap6z15srtd3vo2jc84a6",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qM23H:1t4TEyyYSK3wVYyjzkFTOjdRONaWSalcdC2FYWzYoA0",
+      "expire_date": "2023-08-02T07:56:51.995Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "wi8baq9ob27hwbhaqd0zzsjolirnwde7",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qGmw0:eahBVGw3jIFySnf3i9NdP3mIJOGGg-6z7CyGEiJoihc",
+      "expire_date": "2023-07-18T20:47:40.983Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "wievensoovlij8pa684jg3h5o2ajy1mv",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAUBf-FtSG8BOrSfb-BwH1I1dCktCvjv2uTLnR7Zua8RMrbWtPWaUkTiouw4vS7lQwPajvAe263WcLc1mUqclfkQbscZ6Tn9XD_Dmru9VsHr-HM3lrFkQuDy8q5CIqGAMyMxgSMoF0svhAMWDCEGIwBRLJKa_H-APugOJ4:1qVWfT:AyqrSJ7mSo6rQjGo4hMrLpaatoZUd20MuiLnHbdkH64",
+      "expire_date": "2023-08-28T12:27:31.895Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "ybdeez6nksg5aw1bmyfnq0fzj111jd6h",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qQqh5:KDrUiTspFIZc0ApEpr7qL-3fECCPMwEQtkZjv4sE6A0",
+      "expire_date": "2023-08-15T14:49:51.464Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "yjwe740uri8o1sdfsnvdvuap4g39imbt",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qHQZb:1yyZmh6CAbzpKw-v5RfnHzgk6aXQh7RdnXhQLLgkkyU",
+      "expire_date": "2023-07-20T15:07:11.773Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "yq2c9qyxdwah6ynk20td21diqknqqt5e",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1q52Yq:CwZWUQ6J16zzVCfAkSEwFeZepA0Oim8_phpePHlRxH8",
+      "expire_date": "2023-06-16T11:03:12.658Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "z6ojiulq2busdotnz8wqe0g2w5jcmxje",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1qQQQJ:mEQhAoKc7IW0BO7GiidRjKO63dn03Y71-SKclhqaAzM",
+      "expire_date": "2023-08-14T10:46:47.583Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "zferqp8ohvwr0nhw3myxvys3emlnswkr",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSE8Boa6dO83EGCmUjU0Ke3K-O_apAvd3nPOfYmYtrXGrfMSJxJnocXpd8upPLjtgO6p3WZZ5rYuU5a7Ig_a5XUmfl4O9--gpl6_NRo9gi_ZDcohAQIrFYis94MKTofMbImNRje67IonAIsWQmAd2KAX7w--0jbN:1q93gQ:omjYrzZdugnEiaecfJvXnCpy9-tlEbCCrS0Uu7Vj2ww",
+      "expire_date": "2023-06-27T13:03:38.284Z"
+    }
+  },
+  {
+    "model": "base.company",
+    "pk": 1,
+    "fields": {
+      "name": "Land Cruisers",
+      "reg_number": "2020-568-CI-78",
+      "fiscal_id": "2056878",
+      "legal_status": "SARL",
+      "social_capital": "25000000",
+      "address": "rue Princess",
+      "city": "Abijan",
+      "country": "CI",
+      "phone": "97998621",
+      "email": "land@cruisers.ci",
+      "logo": "",
+      "banner": ""
+    }
+  },
+  {
+    "model": "base.incidenttype",
+    "pk": 1,
+    "fields": {
+      "name": "Mineur",
+      "description": "1.Conflits mineurs avec les passagers\r\nPar exemple, des différends sur le tarif ou des problèmes mineurs de comportement des passagers qui peuvent être résolus sans conséquences graves.\r\n\r\n2.Problèmes mécaniques mineurs\r\nDes problèmes mineurs tels qu'une panne temporaire, une crevaison de pneu ou des problèmes électriques mineurs qui peuvent être résolus rapidement.\r\n\r\n3.Infractions mineures au code de la route\r\nDes infractions mineures, telles qu'un dépassement de vitesse léger ou un non-respect mineur des règles de circulation."
+    }
+  },
+  {
+    "model": "base.incidenttype",
+    "pk": 2,
+    "fields": {
+      "name": "Majeur",
+      "description": "1.Accidents de la route\r\nDes accidents plus graves impliquant des dommages matériels significatifs, des blessures mineures à modérées pour les passagers ou le chauffeur.\r\n\r\n2.Vandalisme\r\nDes actes de vandalisme plus graves, tels que des dommages importants à la carrosserie du véhicule ou des vitres brisées.\r\n\r\n3.Conflits majeurs avec les passagers\r\nDes conflits plus sérieux, pouvant entraîner des altercations physiques ou des situations potentiellement dangereuses pour le chauffeur ou les passagers."
+    }
+  },
+  {
+    "model": "base.incidenttype",
+    "pk": 3,
+    "fields": {
+      "name": "Fatale",
+      "description": "1.Accidents graves\r\nDes accidents mortels impliquant des blessures graves ou la mort de passagers, du chauffeur ou de tiers.\r\n\r\n2.Actes de violence extrême\r\nDes actes de violence graves, tels que des attaques à main armée ou des agressions graves entraînant des blessures graves ou la mort.\r\n\r\n3.Incidents mettant en danger la vie\r\nDes situations extrêmes mettant en danger la vie, telles que des incendies, des explosions ou des événements similaires."
+    }
+  },
+  {
+    "model": "base.documenttype",
+    "pk": 1,
+    "fields": { "name": "Permis de conduire", "description": "" }
+  },
+  {
+    "model": "base.documenttype",
+    "pk": 2,
+    "fields": { "name": "Carte grise", "description": "" }
+  },
+  {
+    "model": "base.documenttype",
+    "pk": 3,
+    "fields": { "name": "RIB", "description": "" }
+  },
+  {
+    "model": "base.documenttype",
+    "pk": 4,
+    "fields": { "name": "Assurance", "description": "" }
+  },
+  {
+    "model": "base.documenttype",
+    "pk": 5,
+    "fields": { "name": "Visite Technique", "description": "" }
+  },
+  {
+    "model": "base.documenttype",
+    "pk": 6,
+    "fields": { "name": "Patente", "description": "" }
+  },
+  {
+    "model": "base.documenttype",
+    "pk": 7,
+    "fields": { "name": "Vignette", "description": "" }
+  },
+  {
+    "model": "base.documenttype",
+    "pk": 8,
+    "fields": { "name": "Contrat", "description": "" }
+  },
+  {
+    "model": "base.documenttype",
+    "pk": 9,
+    "fields": { "name": "Pièce d'identité", "description": "" }
+  },
+  {
+    "model": "base.partner",
+    "pk": 1,
+    "fields": {
+      "user": 3,
+      "commission": 15,
+      "civility": "Mlle.",
+      "first_name": "Agnès",
+      "last_name": "Selom",
+      "martital_status": "Célibataire",
+      "nationality": "TG",
+      "date_of_birth": "1995-07-01",
+      "place_of_birth": "Ndjamena",
+      "city": "Abijan",
+      "phone": "97998621",
+      "address": "rue Princess",
+      "bio": "A bio refers to a brief description of a person's life, often shortened to \"bio.\" It can be used as a synonym for biography or a biographical sketch.1 On Instagram, a bio is a description of an account that can be up to 150 characters long and sits at the top of the profile page, next to the profile picture. It is a snapshot of an account and a quick way to show users who you are and what you're about.",
+      "image": "partners/woman.jpg",
+      "date_joined": "2023-08-14T00:17:44.574Z",
+      "is_active": true
+    }
+  },
+  {
+    "model": "base.partnerdocument",
+    "pk": 3,
+    "fields": {
+      "partner": 1,
+      "type": 3,
+      "issue_date": null,
+      "expiry_date": null,
+      "issuing_country": null,
+      "is_valid": false,
+      "date_added": "2023-07-01T18:34:41.193Z",
+      "image": ""
+    }
+  },
+  {
+    "model": "base.driver",
+    "pk": 1,
+    "fields": {
+      "user": 2,
+      "civility": "Mlle.",
+      "martital_status": "Célibataire",
+      "first_name": "Johanna",
+      "last_name": "Richard",
+      "nationality": "FR",
+      "date_of_birth": "1997-01-07",
+      "place_of_birth": "Yopougon",
+      "city": "Abijan",
+      "phone": "97998621",
+      "address": "rue Princess",
+      "bio": "A bio refers to a brief description of a person's life, often shortened to \"bio.\" It can be used as a synonym for biography or a biographical sketch.1 On Instagram, a bio is a description of an account that can be up to 150 characters long and sits at the top of the profile page, next to the profile picture.",
+      "image": "drivers/face.jpg",
+      "date_joined": "2023-08-13T22:46:23.863Z",
+      "is_active": true,
+      "score": 50,
+      "observation": ""
+    }
+  },
+  {
+    "model": "base.driverdocument",
+    "pk": 4,
+    "fields": {
+      "driver": 1,
+      "type": 1,
+      "issue_date": "2023-07-01T00:00:00Z",
+      "expiry_date": "2027-07-01T00:00:00Z",
+      "issuing_country": "FR",
+      "is_valid": false,
+      "date_added": "2023-08-10T21:14:34.978Z",
+      "image": "driver_docs/permit.jpg"
+    }
+  },
+  {
+    "model": "base.vehicle",
+    "pk": "007tog",
+    "fields": {
+      "owner": null,
+      "supplier": null,
+      "first_driver": null,
+      "second_driver": null,
+      "third_driver": null,
+      "make": "Mazda",
+      "model": "3",
+      "year": 2017,
+      "country": "JP",
+      "serial_number": "007",
+      "state": "Usagé ",
+      "transmission": "Manuelle",
+      "color": "Rouge",
+      "cost": 5000000,
+      "commission": 10,
+      "image": "",
+      "is_active": true,
+      "date_added": "2023-08-14T12:09:46.637Z"
+    }
+  },
+  {
+    "model": "base.vehicle",
+    "pk": "589rjft",
+    "fields": {
+      "owner": 3,
+      "supplier": "CFAO",
+      "first_driver": 1,
+      "second_driver": null,
+      "third_driver": null,
+      "make": "Mercedes",
+      "model": "GLE coupé",
+      "year": 2022,
+      "country": "DE",
+      "serial_number": "97576",
+      "state": "Neuf",
+      "transmission": "Automatique",
+      "color": "Noire",
+      "cost": 0,
+      "commission": 10,
+      "image": "vehicles/gle.jpg",
+      "is_active": true,
+      "date_added": "2023-08-13T23:46:04.539Z"
+    }
+  },
+  {
+    "model": "base.vehicle",
+    "pk": "897kgb",
+    "fields": {
+      "owner": null,
+      "supplier": "CFAO",
+      "first_driver": null,
+      "second_driver": null,
+      "third_driver": null,
+      "make": "Toyota",
+      "model": "Tacoma TRD Pro",
+      "year": 2023,
+      "country": "JP",
+      "serial_number": "97575",
+      "state": "Neuf",
+      "transmission": "Automatique",
+      "color": "Blanc",
+      "cost": 10000000,
+      "commission": 10,
+      "image": "vehicles/trd.jpg",
+      "is_active": true,
+      "date_added": "2023-08-14T09:22:56.152Z"
+    }
+  },
+  {
+    "model": "base.vehicle",
+    "pk": "abc458",
+    "fields": {
+      "owner": null,
+      "supplier": null,
+      "first_driver": null,
+      "second_driver": null,
+      "third_driver": null,
+      "make": "Ford",
+      "model": "Fiesta",
+      "year": 2020,
+      "country": "US",
+      "serial_number": null,
+      "state": "Neuf",
+      "transmission": "Automatique",
+      "color": "violet",
+      "cost": 0,
+      "commission": 10,
+      "image": "",
+      "is_active": false,
+      "date_added": "2023-08-15T09:30:56.883Z"
+    }
+  },
+  {
+    "model": "base.vehicledocument",
+    "pk": 2,
+    "fields": {
+      "type": 2,
+      "issue_date": "2023-07-01T00:00:00Z",
+      "expiry_date": "2027-07-01T00:00:00Z",
+      "issuing_country": "CI",
+      "is_valid": true,
+      "date_added": "2023-07-12T09:49:23.222Z",
+      "image": "vehicle_docs/carte-grise.jpg"
+    }
+  },
+  {
+    "model": "base.incident",
+    "pk": 1,
+    "fields": {
+      "type": null,
+      "author": 1,
+      "driver": 1,
+      "repairability": "repairable",
+      "mobility": "mobile",
+      "title": "Pneux crevé",
+      "description": "Pneux crevé",
+      "date": "2023-07-01",
+      "time": "10:00:00",
+      "place": "Yopougon",
+      "cost": 0,
+      "is_solved": false,
+      "date_added": "2023-08-13T22:48:50.259Z",
+      "image": "",
+      "comment": ""
+    }
+  },
+  {
+    "model": "base.incident",
+    "pk": 2,
+    "fields": {
+      "type": null,
+      "author": 1,
+      "driver": 1,
+      "repairability": "repairable",
+      "mobility": "immobile",
+      "title": "Filtre à huile abîmé",
+      "description": "Filtre à huile abîmé",
+      "date": "2023-07-10",
+      "time": "12:30:00",
+      "place": "Cocody",
+      "cost": 0,
+      "is_solved": true,
+      "date_added": "2023-07-11T00:30:22.532Z",
+      "image": "",
+      "comment": null
+    }
+  },
+  {
+    "model": "base.incident",
+    "pk": 3,
+    "fields": {
+      "type": null,
+      "author": 1,
+      "driver": 1,
+
+      "repairability": "repairable",
+      "mobility": "immobile",
+      "title": "Piston abîmé",
+      "description": "Moteur en panne due a un piston abîmé.",
+      "date": "2023-07-12",
+      "time": "09:39:00",
+      "place": "Yopougon",
+      "cost": 0,
+      "is_solved": true,
+      "date_added": "2023-08-10T22:22:44.199Z",
+      "image": "incidents/piston.jpg",
+      "comment": ""
+    }
+  },
+  {
+    "model": "base.tip",
+    "pk": 2,
+    "fields": {
+      "author": 1,
+      "title": "Comment éviter une crevaison",
+      "subtitle": "6 astuces pour éviter une crevaison",
+      "article": "",
+      "image": "",
+      "video": "tips/videos/Pneu_crevé___6_astuces_pour_éviter_une_crevaison_0or7pGB.mp4",
+      "date_added": "2023-07-28T20:03:24.381Z"
+    }
+  },
+  {
+    "model": "base.chatnotification",
+    "pk": 1,
+    "fields": {
+      "chat": 2,
+      "user": 3,
+      "is_seen": true,
+      "timestamp": "2023-07-28T11:11:10.130Z"
+    }
+  },
+  {
+    "model": "base.chatnotification",
+    "pk": 2,
+    "fields": {
+      "chat": 3,
+      "user": 2,
+      "is_seen": false,
+      "timestamp": "2023-07-28T11:11:10.130Z"
+    }
+  },
+  {
+    "model": "base.chatnotification",
+    "pk": 3,
+    "fields": {
+      "chat": 4,
+      "user": 1,
+      "is_seen": true,
+      "timestamp": "2023-07-28T11:11:10.130Z"
+    }
+  },
+  {
+    "model": "base.chatnotification",
+    "pk": 4,
+    "fields": {
+      "chat": 5,
+      "user": 1,
+      "is_seen": true,
+      "timestamp": "2023-07-28T11:11:10.130Z"
+    }
+  },
+  {
+    "model": "base.chatnotification",
+    "pk": 5,
+    "fields": {
+      "chat": 6,
+      "user": 3,
+      "is_seen": true,
+      "timestamp": "2023-07-28T12:05:31.258Z"
+    }
+  },
+  {
+    "model": "base.chatnotification",
+    "pk": 6,
+    "fields": {
+      "chat": 7,
+      "user": 3,
+      "is_seen": true,
+      "timestamp": "2023-07-28T12:06:12.334Z"
+    }
+  },
+  {
+    "model": "base.chatnotification",
+    "pk": 7,
+    "fields": {
+      "chat": 8,
+      "user": 2,
+      "is_seen": false,
+      "timestamp": "2023-07-28T22:13:13.794Z"
+    }
+  },
+  {
+    "model": "base.chatnotification",
+    "pk": 8,
+    "fields": {
+      "chat": 9,
+      "user": 3,
+      "is_seen": true,
+      "timestamp": "2023-07-29T09:10:13.045Z"
+    }
+  },
+  {
+    "model": "base.chatnotification",
+    "pk": 9,
+    "fields": {
+      "chat": 10,
+      "user": 1,
+      "is_seen": true,
+      "timestamp": "2023-07-29T09:11:16.082Z"
+    }
+  },
+  {
+    "model": "base.chatnotification",
+    "pk": 10,
+    "fields": {
+      "chat": 11,
+      "user": 1,
+      "is_seen": true,
+      "timestamp": "2023-07-29T09:11:22.017Z"
+    }
+  },
+  {
+    "model": "base.chatnotification",
+    "pk": 11,
+    "fields": {
+      "chat": 12,
+      "user": 1,
+      "is_seen": true,
+      "timestamp": "2023-07-30T18:38:02.152Z"
+    }
+  },
+  {
+    "model": "base.chatnotification",
+    "pk": 12,
+    "fields": {
+      "chat": 13,
+      "user": 3,
+      "is_seen": true,
+      "timestamp": "2023-07-31T10:57:06.758Z"
+    }
+  },
+  {
+    "model": "base.chatnotification",
+    "pk": 13,
+    "fields": {
+      "chat": 14,
+      "user": 3,
+      "is_seen": true,
+      "timestamp": "2023-07-31T10:57:17.125Z"
+    }
+  },
+  {
+    "model": "accounts.role",
+    "pk": 1,
+    "fields": { "name": "Conducteur", "sec_level": 1 }
+  },
+  {
+    "model": "accounts.role",
+    "pk": 2,
+    "fields": { "name": "Partenaire", "sec_level": 2 }
+  },
+  {
+    "model": "accounts.role",
+    "pk": 3,
+    "fields": { "name": "Modérateur", "sec_level": 3 }
+  },
+  {
+    "model": "accounts.role",
+    "pk": 4,
+    "fields": { "name": "Administrateur", "sec_level": 4 }
+  },
+  {
+    "model": "accounts.customuser",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$390000$AY2PpOpV2tEC11R48Eid4h$SI/RH3yWD8lQ00u3yroib2+N2M93s97YSKXwSlDFMmc=",
+      "last_login": "2023-12-19T16:51:22.285Z",
+      "email": "admin@app.com",
+      "username": "Admin",
+      "first_name": "Codelab",
+      "last_name": "Solux",
+      "phone": null,
+      "role": 4,
+      "is_active": true,
+      "is_staff": true,
+      "is_superuser": true,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customuser",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$390000$lEWSBOdbXOmgl77F6UChDt$TNiLKofTeim8oeNpz2w1pWYPlcKoy0R7pMGbm/PPNLM=",
+      "last_login": "2023-08-14T22:24:13.645Z",
+      "email": "johanna@aol.com",
+      "username": "Jeanne D'Arc",
+      "first_name": "Johanna",
+      "last_name": "Richard",
+      "phone": "96365685",
+      "role": 1,
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.customuser",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$390000$GHDBm0VTw7p1gnByeJ4iCR$xlABQX2Ks3/yE34pQtrAGhVNbPkUrtv8N6N/uw+Ip9c=",
+      "last_login": "2023-08-14T22:23:25.117Z",
+      "email": "agnes@aol.com",
+      "username": "SAgnes",
+      "first_name": "Agnes",
+      "last_name": "Selom",
+      "phone": null,
+      "role": 2,
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "finances.vault",
+    "pk": 1,
+    "fields": {
+      "type": "cash",
+      "name": "Primaire",
+      "acc_number": "",
+      "operator": "",
+      "phone_number": "",
+      "debit": 100000,
+      "credit": 350000,
+      "balance": 0
+    }
+  },
+  {
+    "model": "finances.vault",
+    "pk": 2,
+    "fields": {
+      "type": "mobile",
+      "name": "",
+      "acc_number": "",
+      "operator": "Orange",
+      "phone_number": "90989098",
+      "debit": 115000,
+      "credit": 250500,
+      "balance": 0
+    }
+  },
+  {
+    "model": "finances.ledger",
+    "pk": 1,
+    "fields": {
+      "vault": 1,
+      "details": "Frais de carburants",
+      "debit": 30000,
+      "credit": 0,
+      "date": "2023-07-23",
+      "is_audited": true
+    }
+  },
+  {
+    "model": "finances.driverexpense",
+    "pk": 1,
+    "fields": {
+      "vault": 2,
+      "driver": 1,
+      "title": "Péage Aéroport",
+      "details": "Péage Aéroport",
+      "amount": 1500,
+      "date": "2023-06-15",
+      "time": "10:35:00",
+      "is_audited": true
+    }
+  },
+  {
+    "model": "finances.driverexpense",
+    "pk": 2,
+    "fields": {
+      "vault": 1,
+      "driver": 1,
+      "title": "Changement de pneux",
+      "details": null,
+      "amount": 120000,
+      "date": "2023-06-26",
+      "time": "11:00:00",
+      "is_audited": false
+    }
+  },
+
+  {
+    "model": "finances.globalexpense",
+    "pk": 2,
+    "fields": {
+      "vault": 1,
+      "author": 1,
+      "title": "Achat de papier A4",
+      "details": null,
+      "amount": 50000,
+      "date": "2023-07-01",
+      "time": "23:00:00",
+      "is_audited": false
+    }
+  },
+  {
+    "model": "finances.payment",
+    "pk": 2,
+    "fields": {
+      "vault": 2,
+      "driver": 1,
+
+      "amount": 21500,
+      "date": "2023-06-21",
+      "start_time": "07:00:00",
+      "end_time": "17:00:00",
+      "payday": "2023-07-27T00:14:42.236Z",
+      "is_audited": true
+    }
+  },
+  {
+    "model": "finances.payment",
+    "pk": 3,
+    "fields": {
+      "vault": 1,
+      "driver": 1,
+
+      "amount": 50000,
+      "date": "2023-06-30",
+      "start_time": "16:00:00",
+      "end_time": "17:00:00",
+      "payday": "2023-07-27T00:14:37.853Z",
+      "is_audited": true
+    }
+  },
+  {
+    "model": "finances.payout",
+    "pk": 1,
+    "fields": {
+      "vault": 2,
+      "driver": 1,
+      "days_worked": 31,
+      "amount": 150000,
+      "type": "salary",
+      "start_date": "2023-05-01",
+      "end_date": "2023-05-31",
+      "payday": "2023-07-27T00:15:05.540Z",
+      "is_audited": false
+    }
+  },
+  {
+    "model": "finances.payout",
+    "pk": 2,
+    "fields": {
+      "vault": 1,
+      "driver": 1,
+      "days_worked": 5,
+      "amount": 30000,
+      "type": "salary",
+      "start_date": "2023-06-26",
+      "end_date": "2023-06-30",
+      "payday": "2023-07-27T00:15:00.527Z",
+      "is_audited": true
+    }
+  },
+  {
+    "model": "finances.revenue",
+    "pk": 1,
+    "fields": {
+      "vault": 1,
+      "partner": 1,
+
+      "days_worked": 20,
+      "gross_income": 250000,
+      "net_income": 200000,
+      "comment": "",
+      "payday": "2023-07-31T23:25:07.562Z",
+      "month": null,
+      "is_audited": true
+    }
+  },
+  {
+    "model": "finances.revenue",
+    "pk": 2,
+    "fields": {
+      "vault": 1,
+      "partner": 1,
+
+      "days_worked": 30,
+      "gross_income": 100000,
+      "net_income": 75000,
+      "comment": "",
+      "payday": "2023-08-01T00:12:30.876Z",
+      "month": null,
+      "is_audited": false
+    }
+  },
+  {
+    "model": "chats.chatmessage",
+    "pk": 1,
+    "fields": {
+      "sender": 1,
+      "receiver": 3,
+      "message": "Holla",
+      "thread_name": "chat_3-1",
+      "timestamp": "2023-07-28T09:57:29.995Z"
+    }
+  },
+  {
+    "model": "chats.chatmessage",
+    "pk": 2,
+    "fields": {
+      "sender": 1,
+      "receiver": 3,
+      "message": "Che passo?",
+      "thread_name": "chat_3-1",
+      "timestamp": "2023-07-28T09:59:26.447Z"
+    }
+  },
+  {
+    "model": "chats.chatmessage",
+    "pk": 3,
+    "fields": {
+      "sender": 1,
+      "receiver": 2,
+      "message": "Bonjour Johanna",
+      "thread_name": "chat_2-1",
+      "timestamp": "2023-07-28T10:11:41.609Z"
+    }
+  },
+  {
+    "model": "chats.chatmessage",
+    "pk": 4,
+    "fields": {
+      "sender": 3,
+      "receiver": 1,
+      "message": "Yo estoy bien y usted?",
+      "thread_name": "chat_3-1",
+      "timestamp": "2023-07-28T10:13:15.454Z"
+    }
+  },
+  {
+    "model": "chats.chatmessage",
+    "pk": 5,
+    "fields": {
+      "sender": 3,
+      "receiver": 1,
+      "message": "Que haces hoy?",
+      "thread_name": "chat_3-1",
+      "timestamp": "2023-07-28T10:55:57.678Z"
+    }
+  },
+  {
+    "model": "chats.chatmessage",
+    "pk": 6,
+    "fields": {
+      "sender": 1,
+      "receiver": 3,
+      "message": "Nunca especial, y tu?",
+      "thread_name": "chat_3-1",
+      "timestamp": "2023-07-28T12:05:31.258Z"
+    }
+  },
+  {
+    "model": "chats.chatmessage",
+    "pk": 7,
+    "fields": {
+      "sender": 1,
+      "receiver": 3,
+      "message": "Wann durfen wir uns treffen?",
+      "thread_name": "chat_3-1",
+      "timestamp": "2023-07-28T12:06:12.302Z"
+    }
+  },
+  {
+    "model": "chats.chatmessage",
+    "pk": 8,
+    "fields": {
+      "sender": 1,
+      "receiver": 2,
+      "message": "Hello",
+      "thread_name": "chat_2-1",
+      "timestamp": "2023-07-28T22:13:13.775Z"
+    }
+  },
+  {
+    "model": "chats.chatmessage",
+    "pk": 9,
+    "fields": {
+      "sender": 1,
+      "receiver": 3,
+      "message": "Bonjour, commnet allez vous/",
+      "thread_name": "chat_3-1",
+      "timestamp": "2023-07-29T09:10:13.025Z"
+    }
+  },
+  {
+    "model": "chats.chatmessage",
+    "pk": 10,
+    "fields": {
+      "sender": 3,
+      "receiver": 1,
+      "message": "Je vais bien merci.",
+      "thread_name": "chat_3-1",
+      "timestamp": "2023-07-29T09:11:16.066Z"
+    }
+  },
+  {
+    "model": "chats.chatmessage",
+    "pk": 11,
+    "fields": {
+      "sender": 3,
+      "receiver": 1,
+      "message": "Et vous/",
+      "thread_name": "chat_3-1",
+      "timestamp": "2023-07-29T09:11:22.007Z"
+    }
+  },
+  {
+    "model": "chats.chatmessage",
+    "pk": 12,
+    "fields": {
+      "sender": 3,
+      "receiver": 1,
+      "message": "Buenos dias.",
+      "thread_name": "chat_3-1",
+      "timestamp": "2023-07-30T18:38:02.133Z"
+    }
+  },
+  {
+    "model": "chats.chatmessage",
+    "pk": 13,
+    "fields": {
+      "sender": 1,
+      "receiver": 3,
+      "message": "Hello",
+      "thread_name": "chat_3-1",
+      "timestamp": "2023-07-31T10:57:06.736Z"
+    }
+  },
+  {
+    "model": "chats.chatmessage",
+    "pk": 14,
+    "fields": {
+      "sender": 1,
+      "receiver": 3,
+      "message": "How are you/",
+      "thread_name": "chat_3-1",
+      "timestamp": "2023-07-31T10:57:17.117Z"
+    }
+  }
+]

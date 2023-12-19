@@ -1,0 +1,26 @@
+  {
+    "model": "finances.vehicleexpense",
+    "pk": 1,
+    "fields": {
+      "vault": null,
+      "title": "Carburant⛽",
+      "details": null,
+      "amount": 50000,
+      "date": "2023-06-19",
+      "time": "20:45:00",
+      "is_audited": true
+    }
+  },
+  {
+    "model": "finances.vehicleexpense",
+    "pk": 2,
+    "fields": {
+      "vault": null,
+      "title": "Reparation de pneux",
+      "details": null,
+      "amount": 30000,
+      "date": "2023-07-04",
+      "time": "10:59:00",
+      "is_audited": false
+    }
+  },
