@@ -11,9 +11,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-
-import dj_database_url
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -57,18 +54,20 @@ INSTALLED_APPS = [
     'chats.apps.ChatsConfig',
     'dj_database_url',
     'django_countries',
+    'django_htmx',
     'mathfilters',
 ]
 
 
-HASHIDS_SALT = 'SOLASCRIPTORA'
+HASHIDS_SALT = 'SOLUSCRISTO'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    # 'whitenoise.middleware.WhitenoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'django_htmx.middleware.HtmxMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -100,9 +99,6 @@ WSGI_APPLICATION = 'cabnavigator.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    # 'default': dj_database_url.parse('postgres://cabnavigator_vuwe_user:GLLxumsxYDuNqljw59f8unVk6CQiy33c@dpg-ciitv8t9aq01qqmjku3g-a.ohio-postgres.render.com/cabnavigator_vuwe')
-    # 'default': dj_database_url.parse(env('DB_URL'))
-
     'default': {
 
         # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -174,7 +170,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("localhost", 6379)],  # Adjust host and port as needed
+            "hosts": [("localhost", 7379)],  # Adjust host and port as needed
         },
     },
 }
