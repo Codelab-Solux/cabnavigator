@@ -67,9 +67,9 @@
     {% endif %}
     <!--  -->
     <div
-      class="h-[320px] w-full bg-black text-gray-300 text-sm p-6 rounded-md flex flex-col gap-2 overflow-hidden"
+      class="h-[320px] w-full bg-white  text-sm p-6 rounded-md flex flex-col gap-2 overflow-hidden"
     >
-      <h4 class="text-white text-xl font-bold flex items-center">
+      <h4 class="text-black text-xl font-bold flex items-center">
         {{curr_partner.civility}} {{curr_partner.last_name}}
         {{curr_partner.first_name}}
         <img class="mx-2 h-4" src="{{curr_partner.nationality.flag}}" />
@@ -78,17 +78,17 @@
       <p class="pt-2">
         {{curr_partner.city}} | Commission : {{curr_partner.commission}} %
       </p>
-      <div class="flex items-center gap-4">
+      <div class="flex items-center gap-2">
         <a
           href="tel:{{curr_partner.phone}}"
           target="_blank"
-          class="px-4 py-2 rounded-md bg-white hover:bg-green-300 text-black"
+          class="px-4 py-2 rounded-md bg-gray-200 hover:bg-green-300 text-black"
         >
           <i class="fa-solid fa-phone mr-2"></i>{{curr_partner.phone}}
         </a>
         <a
           href="{% url 'chat_page' curr_partner.user.id %}"
-          class="px-4 py-2 rounded-md bg-white hover:bg-amber-300 text-black"
+          class="px-4 py-2 rounded-md bg-gray-200 hover:bg-amber-300 text-black"
         >
           <i class="fa-solid fa-comments mr-2"></i> Contacter
         </a>

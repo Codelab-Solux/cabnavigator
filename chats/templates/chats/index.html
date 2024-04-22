@@ -1,37 +1,135 @@
 {% extends 'main.html' %} {% load static %} {% block content %}
-<!--  -->
-
-<!-- ---------------------------objs and contacts sidebar--------------------------------->
-<div>
-  <h1 class="mb-2 text-black text-xl font-bold">Rejoindre une conversation</h1>
-  {% include 'components/searchbar.html' %}
-  <!--  -->
-  {% if not contacts %}
-
-  <!--------------------------------------- No data placeholder --------------------------------------->
-  {% include 'components/no_data.html' %}
-  <!--  -->
-  {% else %}
-  <!--  -->
-  <div class="mt-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-2">
-    {% for obj in contacts %}
-    <a href="{% url 'chat_page' obj.id %}">
+<section id="chats_base" class="mt-16 md:mt-0">
+  <div class="flex gap-3 h-[calc(100vh-3em)] lg:h-[calc(100vh-4em)]">
+    <!--------------------------------------- thread/contacts/groups lists --------------------------------------->
+    <div
+      class="flex flex-col gap-2 w-full md:max-w-[260px] lg:max-w-[320px] xl:max-w-[380px] h-full"
+    >
+      <!--------------------------------------- menu tabs buttons --------------------------------------->
       <div
-        class="contact-li p-6 border hover:border-amber-400 h-full flex flex-col items-center text-center gap-2 bg-white hover:shadow-md rounded-md"
-        chat-id="chat_{{obj.id}}"
+        class="tabbar p-1 bg-black rounded-lg flex justify-between gap-1 h-fit w-full lg:lg: text-xs"
       >
-        <img
-          class="hidden lg:block w-20 h-20 rounded-full mx-auto object-cover"
-          src="{% static 'imgs/random.png' %}"
-          alt="Rounded avatar"
-        />
-        <p class="text-black font-bold">@{{obj.username}}</p>
-        <p>{{obj.email}}</p>
+        <button
+          class="tabBtn px-4 py-2 bg-white hover:bg-black hover:text-white rounded-md w-full"
+          onclick="openTab(event, 'threads')"
+          id="defaultTab"
+        >
+          <i class="fa-solid fa-comments"></i>
+          <span class="hidden xl:inline lg:ml-2">Messages</span>
+        </button>
+        <button
+          class="tabBtn px-4 py-2 bg-white hover:bg-black hover:text-white rounded-md w-full"
+          onclick="openTab(event, 'contacts')"
+        >
+          <i class="fa-solid fa-address-book"></i>
+          <span class="hidden xl:inline lg:ml-2">Contacts</span>
+        </button>
       </div>
-    </a>
-    {% endfor %}
+
+      <!--------------------------------------- threads --------------------------------------->
+      <section id="threads" class="tabcontent">
+        <button
+          class="hidden"
+          id="chats_reloader"
+          hx-target=".thread_list"
+          hx-get="{% url 'threads' %}"
+        ></button>
+        <!--------------------------------------- filter form --------------------------------------->
+        <form
+        class="mb-2 flex items-center gap-1 w-full lg:max-w-[400px]"
+        hx-post="{% url 'filter_users' %}"
+        hx-target=".thread_list"
+        >
+          {% csrf_token %}
+
+          <input
+            hx-post="{% url 'filter_users' %}"
+            hx-target=".thread_list"
+            hx-trigger="keyup changed delay:500ms"
+            placeholder="Recherchez..."
+            name="name_or_email"
+            type="text"
+            class="px-3 py-2 text-xs rounded-md focus:bg-gray-100 outilne-none w-full border focus:border-none focus:outline-none focus:bg-white focus:ring-1 focus:ring-purple-400"
+          />
+        </form>
+        <div
+          class="p-2 bg-gray-100 rounded-xl h-full w-full flex flex-col gap-3 overflow-y-auto"
+        >
+          <div
+            class="thread_list"
+            hx-get="{% url 'threads' %}"
+            hx-trigger="load, db_changed from:body"
+            hx-target="this"
+          >
+        {% include 'chats/partials/threads.html' %}
+        </div>
+        </div>
+      </section>
+      
+      <!--------------------------------------- contacts --------------------------------------->
+      <section id="contacts" class="tabcontent">
+        <!--------------------------------------- filter form --------------------------------------->
+        <form
+        class="mb-2 flex items-center gap-1 w-full lg:max-w-[400px]"
+        hx-post="{% url 'filter_users' %}"
+        hx-target=".contact_list"
+        >
+        {% csrf_token %}
+        
+        <input
+        hx-post="{% url 'filter_users' %}"
+        hx-target=".contact_list"
+        hx-trigger="keyup changed delay:500ms"
+        placeholder="Recherchez..."
+        name="name_or_email"
+        type="text"
+        class="px-3 py-2 text-xs rounded-md focus:bg-gray-100 outilne-none w-full border focus:border-none focus:outline-none focus:bg-white focus:ring-1 focus:ring-purple-400"
+        />
+      </form>
+      <div
+          class="p-2 bg-gray-100 rounded-xl h-full w-full flex flex-col gap-3 overflow-y-auto"
+        >
+          <div
+            class="contact_list"
+            hx-get="{% url 'contacts' %}"
+            hx-trigger="load, db_changed from:body"
+            hx-target="this"
+            >
+            {% include 'chats/partials/contacts.html' %}
+          </div>
+        </div>
+      </section>
+    </div>
+    <!--------------------------------------- thread details --------------------------------------->
+    <section
+      class="thread_details relative hidden md:flex flex-col items-center justify-center w-full border rounded-xl md:overflow-y-auto"
+    >
+      <i class="fa-solid fa-comments text-gray-300 text-9xl"></i>
+      <p class="m-4 px-4 py-2 w-fit mx-auto bg-gray-100 text-sm rounded-lg">
+        Restez connecter en temps réel.
+      </p>
+    </section>
   </div>
-  <!--  -->
-  {% endif %}
-</div>
+  <script>
+    //  tabs control ----------------------------------------------------------------------------------------------------
+    document.getElementById("defaultTab").click();
+    function openTab(event, tabName) {
+      var i, tabcontent, tabBtn;
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      tabBtn = document.getElementsByClassName("tabBtn");
+      for (i = 0; i < tabBtn.length; i++) {
+        tabBtn[i].className = tabBtn[i].className.replace(" active", "");
+      }
+      document.getElementById(tabName).style.display = "block";
+      event.currentTarget.className += " active";
+      var minitabs = document.getElementsByClassName("minitabcontent");
+      if (minitabs.length != 0) {
+        minitabs = tabcontent.children;
+      }
+    }
+  </script>
+</section>
 {% endblock %}

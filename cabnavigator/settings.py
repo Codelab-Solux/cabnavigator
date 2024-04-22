@@ -29,6 +29,15 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
+CORS_ALLOWED_ORIGINS = [
+    'http://127.0.0.1:8000/',
+    "https://cabnavigator.onrender.com",
+    # Add any other allowed origins as needed
+]
+
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000/',
+                        'https://cabnavigator.onrender.com']
+
 
 # Application definition
 
@@ -50,6 +59,9 @@ INSTALLED_APPS = [
     'django_countries',
     'mathfilters',
 ]
+
+
+HASHIDS_SALT = 'SOLASCRIPTORA'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -158,17 +170,17 @@ LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
 AUTH_USER_MODEL = "accounts.CustomUser"  # !!! very important !!!
 
-# CHANNEL_LAYERS = {
-#     "default": {
-#         "CONFIG": {
-#             "hosts": [('localhost', '6379')],
-#         },
-#         "BACKEND": "channels_redis.core.RedisChannelLayer",
-#     },
-# }
-
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
-    }
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],  # Adjust host and port as needed
+        },
+    },
 }
+
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels.layers.InMemoryChannelLayer"
+#     }
+# }

@@ -82,8 +82,8 @@ urlpatterns = [
          delete_company, name='delete_company'),
     # notifications
     path('notifications/', notifications, name='notifications'),
-    path('notifications/chats/<str:pk>/read',
-         read_chat_notification, name='read_chat_notification'),
+#     path('notifications/chats/<str:pk>/read',
+#          read_chat_notification, name='read_chat_notification'),
     # tips
     path('tips/', tips, name='tips'),
     path('tips/create/', create_tip, name='create_tip'),

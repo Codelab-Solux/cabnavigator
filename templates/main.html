@@ -39,7 +39,9 @@
     <title>cab navigator</title>
   </head>
 
-  <body class="flex flex-row bg-white text-gray-600 max-w-full mx-auto">
+  <body
+    hx-boost="true"
+    hx-headers='{"X-CSRFToken" : "{{ csrf_token }}"}' class="flex flex-row bg-white text-gray-700 max-w-full mx-auto">
     {% if user.is_authenticated %}
     <input id="curr_user" type="hidden" value="{{user.id}}" />
     {% endif %}

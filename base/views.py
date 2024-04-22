@@ -5,8 +5,6 @@ from django.db.models import Sum, Avg, Min, Max
 from django.contrib import messages
 from accounts.models import Role
 from finances.models import *
-
-
 from .forms import *
 from .models import *
 from django.db.models import Q
@@ -1383,34 +1381,14 @@ def delete_company(req, pk):
 @login_required(login_url='login')
 def notifications(req):
     user = req.user
-    notifications = ChatNotification.objects.filter(
-        user=req.user, is_seen=False).distinct('chat__thread_name').order_by('chat__thread_name', '-chat__timestamp')
-    # notifications.filter(
-    #     chat__thread_name__in=notifications).order_by('-chat__timestamp')
-
-    users = CustomUser.objects.all()
+    notifications = Notification.objects.filter(
+        user=user, is_read=False)
 
     context = {
         'notifications_page': 'active',
-        'notifications': notifications,
-        'users': users,
+        # 'notifications': notifications,
     }
     return render(req, 'base/notifications.html', context)
-
-
-@login_required(login_url='login')
-def read_chat_notification(req, pk):
-    user = req.user
-    obj = ChatNotification.objects.get(id=pk)
-    if user != obj.user:
-        return redirect(req.META.get('HTTP_REFERER', '/'))
-
-    if req.method == 'POST':
-        if obj.is_seen == False:
-            ChatNotification.objects.filter(id=pk).update(is_seen=True)
-            return redirect('chat_page', obj.chat.sender)
-        else:
-            return redirect(req.META.get('HTTP_REFERER', '/'))
 
 
 # video materials------------------------------------------------------------------------------------------------------

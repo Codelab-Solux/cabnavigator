@@ -1,8 +1,11 @@
 from django.db import models
 from django.urls import reverse
 from accounts.models import CustomUser
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django_countries.fields import CountryField
-from chats.models import ChatMessage
+from base.utils import h_encode, h_decode
+from django.template.loader import get_template
 
 
 legal_statuses = (
@@ -39,6 +42,9 @@ class Company(models.Model):
     def __str__(self):
         return f'{self.name} - {self.reg_number}'
 
+    def get_hashid(self):
+        return h_encode(self.id)
+
     def get_absolute_url(self):
         return reverse('company', kwargs={'pk': self.pk})
 
@@ -50,6 +56,9 @@ class IncidentType(models.Model):
     def __str__(self):
         return self.name
 
+    def get_hashid(self):
+        return h_encode(self.id)
+
     def get_absolute_url(self):
         return reverse('incident_type', kwargs={'pk': self.pk})
 
@@ -60,6 +69,9 @@ class DocumentType(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_hashid(self):
+        return h_encode(self.id)
 
     def get_absolute_url(self):
         return reverse('document_type', kwargs={'pk': self.pk})
@@ -104,6 +116,9 @@ class Partner(models.Model):
     def __str__(self):
         return f'{self.first_name} - {self.user.email}'
 
+    def get_hashid(self):
+        return h_encode(self.id)
+
     def get_absolute_url(self):
         return reverse('partner', kwargs={'pk': self.pk})
 
@@ -123,6 +138,9 @@ class PartnerDocument(models.Model):
 
     def __str__(self):
         return f'{self.driver.user.first_name}({self.type.name})'
+
+    def get_hashid(self):
+        return h_encode(self.id)
 
     def get_absolute_url(self):
         return reverse('partner_doc', kwargs={'pk': self.pk})
@@ -158,6 +176,9 @@ class Driver(models.Model):
     def __str__(self):
         return f'{self.first_name} - {self.user.email}'
 
+    def get_hashid(self):
+        return h_encode(self.id)
+
     def get_absolute_url(self):
         return reverse('driver', kwargs={'pk': self.pk})
 
@@ -177,6 +198,9 @@ class DriverDocument(models.Model):
 
     def __str__(self):
         return f'{self.driver.first_name}({self.type.name})'
+
+    def get_hashid(self):
+        return h_encode(self.id)
 
     def get_absolute_url(self):
         return reverse('driver_doc', kwargs={'pk': self.pk})
@@ -224,6 +248,9 @@ class Vehicle(models.Model):
     def __str__(self):
         return f'{self.make} - {self.model} [{self.plate_number}]'
 
+    def get_hashid(self):
+        return h_encode(self.id)
+
     def get_absolute_url(self):
         return reverse('vehicle', kwargs={'pk': self.pk})
 
@@ -242,6 +269,9 @@ class VehicleDocument(models.Model):
 
     def __str__(self):
         return f'{self.vehicle.plate_number}({self.type.name})'
+
+    def get_hashid(self):
+        return h_encode(self.id)
 
     def get_absolute_url(self):
         return reverse('vehicle_doc', kwargs={'pk': self.pk})
@@ -282,6 +312,9 @@ class Incident(models.Model):
     def __str__(self):
         return self.title
 
+    def get_hashid(self):
+        return h_encode(self.id)
+
     def get_absolute_url(self):
         return reverse('incident', kwargs={'pk': self.pk})
 
@@ -298,18 +331,39 @@ class Tip(models.Model):
     def __str__(self):
         return self.title
 
+    def get_hashid(self):
+        return h_encode(self.id)
+
     def get_absolute_url(self):
         return reverse('tip', kwargs={'pk': self.pk})
 
 
-class ChatNotification(models.Model):
-    chat = models.ForeignKey(to=ChatMessage, on_delete=models.CASCADE)
-    user = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE)
-    is_seen = models.BooleanField(default=False)
+class Notification(models.Model):
+    user = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE, null=True, blank=True)
+    notice = models.CharField(
+        max_length=255, default='', blank=True, null=True)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey()
+    is_read = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self) -> str:
-        return f'Notification for < user: {self.user.username}>'
+    def __str__(self):
+        return f'Notification for user: {self.user.username}'
 
-    def get_absolute_url(self):
-        return reverse('chat_notification', kwargs={'pk': self.pk})
+    def get_hashid(self):
+        return h_encode(self.id)
+
+    def get_notification_html(self):
+        template = get_template('base/components/notification_card.html')
+        rendered_html = template.render({'obj': self})
+        return rendered_html
+
+
+class ChatNotification(models.Model):
+    user = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return f'Notification for user: {self.user.username}'

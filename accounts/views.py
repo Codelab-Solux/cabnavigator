@@ -187,3 +187,37 @@ def create_role(req):
         'form': form,
     }
     return render(req, 'accounts/role.html', context)
+
+
+def filter_users(req):
+    user_role = req.POST.get('user_role')
+    user_phone = req.POST.get('user_phone')
+    last_name = req.POST.get('last_name')
+    first_name = req.POST.get('first_name')
+    user_status = req.POST.get('user_status')
+    user_sex = req.POST.get('user_sex')
+    user_presence = req.POST.get('user_presence')
+
+    # Construct the base query
+    base_query = CustomUser.objects.all().order_by('-last_name')
+
+    # Apply filters based on parameters
+    if user_role:
+        base_query = base_query.filter(role_id=user_role)
+    if user_phone:
+        base_query = base_query.filter(phone=user_phone)
+    if last_name:
+        base_query = base_query.filter(last_name__icontains=last_name)
+    if first_name:
+        base_query = base_query.filter(first_name__icontains=first_name)
+    if user_status:
+        base_query = base_query.filter(profile__status__id=user_status)
+    if user_sex:
+        base_query = base_query.filter(profile__sex=user_sex)
+    if user_presence:
+        base_query = base_query.filter(
+            profile__is_onsite=user_presence.title())
+
+    users = base_query
+    context = {"users": users}
+    return render(req, 'accounts/partials/users_list.html', context)

@@ -1,7 +1,9 @@
-from django.urls import path
+from django.urls import path, register_converter
 from . import consumers
+from base.utils import HashIdConverter
+
+register_converter(HashIdConverter, "hashid")
 
 websocket_urlpatterns = [
-    path(r'chats/<str:id>/', consumers.PrivateChatConsumer.as_asgi()),
-    path(r'notify/', consumers.NotificationConsumer.as_asgi()),
+    path('ws/chats/threads/<int:id>/', consumers.PrivateChatConsumer.as_asgi()),
 ]

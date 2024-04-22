@@ -70,7 +70,7 @@ def expenses(req):
     g_expenses = GlobalExpense.objects.all().order_by('date')
 
     context = {
-        "finance_page": "active",
+        "expenses_page": "active",
         'title': 'expenses',
         'd_expenses': d_expenses,
         'v_expenses': v_expenses,

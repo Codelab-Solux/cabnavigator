@@ -1,6 +1,7 @@
 from django.db import models
 from base.models import *
 
+from base.utils import h_encode, h_decode
 from month.models import MonthField
 
 # Create your models here.
@@ -30,6 +31,11 @@ class Vault(models.Model):
     def __str__(self):
         return f'{self.type} ({self.debit} - {self.credit})'
 
+    
+
+    def get_hashid(self):
+        return h_encode(self.id)
+
     def get_absolute_url(self):
         return reverse('mobile_vault', kwargs={'pk': self.pk})
 
@@ -45,6 +51,11 @@ class Ledger(models.Model):
 
     def __str__(self):
         return f'{self.vault} [{self.credit} - {self.debit}]'
+
+    
+
+    def get_hashid(self):
+        return h_encode(self.id)
 
     def get_absolute_url(self):
         return reverse('ledger', kwargs={'pk': self.pk})
@@ -67,6 +78,11 @@ class DriverExpense(models.Model):
     def __str__(self):
         return f'{self.driver.first_name} ({self.title} - {self.amount})'
 
+    
+
+    def get_hashid(self):
+        return h_encode(self.id)
+
     def get_absolute_url(self):
         return reverse('driver_expense', kwargs={'pk': self.pk})
 
@@ -87,6 +103,11 @@ class VehicleExpense(models.Model):
     def __str__(self):
         return f'{self.vehicle.make}[-{self.vehicle.plate_number}-] - ({self.title}) - [{self.amount}]'
 
+    
+
+    def get_hashid(self):
+        return h_encode(self.id)
+
     def get_absolute_url(self):
         return reverse('vehicle_expense', kwargs={'pk': self.pk})
 
@@ -106,6 +127,11 @@ class GlobalExpense(models.Model):
 
     def __str__(self):
         return f'{self.author.first_name} ({self.title}) - [{self.amount}]'
+
+    
+
+    def get_hashid(self):
+        return h_encode(self.id)
 
     def get_absolute_url(self):
         return reverse('global_expense', kwargs={'pk': self.pk})
@@ -129,6 +155,11 @@ class Payment(models.Model):
 
     def __str__(self):
         return f'{self.driver.first_name} - [{self.amount}]'
+
+    
+
+    def get_hashid(self):
+        return h_encode(self.id)
 
     def get_absolute_url(self):
         return reverse('payment', kwargs={'pk': self.pk})
@@ -160,6 +191,11 @@ class Payout(models.Model):
     def __str__(self):
         return f'{self.driver.first_name} - [{self.amount}]'
 
+    
+
+    def get_hashid(self):
+        return h_encode(self.id)
+
     def get_absolute_url(self):
         return reverse('payout', kwargs={'pk': self.pk})
 
@@ -180,6 +216,11 @@ class Revenue(models.Model):
 
     def __str__(self):
         return f'({self.vehicle.plate_number}) - [{self.gross_income}]'
+
+    
+
+    def get_hashid(self):
+        return h_encode(self.id)
 
     def get_absolute_url(self):
         return reverse('revenue', kwargs={'pk': self.pk})

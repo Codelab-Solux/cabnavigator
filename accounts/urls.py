@@ -10,5 +10,6 @@ urlpatterns = [
     path('users/<str:pk>/', user_profile, name='user_profile'),
     path('create_user/', create_user, name='create_user'),
     path('delete_user/<str:pk>/', delete_user, name='delete_user'),
+    path('users/filter/', filter_users, name='filter_users'),
     path('password/', auth_views.PasswordChangeView.as_view()),
 ]

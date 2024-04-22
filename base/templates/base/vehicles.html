@@ -156,7 +156,7 @@
 <script>
   var ctx = document.getElementById("ownership_chart");
   var ownership_chart = new Chart(ctx, {
-    type: "pie",
+    type: "doughnut",
     data: {
       labels: ["Compagnie", "Partenaires"],
       datasets: [
@@ -164,7 +164,7 @@
           label: "Vehicules",
           data: ["{{company_vehicles}}", "{{owned_vehicles}}"],
           backgroundColor: ["#0ea5e9", "#22d3ee"],
-          borderWidth: 4,
+          borderWidth: 0,
         },
       ],
     },
@@ -172,7 +172,7 @@
 
   var ctx = document.getElementById("activ_chart");
   var activ_chart = new Chart(ctx, {
-    type: "pie",
+    type: "doughnut",
     data: {
       labels: ["Compagnie", "Partenaires"],
       datasets: [
@@ -180,7 +180,7 @@
           label: "Vehicules",
           data: ["{{comp_activ_count}}", "{{owned_activ_count}}"],
           backgroundColor: ["#059669", "#84cc16"],
-          borderWidth: 4,
+          borderWidth: 0,
         },
       ],
     },
@@ -188,7 +188,7 @@
 
   var ctx = document.getElementById("inactiv_chart");
   var inactiv_chart = new Chart(ctx, {
-    type: "pie",
+    type: "doughnut",
     data: {
       labels: ["Compagnie", "Partenaires"],
       datasets: [
@@ -196,7 +196,7 @@
           label: "Vehicules",
           data: ["{{comp_inactiv_count}}", "{{owned_inactiv_count}}"],
           backgroundColor: ["#ef4444", "#fb7185"],
-          borderWidth: 4,
+          borderWidth: 0,
         },
       ],
     },
