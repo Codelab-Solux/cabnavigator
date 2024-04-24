@@ -18,39 +18,39 @@
 
 <!--------------------------------------- tab buttons --------------------------------------->
 <nav
-  class="customtab mx-auto my-4 p-2 bg-black rounded-md flex justify-between gap-2 w-full"
+  class="tabbar mx-auto my-4 p-2 bg-black rounded-md flex justify-between gap-2 w-full"
 >
   <button
-    class="tablinks px-4 py-2 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+    class="tabbutton px-4 py-2 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
     onclick="openTab(event, 'd_expenses')"
-    id="defaultOpen"
+    id="defaulttab"
   >
     <i class="fa-solid fa-user lg:mr-2"></i>
     <span class="hidden lg:inline"> Dépenses des conducteurs </span>
   </button>
   <button
-    class="tablinks px-4 py-2 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+    class="tabbutton px-4 py-2 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
     onclick="openTab(event, 'v_expenses')"
   >
     <i class="fa-solid fa-car lg:mr-2"></i>
     <span class="hidden lg:inline"> Dépenses des véhicules </span>
   </button>
   <button
-    class="tablinks px-4 py-2 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+    class="tabbutton px-4 py-2 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
     onclick="openTab(event, 'g_expenses')"
   >
     <i class="fa-solid fa-landmark lg:mr-2"></i>
     <span class="hidden lg:inline"> Dépenses de la compagnie </span>
   </button>
   <button
-    class="tablinks px-4 py-2 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+    class="tabbutton px-4 py-2 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
     onclick="openTab(event, 'payments')"
   >
     <i class="fa-solid fa-money-bills lg:mr-2"></i>
     <span class="hidden lg:inline"> Versement des conducteurs</span>
   </button>
   <button
-    class="tablinks px-4 py-2 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+    class="tabbutton px-4 py-2 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
     onclick="openTab(event, 'payouts')"
   >
     <i class="fa-solid fa-money-check lg:mr-2"></i>
@@ -297,4 +297,20 @@
   {% endif %}
 </section>
 
+<script>
+  document.getElementById("defaulttab").click();
+function openTab(event, tabName) {
+  var i, content, button;
+  content = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < content.length; i++) {
+    content[i].style.display = "none";
+  }
+  button = document.getElementsByClassName("tabbutton");
+  for (i = 0; i < button.length; i++) {
+    button[i].className = button[i].className.replace(" active", "");
+  }
+  document.getElementById(tabName).style.display = "block";
+  event.currentTarget.className += " active";
+}
+</script>
 {% endblock %}

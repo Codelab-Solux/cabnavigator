@@ -12,6 +12,9 @@ from django.db.models import Max
 
 @login_required(login_url='login')
 def chats(req):
+
+    contacts = CustomUser.objects.all().exclude(id=req.user.id)
+    print(contacts)
     context = {
         'chats_page': 'active',
         'title': 'Chats',
@@ -24,9 +27,9 @@ def threads(req):
     user = req.user
 
     # Get distinct thread IDs
-    threads = ChatThread.objects.filter(
+    threads = PrivateThread.objects.filter(
         Q(initiator=user) | Q(responder=user)
-    ).annotate(latest_message=Max('chatmessage__timestamp')).order_by('-latest_message').distinct()
+    ).annotate(latest_message=Max('privatemessage__timestamp')).order_by('-latest_message').distinct()
 
     context = {
         'threads': threads,
@@ -40,7 +43,7 @@ def thread(req, pk):
     other_user = get_object_or_404(CustomUser, id=pk)
 
     # Attempt to retrieve the thread
-    curr_thread = ChatThread.objects.filter(
+    curr_thread = PrivateThread.objects.filter(
         Q(initiator=curr_user, responder=other_user) |
         Q(initiator=other_user, responder=curr_user)
     ).first()
@@ -48,15 +51,15 @@ def thread(req, pk):
 
     # If the thread doesn't exist, create a new one
     if curr_thread is None:
-        curr_thread = ChatThread.objects.create(
+        curr_thread = PrivateThread.objects.create(
             initiator=curr_user, responder=other_user)
 
-    related_threads = ChatThread.objects.filter(
+    related_threads = PrivateThread.objects.filter(
         Q(initiator=curr_user) |
         Q(responder=curr_user)
     ).exclude(id =curr_thread.id)
 
-    messages = ChatMessage.objects.filter(
+    messages = PrivateMessage.objects.filter(
         thread=curr_thread).order_by('timestamp')
 
     received_msgs = messages.filter(sender=other_user)
@@ -68,11 +71,10 @@ def thread(req, pk):
     for obj in received_msgs:
         obj.is_read = True
         obj.save()
-
-    # Mark associated notifications as read
-    associated_notifications = Notification.objects.filter(
-        content_type=ContentType.objects.get_for_model(ChatMessage), object_id=obj.id)
-    associated_notifications.update(is_read=True)
+        # Mark associated notifications as read
+        associated_notifications = Notification.objects.filter(
+            content_type=ContentType.objects.get_for_model(PrivateMessage), object_id=obj.id)
+        associated_notifications.update(is_read=True)
 
     context = {
         'chats_page': 'active',
@@ -102,10 +104,10 @@ def groups(req):
     return render(req, 'chats/partials/groups.html', context)
 
 
-@login_required(login_url='login')
-def mark_messages_and_notifications_as_read(req):
-    user = req.user
-    ChatMessage.objects.filter(receiver=user, is_read=False).update(is_read=True)
-    Notification.objects.filter(
-        user=req.user, is_read=False).update(is_read=True)
-    return JsonResponse({'success': True})
+# @login_required(login_url='login')
+# def mark_messages_and_notifications_as_read(req):
+#     user = req.user
+#     PrivateMessage.objects.filter(receiver=user, is_read=False).update(is_read=True)
+#     Notification.objects.filter(
+#         user=req.user, is_read=False).update(is_read=True)
+#     return JsonResponse({'success': True})

@@ -15,12 +15,12 @@ class PrivateChatConsumer(AsyncWebsocketConsumer):
         other_user = await sync_to_async(CustomUser.objects.get)(
             id=int(self.scope['url_route']['kwargs']['id']))
         try:
-            active_thread = await sync_to_async(ChatThread.objects.get)(
+            active_thread = await sync_to_async(PrivateThread.objects.get)(
                 Q(initiator=curr_user, responder=other_user) |
                 Q(initiator=other_user, responder=curr_user)
             )
             return active_thread
-        except ChatThread.DoesNotExist:
+        except PrivateThread.DoesNotExist:
             return None
     
     async def connect(self):
@@ -85,10 +85,10 @@ class PrivateChatConsumer(AsyncWebsocketConsumer):
             receiver_instance = await sync_to_async(CustomUser.objects.get)(id=receiver)
             
             # Fetch the chat thread
-            thread = await sync_to_async(ChatThread.objects.get)(id=thread_id)
+            thread = await sync_to_async(PrivateThread.objects.get)(id=thread_id)
 
-            # Create the ChatMessage object
-            chat_obj = await sync_to_async(ChatMessage.objects.create)(
+            # Create the PrivateMessage object
+            chat_obj = await sync_to_async(PrivateMessage.objects.create)(
                 sender=sender_instance,  # Pass the sender instance
                 receiver=receiver_instance,
                 message=message,
@@ -106,7 +106,7 @@ class PrivateChatConsumer(AsyncWebsocketConsumer):
             # Handle user not found gracefully
             error_message = "User not found."
             await self.send_error_message(error_message)
-        except ChatThread.DoesNotExist:
+        except PrivateMessage.DoesNotExist:
             # Handle chat thread not found gracefully
             error_message = "Chat thread not found."
             await self.send_error_message(error_message)

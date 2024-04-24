@@ -1,5 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from datetime import date
+from django.utils import timezone
+from django.urls import reverse
+from base.utils import h_encode, h_decode
 # Create your models here.
 
 
@@ -46,7 +50,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     phone = models.CharField(max_length=255, blank=True, null=True)
     role = models.ForeignKey(
         Role, on_delete=models.SET_NULL, blank=True, null=True,)
-    # address = models.CharField(max_length=255, blank=True, null=True)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -68,3 +71,29 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     # def get_username(self):
     #     return self.username
+
+
+gender_list = (
+    ('female', 'Féminin'),
+    ('male', 'Masculin'),
+)
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    nationality = models.CharField(max_length=1000, null=True, blank=True)
+    sex = models.CharField(
+        max_length=10, choices=gender_list, blank=True, null=True)
+    birthday = models.DateField(blank=True, null=True)
+    image = models.ImageField(
+        upload_to='media/users/profiles', default='../static/imgs/anon.png', blank=True, null=True)
+    is_online = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.user.last_name} {self.user.first_name} - Profile'    
+
+    def get_hashid(self):
+        return h_encode(self.id)
+
+    def get_absolute_url(self):
+        return reverse('profile', kwargs={'pk': self.pk})

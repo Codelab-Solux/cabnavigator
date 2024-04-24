@@ -360,10 +360,3 @@ class Notification(models.Model):
         rendered_html = template.render({'obj': self})
         return rendered_html
 
-
-class ChatNotification(models.Model):
-    user = models.ForeignKey(
-        CustomUser, on_delete=models.CASCADE, null=True, blank=True)
-
-    def __str__(self):
-        return f'Notification for user: {self.user.username}'

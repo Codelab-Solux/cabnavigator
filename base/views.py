@@ -1382,11 +1382,11 @@ def delete_company(req, pk):
 def notifications(req):
     user = req.user
     notifications = Notification.objects.filter(
-        user=user, is_read=False)
+        user=user, is_read=False).order_by('-timestamp')
 
     context = {
         'notifications_page': 'active',
-        # 'notifications': notifications,
+        'notifications': notifications,
     }
     return render(req, 'base/notifications.html', context)
 

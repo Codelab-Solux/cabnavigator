@@ -20,19 +20,19 @@ function toggleMenu(e) {
 }
 
 //  tab mechanism ---------------------------------------------------
-document.getElementById("defaultOpen").click();
-function openTab(evt, tabName) {
-  var i, tabcontent, tablinks;
-  tabcontent = document.getElementsByClassName("tabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
+document.getElementById("defaulttab").click();
+function openTab(event, tabName) {
+  var i, content, button;
+  content = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < content.length; i++) {
+    content[i].style.display = "none";
   }
-  tablinks = document.getElementsByClassName("tablinks");
-  for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  button = document.getElementsByClassName("tabbutton");
+  for (i = 0; i < button.length; i++) {
+    button[i].className = button[i].className.replace(" active", "");
   }
   document.getElementById(tabName).style.display = "block";
-  evt.currentTarget.className += " active";
+  event.currentTarget.className += " active";
 }
 
 //  back to top button mechanism ---------------------------------------------------

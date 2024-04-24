@@ -11,7 +11,7 @@ hx-get="{% url 'thread' obj.initiator.id %}"
 hx-target="#chats_base"
 hx-swap="outerHTML"
 hx-click="delayedUpdateThreads()"
-  class="thread_card px-2 py-3 cursor-pointer relative flex items-center gap-2 bg-white border hover:border-purple-400 hover:shadow-md w-full rounded-lg transition duration-300 ease-in-out"
+  class="thread_card px-2 py-3 cursor-pointer relative flex items-center gap-2 bg-white border hover:border-amber-400 hover:shadow-md w-full rounded-lg transition duration-300 ease-in-out"
 >
   <small class="absolute top-2 right-2 text-gray-400 text-xs">
     {% if msg_obj.timestamp|date:"Y-m-d" == now|date:"Y-m-d" %}
@@ -25,14 +25,14 @@ hx-click="delayedUpdateThreads()"
   <!--  -->
   {% if user != msg_obj.sender and not msg_obj.is_read %}
   <small
-  class="absolute px-[.7em] py-[0.2em] bottom-2 right-2 bg-purple-500 text-white text-xs rounded-full"
+  class="absolute px-[.7em] py-[0.2em] bottom-2 right-2 bg-amber-500 text-white text-xs rounded-full"
   >{{ unread_count }}</small>
   {% endif %}
   <!--  -->
   {% endwith %}
   <!--  -->
   {% if other_user.profile.is_online %}
-  <span class="absolute h-3 w-3 bottom-2 left-10 bg-purple-500 border-2 border-white rounded-full"></span>
+  <span class="absolute h-3 w-3 bottom-2 left-10 bg-amber-500 border-2 border-white rounded-full"></span>
   {% endif %}
   <img
     class="w-12 h-12 rounded-full object-cover"
@@ -49,7 +49,7 @@ hx-click="delayedUpdateThreads()"
       {% if user == msg_obj.sender %}
       <span class="text-gray-300">
         {% if msg_obj.is_read %}
-        <i class="fa-solid fa-check-double text-purple-500"></i>
+        <i class="fa-solid fa-check-double text-amber-500"></i>
         {% else %}
         <i class="fa-solid fa-check"></i>
         {% endif %}

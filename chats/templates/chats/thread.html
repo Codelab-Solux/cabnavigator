@@ -6,7 +6,7 @@
 >
   <!------------------ responder info ------------------->
   <div
-    class="absolute top-0 left-0 rounded-tl-lg rounded-br-lg w-fit px-4 py-2 flex justify-between items-center bg-purple-950 text-white"
+    class="absolute top-0 left-0 rounded-tl-lg rounded-br-lg w-fit px-4 py-2 flex justify-between items-center bg-gray-700 text-white"
   >
     <div class="flex items-center">
       {% if not other_user.profile.image %}
@@ -50,7 +50,7 @@
         {% else %}
         <tr class="max-h-16">
           <td
-            class="mr-2 px-4 py-2 bg-purple-200 text-black text-right rounded-lg flex flex-col max-w-md float-right"
+            class="mr-2 px-4 py-2 bg-gray-200 text-black text-right rounded-lg flex flex-col max-w-md float-right"
           >
             <p>{{obj.message}}</p>
             <small class="text-xs text-gray-500">
@@ -77,11 +77,11 @@
         name="message"
         id="chat_input"
         required
-        class="px-4 py-2 rounded-t-md bg-gray-100 text-sm text-black w-full focus:border-none focus:outline-none focus:bg-white focus:ring-1 focus:ring-purple-400"
+        class="px-4 py-2 rounded-t-md bg-gray-100 text-sm text-black w-full focus:border-none focus:outline-none focus:bg-white focus:ring-1 focus:ring-amber-400"
         placeholder="Ecrivez votre message..."
       />
       <button
-        class="group px-4 py-3 text-sm bg-purple-950 hover:bg-purple-200 text-white rounded-t-md"
+        class="group px-4 py-3 text-sm bg-gray-700 hover:bg-amber-200 text-white rounded-t-md"
         type="submit"
       >
         <i class="px-2 fa-solid fa-paper-plane group-hover:text-black"></i>
@@ -90,7 +90,7 @@
   </div>
 
   <button
-    class="absolute bottom-14 right-2 px-3 py-2 rounded-md hover:bg-purple-950 text-black text-xs hover:text-white"
+    class="absolute bottom-14 right-2 px-3 py-2 rounded-md hover:bg-gray-700 text-black text-xs hover:text-white"
     onclick="scrollToBottom()"
   >
     <i class="fa-solid fa-arrow-down"></i>

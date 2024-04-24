@@ -12,6 +12,12 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    
+    <script
+      src="https://unpkg.com/htmx.org@1.9.8"
+      integrity="sha384-rgjA7mptc2ETQqXoYC3/zJvkU7K/aP44Y+z7xQuJiVnB/422P/Ak+F/AqFR7E4Wr"
+      crossorigin="anonymous"
+    ></script>
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Poppins"
@@ -34,107 +40,33 @@
       src="https://kit.fontawesome.com/f601cf3e61.js"
       crossorigin="anonymous"
     ></script>
+    <script src="{% static 'notifier.js' %}" defer="true"></script>
     <script src="{% static 'scripts.js' %}" defer="true"></script>
     <link href="{% static 'styles.css' %}" rel="stylesheet" />
-    <title>cab navigator</title>
+    <title>{{title}}</title>
   </head>
 
   <body
     hx-boost="true"
-    hx-headers='{"X-CSRFToken" : "{{ csrf_token }}"}' class="flex flex-row bg-white text-gray-700 max-w-full mx-auto">
-    {% if user.is_authenticated %}
-    <input id="curr_user" type="hidden" value="{{user.id}}" />
-    {% endif %}
+    hx-headers='{"X-CSRFToken" : "{{ csrf_token }}"}'
+    class="flex flex-row bg-white text-gray-700 max-w-full mx-auto"
+  >
     <!--  -->
     {% include 'sidebar.html' %}
     <!--  -->
     <div
-      class="w-full ml-[60px] md:ml-[80px] lg:ml-[200px] xl:ml-[300px] bg-gray-200 min-h-screen overflow-auto"
+      class="w-full ml-[60px] md:ml-[80px] lg:ml-[200px] xl:ml-[300px] bg-gray-100 min-h-screen overflow-auto"
     >
       <div
         class="relative p-4 md:p-6 lg:p-8 w-full max-w-[1350px] mx-auto min-h-screen flex flex-col"
       >
-        <button
-          type="button"
-          class="hidden lg:inline absolute right-8 top-0"
-          name="bellBtn"
-          id="bellBtn"
-          aria-expanded="false"
-          aria-haspopup="true"
-          onclick="toggleNotifier(this)"
-        >
-          <i
-            class="fa-solid fa-bell text-black hover:bg-black hover:text-white py-2 px-3 rounded-md transition ease-in duration-200"
-          ></i>
-        </button>
-        {% if notifications %}
-        <span
-          id="notifier"
-          class="absolute top-1 right-11 h-2 w-2 rounded-full bg-amber-500 animate-pulse"
-        >
-          <tt id="count_badge"></tt>
-        </span>
-        {% endif %}
-        <!-- notification button -->
-        <div
-          class="mb-4 w-full max-w-[400px] hidden h-80 lg:p-2 absolute right-8 top-8 origin-top-left bg-black z-40 rounded-md flex flex-col gap-2 items-center overflow-hidden"
-          tabindex="-2"
-          id="notifications"
-        >
-          {% if not notifications %}
-          <!--  -->
-          <div
-            class="p-8 my-20 text-white max-w-[400px] mx-auto rounded-md flex-col text-center"
-          >
-            <i class="fa-regular fa-folder-open text-3xl"></i>
-            <p class="mt-4">Aucune données disponible pour le moment</p>
-          </div>
-          <!--  -->
-          {% else %}
-          <!--  -->
-          {% for obj in notifications %}
-          <div
-            class="contact-li p-2 w-full bg-white hover:bg-gray-200 rounded-md"
-          >
-            <form
-              action="{% url 'read_chat_notification' obj.id %}"
-              method="POST"
-            >
-              {% csrf_token %}
-              <button
-                type="submit"
-                class="flex gap-2 w-full justify-between items-center"
-              >
-                <img
-                  class="lg:block h-10 rounded-md mx-auto"
-                  src="{% static 'imgs/random.png' %}"
-                  alt="Rounded avatar"
-                />
-                <div class="flex flex-col items-start w-full">
-                  <p class="text-blabg-black font-bold">
-                    {% for user_obj in users %}
-                    <!--  -->
-                    {% if user_obj.id == obj.chat.sender %}
-                    <!--  -->
-                    <span class="text-black text-sm">
-                      @{{user_obj.username}}
-                    </span>
-                    <!--  -->
-                    {% endif %}
-                    <!--  -->
-                    {% endfor %}
-                  </p>
-                  <p>{{obj.chat.message|truncatechars:20}}</p>
-                </div>
-              </button>
-            </form>
-          </div>
-          {% endfor %}
-          <!--  -->
-          {% endif %}
-        </div>
         {% block content %} {% endblock %}
       </div>
     </div>
   </body>
+  <script>
+    htmx.onLoad(function (content) {
+      scripts.init(content);
+    });
+  </script>
 </html>

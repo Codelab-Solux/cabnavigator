@@ -1,3 +1,0 @@
-ID_Caisse,Type de Caisse,Conducteur,Titre,Détails,Montant,Date,Heure,Status
-cash (100000 - 350000),cash,Johanna,Changement de pneux,,120000,6/26/2023,11:00:00,FALSE
-mobile (115000 - 250500),mobile,Johanna,Péage Aéroport,Péage Aéroport,1500,6/15/2023,10:35:00,TRUE
