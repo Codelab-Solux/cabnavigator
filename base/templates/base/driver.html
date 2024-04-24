@@ -90,7 +90,7 @@
           <i class="fa-solid fa-phone mr-2"></i>{{curr_driver.phone}}
         </a>
         <a
-          href="{% url 'chat_page' curr_driver.user.id %}"
+          href="{% url 'chats' %}"
           class="px-4 py-2 rounded-md bg-white hover:bg-amber-300 text-black"
         >
           <i class="fa-solid fa-comments mr-2"></i> Contacter
@@ -104,39 +104,39 @@
 
 <!--------------------------------------- related stuff --------------------------------------->
 <div
-  class="customtab mx-auto mb-4 p-1 bg-black rounded-md flex justify-between gap-1 w-full text-sm"
+  class="tabbar mx-auto mb-4 p-1 bg-black rounded-md flex justify-between gap-1 w-full text-sm"
 >
   <button
-    class="tablinks py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+    class="tabbutton py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
     onclick="openTab(event, 'docs')"
-    id="defaultOpen"
+    id="defaulttab"
   >
     <i class="fa-solid fa-folder-open lg:mr-2"></i>
     <span class="hidden xl:inline">Documents</span>
   </button>
   <button
-    class="tablinks py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+    class="tabbutton py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
     onclick="openTab(event, 'expenses')"
   >
     <i class="fa-solid fa-arrow-up lg:mr-2"></i>
     <span class="hidden xl:inline">Dépenses</span>
   </button>
   <button
-    class="tablinks py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+    class="tabbutton py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
     onclick="openTab(event, 'payments')"
   >
     <i class="fa-solid fa-arrow-down lg:mr-2"></i>
     <span class="hidden xl:inline">Recette</span>
   </button>
   <button
-    class="tablinks py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+    class="tabbutton py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
     onclick="openTab(event, 'payouts')"
   >
     <i class="fa-solid fa-coins lg:mr-2"></i>
     <span class="hidden xl:inline">Gains</span>
   </button>
   <button
-    class="tablinks py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
+    class="tabbutton py-1 bg-white hover:bg-black text-black hover:text-white rounded-sm w-full"
     onclick="openTab(event, 'incidents')"
   >
     <i class="fa-solid fa-burst lg:mr-2"></i>
@@ -547,4 +547,23 @@
   </div>
 </section>
 
-{% endif %} {% endblock %}
+{% endif %} 
+
+<script>
+    document.getElementById("defaulttab").click();
+  function openTab(event, tabName) {
+  var i, content, button;
+  content = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < content.length; i++) {
+    content[i].style.display = "none";
+  }
+  button = document.getElementsByClassName("tabbutton");
+  for (i = 0; i < button.length; i++) {
+    button[i].className = button[i].className.replace(" active", "");
+  }
+  document.getElementById(tabName).style.display = "block";
+  event.currentTarget.className += " active";
+  }
+
+</script>
+{% endblock %}
